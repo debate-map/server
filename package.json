@@ -1,7 +1,7 @@
 {
   "name": "@debate-map/server-link",
   "description": "Tree-based mapping of beliefs, arguments, and evidence. (server link, used by clients)",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "Dist/Link/index.js",
   "typings": "Dist/Link/index.d.ts",
   "type": "module",
