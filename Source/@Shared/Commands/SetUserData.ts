@@ -2,6 +2,7 @@ import {AddSchema, AssertValidate, GetSchemaJSON, Schema} from "mobx-firelink";
 import {Command_Old, GetAsync, Command, AssertV} from "mobx-firelink";
 import {GetUser} from "../Store/firebase/users";
 import {User} from "../Store/firebase/users/@User";
+import {CE} from "js-vextensions";
 
 type MainType = User;
 const MTName = "User";
@@ -15,7 +16,7 @@ export class SetUserData extends Command<{id: string, updates: Partial<MainType>
 			properties: {
 				id: {type: "string"},
 				updates: Schema({
-					properties: GetSchemaJSON(MTName)["properties"].Including(
+					properties: CE(GetSchemaJSON(MTName)["properties"]).Including(
 						"displayName", "photoURL",
 						"joinDate", "permissionGroups",
 					),

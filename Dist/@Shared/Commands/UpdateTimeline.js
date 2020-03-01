@@ -1,12 +1,13 @@
 import { AssertV, Command } from "mobx-firelink";
 import { AddSchema, AssertValidate, GetSchemaJSON, Schema } from "mobx-firelink";
 import { GetTimeline } from "../Store/firebase/timelines";
+import { CE } from "js-vextensions";
 const MTName = "Timeline";
 AddSchema(`Update${MTName}_payload`, [MTName], () => ({
     properties: {
         id: { type: "string" },
         updates: Schema({
-            properties: GetSchemaJSON(MTName)["properties"].Including("name", "videoID", "videoStartTime", "videoHeightVSWidthPercent"),
+            properties: CE(GetSchemaJSON(MTName).properties).Including("name", "videoID", "videoStartTime", "videoHeightVSWidthPercent"),
         }),
     },
     required: ["id", "updates"],

@@ -1,4 +1,4 @@
-import {Assert} from "js-vextensions";
+import {Assert, CE} from "js-vextensions";
 import {Command_Old, GetAsync, AssertV, Command} from "mobx-firelink";
 import {UserEdit} from "../CommandMacros";
 import {AssertValidate, AddSchema, Schema, GetSchemaJSON} from "mobx-firelink";
@@ -13,7 +13,7 @@ AddSchema(`Update${MTName}Details_payload`, [MTName], ()=>({
 	properties: {
 		id: {type: "string"},
 		updates: Schema({
-			properties: GetSchemaJSON(MTName).properties.Including("name", "type", "url", "description", "previewWidth", "sourceChains"),
+			properties: CE(GetSchemaJSON(MTName).properties).Including("name", "type", "url", "description", "previewWidth", "sourceChains"),
 		}),
 	},
 	required: ["id", "updates"],

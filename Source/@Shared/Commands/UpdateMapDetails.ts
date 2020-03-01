@@ -4,6 +4,7 @@ import {Command_Old, GetAsync, Command, AssertV} from "mobx-firelink";
 import {UserEdit} from "../CommandMacros";
 import {Map} from "../Store/firebase/maps/@Map";
 import {GetMap} from "../Store/firebase/maps";
+import {CE} from "js-vextensions";
 
 type MainType = Map;
 const MTName = "Map";
@@ -12,7 +13,7 @@ AddSchema(`Update${MTName}Details_payload`, [MTName], ()=>({
 	properties: {
 		id: {type: "string"},
 		updates: Schema({
-			properties: GetSchemaJSON(MTName).properties.Including("name", "note", "noteLine", "defaultExpandDepth", "defaultTimelineID", "requireMapEditorsCanEdit", "nodeDefaults", "editorIDs"),
+			properties: CE(GetSchemaJSON(MTName).properties).Including("name", "note", "noteLine", "defaultExpandDepth", "defaultTimelineID", "requireMapEditorsCanEdit", "nodeDefaults", "editorIDs"),
 		}),
 	},
 	required: ["id", "updates"],

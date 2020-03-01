@@ -3,12 +3,13 @@ import {Command_Old, GetAsync, Command, AssertV} from "mobx-firelink";
 import {UserEdit} from "../CommandMacros";
 import {TimelineStep} from "../Store/firebase/timelineSteps/@TimelineStep";
 import {GetTimelineStep} from "../Store/firebase/timelineSteps";
+import {CE} from "js-vextensions";
 
 AddSchema("UpdateTimelineStep_payload", ["TimelineStep"], ()=>({
 	properties: {
 		stepID: {type: "string"},
 		stepUpdates: Schema({
-			properties: GetSchemaJSON("TimelineStep")["properties"].Including("title", "message", "groupID", "videoTime", "nodeReveals"),
+			properties: CE(GetSchemaJSON("TimelineStep").properties).Including("title", "message", "groupID", "videoTime", "nodeReveals"),
 		}),
 	},
 	required: ["stepID", "stepUpdates"],

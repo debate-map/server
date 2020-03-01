@@ -3,6 +3,7 @@ import {UserEdit} from "../CommandMacros";
 import {Command_Old, GetAsync, Command, AssertV} from "mobx-firelink";
 import {MapNodePhrasing} from "../Store/firebase/nodePhrasings/@MapNodePhrasing";
 import {GetNodePhrasing} from "../Store/firebase/nodePhrasings";
+import {CE} from "js-vextensions";
 
 type MainType = MapNodePhrasing;
 const MTName = "MapNodePhrasing";
@@ -11,7 +12,7 @@ AddSchema(`Update${MTName}_payload`, [MTName], ()=>({
 	properties: {
 		id: {type: "string"},
 		updates: Schema({
-			properties: GetSchemaJSON(MTName).properties.Including("type", "text", "description"),
+			properties: CE(GetSchemaJSON(MTName).properties).Including("type", "text", "description"),
 			//minProperties: 1,
 		}),
 	},

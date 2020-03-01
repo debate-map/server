@@ -10,12 +10,13 @@ import { AddSchema, AssertValidate, GetSchemaJSON, Schema } from "mobx-firelink"
 import { TagComp_keys } from "../Store/firebase/nodeTags/@MapNodeTag";
 import { GetNodeTag } from "../Store/firebase/nodeTags";
 import { IsUserCreatorOrMod } from "../Store/firebase/users/$user";
+import { CE } from "js-vextensions";
 const MTName = "MapNodeTag";
 AddSchema(`Update${MTName}_payload`, [MTName], () => ({
     properties: {
         id: { type: "string" },
         updates: Schema({
-            properties: GetSchemaJSON(MTName).properties.Including("nodes", ...TagComp_keys),
+            properties: CE(GetSchemaJSON(MTName).properties).Including("nodes", ...TagComp_keys),
             minProperties: 1,
         }),
     },

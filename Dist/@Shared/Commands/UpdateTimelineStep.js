@@ -8,11 +8,12 @@ import { AddSchema, AssertValidate, GetSchemaJSON, Schema } from "mobx-firelink"
 import { Command, AssertV } from "mobx-firelink";
 import { UserEdit } from "../CommandMacros";
 import { GetTimelineStep } from "../Store/firebase/timelineSteps";
+import { CE } from "js-vextensions";
 AddSchema("UpdateTimelineStep_payload", ["TimelineStep"], () => ({
     properties: {
         stepID: { type: "string" },
         stepUpdates: Schema({
-            properties: GetSchemaJSON("TimelineStep")["properties"].Including("title", "message", "groupID", "videoTime", "nodeReveals"),
+            properties: CE(GetSchemaJSON("TimelineStep").properties).Including("title", "message", "groupID", "videoTime", "nodeReveals"),
         }),
     },
     required: ["stepID", "stepUpdates"],

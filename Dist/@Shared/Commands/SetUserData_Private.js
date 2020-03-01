@@ -1,6 +1,7 @@
 import { Command } from "mobx-firelink";
 import { AssertValidate, GetSchemaJSON, Schema } from "mobx-firelink";
 import { GetUser_Private } from "../Store/firebase/users_private";
+import { CE } from "js-vextensions";
 const MTName = "User_Private";
 export class SetUserData_Private extends Command {
     Validate() {
@@ -8,7 +9,7 @@ export class SetUserData_Private extends Command {
             properties: {
                 id: { type: "string" },
                 updates: Schema({
-                    properties: GetSchemaJSON(MTName)["properties"].Including("email", "providerData", "backgroundID", "backgroundCustom_enabled", "backgroundCustom_color", "backgroundCustom_url", "backgroundCustom_position"),
+                    properties: CE(GetSchemaJSON(MTName)["properties"]).Including("email", "providerData", "backgroundID", "backgroundCustom_enabled", "backgroundCustom_color", "backgroundCustom_url", "backgroundCustom_position"),
                 }),
             },
             required: ["id", "updates"],

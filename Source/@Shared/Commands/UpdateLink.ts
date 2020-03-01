@@ -1,15 +1,18 @@
-import {Command_Old, GetAsync, Command, AssertV} from "mobx-firelink";
+import {Command_Old, GetAsync, Command, AssertV, Schema} from "mobx-firelink";
 import {AddSchema, AssertValidate, GetSchemaJSON} from "mobx-firelink";
 import {UserEdit} from "../CommandMacros";
 import {ChildEntry} from "../Store/firebase/nodes/@MapNode";
 import {GetNode} from "../Store/firebase/nodes";
 import {GetLinkUnderParent} from "../Store/firebase/nodes/$node";
+import {CE} from "js-vextensions";
 
 AddSchema("UpdateLink_payload", ["ChildEntry"], ()=>({
 	properties: {
 		linkParentID: {type: "string"},
 		linkChildID: {type: "string"},
-		linkUpdates: GetSchemaJSON("ChildEntry").Including("form", "polarity"),
+		linkUpdates: Schema({
+			properties: CE(GetSchemaJSON("ChildEntry").properties).Including("form", "polarity"),
+		}),
 	},
 	required: ["linkParentID", "linkChildID", "linkUpdates"],
 }));

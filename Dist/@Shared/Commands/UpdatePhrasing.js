@@ -8,12 +8,13 @@ import { AddSchema, GetSchemaJSON, Schema, AssertValidate } from "mobx-firelink"
 import { UserEdit } from "../CommandMacros";
 import { Command, AssertV } from "mobx-firelink";
 import { GetNodePhrasing } from "../Store/firebase/nodePhrasings";
+import { CE } from "js-vextensions";
 const MTName = "MapNodePhrasing";
 AddSchema(`Update${MTName}_payload`, [MTName], () => ({
     properties: {
         id: { type: "string" },
         updates: Schema({
-            properties: GetSchemaJSON(MTName).properties.Including("type", "text", "description"),
+            properties: CE(GetSchemaJSON(MTName).properties).Including("type", "text", "description"),
         }),
     },
     required: ["id", "updates"],
