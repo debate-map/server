@@ -118,8 +118,8 @@ export const GetNodeL2 = StoreAccessor(s => (nodeID, path) => {
     const node = nodeID;
     // if any of the data in a MapNodeL2 is not loaded yet, just return null (we want it to be all or nothing)
     const currentRevision = GetNodeRevision(node.currentRevision);
-    if (currentRevision == null)
-        return null;
+    if (currentRevision === undefined)
+        return undefined;
     const nodeL2 = AsNodeL2(node, currentRevision);
     //return CachedTransform("GetNodeL2", [path], nodeL2, ()=>nodeL2);
     return nodeL2;

@@ -1,5 +1,5 @@
 import { Lerp, ToJSON, Assert, IsNumber, CE, emptyArray_forLoading } from "js-vextensions";
-import { StoreAccessor, GetDocs, WhereFilter } from "mobx-firelink";
+import { StoreAccessor, GetDocs, WhereOp } from "mobx-firelink";
 import { RS_GetAllValues } from "./nodeRatings/ReasonScore";
 import { GetNodeChildrenL2, HolderType } from "./nodes";
 import { GetMainRatingType, GetNodeL2 } from "./nodes/$node";
@@ -10,8 +10,8 @@ import { GetArgumentImpactPseudoRatings } from "../../Utils/Store/RatingProcesso
 export const GetRatings = StoreAccessor(s => (nodeID, ratingType, userID) => {
     if (ratingType == "impact") {
         const node = GetNodeL2(nodeID);
-        if (node == null)
-            return null;
+        if (node === undefined)
+            return emptyArray_forLoading;
         const nodeChildren = GetNodeChildrenL2(nodeID);
         if (CE(nodeChildren).Any(a => a == null))
             return emptyArray_forLoading;
@@ -24,10 +24,10 @@ export const GetRatings = StoreAccessor(s => (nodeID, ratingType, userID) => {
     return FilterRatings(CE(ratingSet).VValues(), filter);
     //return FilterRatings(Array.from(ratingSet.values()), filter);*/
     return GetDocs({
-        filters: [
-            new WhereFilter("node", "==", nodeID),
-            new WhereFilter("type", "==", ratingType),
-            userID && new WhereFilter("user", "==", userID),
+        queryOps: [
+            new WhereOp("node", "==", nodeID),
+            new WhereOp("type", "==", ratingType),
+            userID && new WhereOp("user", "==", userID),
         ].filter(a => a),
     }, a => a.nodeRatings);
 });

@@ -2,9 +2,9 @@
   "name": "@debate-map/server-link",
   "description": "Tree-based mapping of beliefs, arguments, and evidence. (server link, used by clients)",
   "version": "1.0.0",
-  "@main": "Dist/Link/index.js",
+  "main": "Dist/Link/index.js",
+  "typings": "Dist/Link/index.d.ts",
   "type": "module",
-  "@typings": "Dist/Link/index.d.ts",
   "license": "MIT",
   "author": {
     "name": "Venryx",
@@ -30,6 +30,6 @@
   },
   "dependencies": {
     "js-vextensions": "^1.0.28",
-    "mobx-firelink": "^1.0.43"
+    "mobx-firelink": "^1.0.48"
   }
 }

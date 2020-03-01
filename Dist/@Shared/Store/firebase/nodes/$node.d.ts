@@ -34,8 +34,8 @@ export declare function AsNodeL3(node: MapNodeL2, displayPolarity?: Polarity, li
 export declare const GetNodeL3: ((path: string, tagsToIgnore?: string[]) => MapNodeL3) & {
     Wait: (path: string, tagsToIgnore?: string[]) => MapNodeL3;
 };
-export declare const GetNodeForm: ((node: MapNodeL3 | MapNodeL2, pathOrParent?: string | MapNodeL2) => ClaimForm) & {
-    Wait: (node: MapNodeL3 | MapNodeL2, pathOrParent?: string | MapNodeL2) => ClaimForm;
+export declare const GetNodeForm: ((node: MapNodeL2 | MapNodeL3, pathOrParent?: string | MapNodeL2) => ClaimForm) & {
+    Wait: (node: MapNodeL2 | MapNodeL3, pathOrParent?: string | MapNodeL2) => ClaimForm;
 };
 export declare const GetLinkUnderParent: ((nodeID: string, parent: MapNode, includeMirrorLinks?: any, tagsToIgnore?: string[]) => ChildEntry) & {
     Wait: (nodeID: string, parent: MapNode, includeMirrorLinks?: any, tagsToIgnore?: string[]) => ChildEntry;

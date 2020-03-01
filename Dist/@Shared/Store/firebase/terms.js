@@ -1,5 +1,5 @@
 import { IsNaN, emptyArray, emptyArray_forLoading, Assert, CE } from "js-vextensions";
-import { GetDoc, GetDocs, StoreAccessor, WhereFilter } from "mobx-firelink";
+import { GetDoc, GetDocs, StoreAccessor, WhereOp } from "mobx-firelink";
 import { GetNodeRevision } from "./nodeRevisions";
 export const GetTerm = StoreAccessor(s => (id) => {
     if (id == null || IsNaN(id))
@@ -14,13 +14,13 @@ export const GetTerms = StoreAccessor(s => () => {
 });
 export const GetTermsByName = StoreAccessor(s => (name) => {
     return GetDocs({
-        filters: [new WhereFilter("name", "==", name)],
+        queryOps: [new WhereOp("name", "==", name)],
     }, a => a.terms);
 });
 export const GetTermsByForm = StoreAccessor(s => (form) => {
     Assert(form.toLowerCase() == form, "Form cannot have uppercase characters.");
     return GetDocs({
-        filters: [new WhereFilter("forms", "array-contains", form)],
+        queryOps: [new WhereOp("forms", "array-contains", form)],
     }, a => a.terms);
 });
 export const GetTermsAttached = StoreAccessor(s => (nodeRevisionID, emptyForLoading = true) => {

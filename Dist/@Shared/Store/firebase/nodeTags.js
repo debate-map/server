@@ -1,11 +1,11 @@
-import { WhereFilter, GetDoc, GetDocs, StoreAccessor } from "mobx-firelink";
+import { WhereOp, GetDoc, GetDocs, StoreAccessor } from "mobx-firelink";
 import { emptyArray_forLoading, CE } from "js-vextensions";
 import { GetTagCompClassByTag, GetTagCompOfTag } from "./nodeTags/@MapNodeTag";
 // todo: add and use some sort of system where mobx-firelink auto-reattaches data to their classes, based on AJV metadata
 export const GetNodeTags = StoreAccessor(s => (nodeID) => {
     return GetDocs({
-        //filters: [new WhereFilter(`nodes.${nodeID}`, ">", "")], // `if value > ""` means "if key exists"
-        filters: [new WhereFilter(`nodes`, "array-contains", nodeID)],
+        //queryOps: [new WhereOp(`nodes.${nodeID}`, ">", "")], // `if value > ""` means "if key exists"
+        queryOps: [new WhereOp(`nodes`, "array-contains", nodeID)],
     }, a => a.nodeTags);
 });
 export const GetNodeTag = StoreAccessor(s => (tagID) => {

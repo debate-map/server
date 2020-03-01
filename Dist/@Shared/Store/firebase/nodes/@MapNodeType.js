@@ -1,4 +1,3 @@
-import chroma from "chroma-js";
 import { Assert, CE } from "js-vextensions";
 import { Polarity } from "./@MapNode";
 export var MapNodeType;
@@ -36,28 +35,6 @@ MapNodeType_Info.for = {
         minWidth: 100, maxWidth: 300,
     }),
 };
-export function GetNodeColor(node, type = "background") {
-    let result;
-    if (node.type == MapNodeType.Category)
-        result = chroma("rgb(40,60,80)");
-    else if (node.type == MapNodeType.Package)
-        result = chroma("rgb(30,120,150)");
-    else if (node.type == MapNodeType.MultiChoiceQuestion)
-        result = chroma("rgb(90,50,180)");
-    else if (node.type == MapNodeType.Claim)
-        result = chroma("rgb(0,80,150)");
-    else if (node.type == MapNodeType.Argument) {
-        if (node.displayPolarity == Polarity.Supporting)
-            result = chroma("rgb(30,100,30)");
-        else
-            result = chroma("rgb(100,30,30)");
-    }
-    if (type == "background") {
-        result = chroma.mix(result, "black", 0.3); // mix background-color with black some
-        result = result.alpha(0.9);
-    }
-    return result;
-}
 export function GetMapNodeTypeDisplayName(type, parentNode, parentNodeForm, polarity) {
     if (type == MapNodeType.Category)
         return "category";

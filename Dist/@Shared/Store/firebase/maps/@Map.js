@@ -34,7 +34,7 @@ AddSchema("Map", ["MapNodeRevision"], () => ({
         defaultTimelineID: { type: "string" },
         requireMapEditorsCanEdit: { type: "boolean" },
         nodeDefaults: Schema({
-            properties: GetSchemaJSON("MapNodeRevision").properties.Including(...MapNodeRevision_Defaultable_props),
+            properties: CE(GetSchemaJSON("MapNodeRevision").properties).Including(...MapNodeRevision_Defaultable_props),
         }),
         featured: { type: "boolean" },
         // editors: { patternProperties: { [UUID_regex]: { type: 'boolean' } } },

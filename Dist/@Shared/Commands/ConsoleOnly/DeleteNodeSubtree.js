@@ -1,8 +1,7 @@
-import { Command, MergeDBUpdates, AssertV } from "mobx-firelink";
-import { AssertValidate } from "mobx-firelink";
+import { Command, MergeDBUpdates, AssertV, AssertValidate } from "mobx-firelink";
+import { CE } from "js-vextensions";
 import { DeleteNode } from "../DeleteNode";
 import { GetNode } from "../../Store/firebase/nodes";
-import { CE } from "js-vextensions";
 /*
 ==========
 temp1 = await RR.GetDBUpdatesFor_DeleteNodeSubtree(NODE_ID, 200);
@@ -41,9 +40,6 @@ export class DeleteNodeSubtree extends Command {
             required: ["nodeID"],
         }, this.payload, "Payload invalid");
         const { nodeID, maxDeletes } = this.payload;
-        // clear each run, since validate gets called more than once
-        this.nodesInSubtree = [];
-        this.subs_deleteNodes = [];
         this.nodesInSubtree = GetNodesInSubtree(nodeID);
         AssertV(this.nodesInSubtree, "List of nodes in subtree is still loading.");
         AssertV(this.nodesInSubtree.length <= maxDeletes, `Length of nodes in subtree (${this.nodesInSubtree.length}) is greater than the max-deletes limit (${maxDeletes}).`);

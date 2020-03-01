@@ -30,8 +30,6 @@ export declare class MapNode {
     childrenOrder: UUID[];
     multiPremiseArgument?: boolean;
     layerPlusAnchorParents: LayerPlusAnchorParentSet;
-    informalArgumentsHolder?: boolean;
-    premiseAddHelper?: boolean;
 }
 /** MapNode, except with the current-revision data attached. */
 export interface MapNodeL2 extends MapNode {

@@ -95,17 +95,23 @@ export const GetNodeID = StoreAccessor(s => (path) => {
     const ownNodeStr = CE(SplitStringBySlash_Cached(path)).LastOrX();
     return ownNodeStr ? PathSegmentToNodeID(ownNodeStr) : null;
 });
-export const GetNodeParents = StoreAccessor(s => (nodeID) => {
+export function CleanArray(array, emptyArrayIfItemLoading = true) {
+    if (emptyArrayIfItemLoading && CE(array).Any(a => a === undefined))
+        return emptyArray_forLoading;
+    return array;
+}
+export const GetNodeParents = StoreAccessor(s => (nodeID, emptyForLoading = true) => {
     let node = GetNode(nodeID);
-    return CE(node.parents || {}).VKeys().map(id => GetNode(id));
+    //return GetNodesByIDs(CE(node.parents || {}).VKeys());
+    return CleanArray(CE(node.parents || {}).VKeys().map(id => GetNode(id)), emptyForLoading);
 });
-export const GetNodeParentsL2 = StoreAccessor(s => (nodeID) => {
-    return GetNodeParents(nodeID).map(parent => (parent ? GetNodeL2(parent) : null));
+export const GetNodeParentsL2 = StoreAccessor(s => (nodeID, emptyForLoading = true) => {
+    return CleanArray(GetNodeParents(nodeID).map(parent => (parent ? GetNodeL2(parent) : undefined)), emptyForLoading);
 });
-export const GetNodeParentsL3 = StoreAccessor(s => (nodeID, path) => {
-    return GetNodeParents(nodeID).map(parent => (parent ? GetNodeL3(SlicePath(path, 1)) : null));
+export const GetNodeParentsL3 = StoreAccessor(s => (nodeID, path, emptyForLoading = true) => {
+    return CleanArray(GetNodeParents(nodeID).map(parent => (parent ? GetNodeL3(SlicePath(path, 1)) : undefined)), emptyForLoading);
 });
-export const GetNodeChildren = StoreAccessor(s => (nodeID, includeMirrorChildren = true, tagsToIgnore) => {
+export const GetNodeChildren = StoreAccessor(s => (nodeID, includeMirrorChildren = true, tagsToIgnore, emptyForLoading = true) => {
     let node = GetNode(nodeID);
     if (node == null)
         return emptyArray;
@@ -126,9 +132,9 @@ export const GetNodeChildren = StoreAccessor(s => (nodeID, includeMirrorChildren
         mirrorChildren = mirrorChildren.filter(mirrorChild => !CE(result).Any(directChild => directChild._key == mirrorChild._key));
         result.push(...mirrorChildren);
     }
-    return result;
+    return CleanArray(result, emptyForLoading);
 });
-export const GetNodeMirrorChildren = StoreAccessor(s => (nodeID, tagsToIgnore) => {
+export const GetNodeMirrorChildren = StoreAccessor(s => (nodeID, tagsToIgnore, emptyForLoading = true) => {
     let tags = GetNodeTags(nodeID).filter(tag => { var _a; return tag && !((_a = tagsToIgnore) === null || _a === void 0 ? void 0 : _a.includes(tag._key)); });
     //let tagComps = GetNodeTagComps(nodeID, true, tagsToIgnore);
     let result = [];
@@ -212,16 +218,18 @@ export const GetNodeMirrorChildren = StoreAccessor(s => (nodeID, tagsToIgnore) =
         let earlierNodes = result.slice(0, index);
         return !CE(earlierNodes).Any(a => a._key == node._key);
     });
-    return result;
+    return CleanArray(result, emptyForLoading);
 });
-export const GetNodeChildrenL2 = StoreAccessor(s => (nodeID, includeMirrorChildren = true, tagsToIgnore) => {
+export const GetNodeChildrenL2 = StoreAccessor(s => (nodeID, includeMirrorChildren = true, tagsToIgnore, emptyForLoading = true) => {
     const nodeChildren = GetNodeChildren(nodeID, includeMirrorChildren, tagsToIgnore);
-    return nodeChildren.map(child => (child ? GetNodeL2(child) : null));
+    let nodeChildrenL2 = nodeChildren.map(child => (child ? GetNodeL2(child) : undefined));
+    return CleanArray(nodeChildrenL2, emptyForLoading);
 });
-export const GetNodeChildrenL3 = StoreAccessor(s => (nodeID, path, includeMirrorChildren = true, tagsToIgnore) => {
+export const GetNodeChildrenL3 = StoreAccessor(s => (nodeID, path, includeMirrorChildren = true, tagsToIgnore, emptyForLoading = true) => {
     path = path || nodeID;
     const nodeChildrenL2 = GetNodeChildrenL2(nodeID, includeMirrorChildren, tagsToIgnore);
-    return nodeChildrenL2.map(child => (child ? GetNodeL3(`${path}/${child._key}`, tagsToIgnore) : null));
+    let nodeChildrenL3 = nodeChildrenL2.map(child => (child ? GetNodeL3(`${path}/${child._key}`, tagsToIgnore) : undefined));
+    return CleanArray(nodeChildrenL3, emptyForLoading);
 });
 export const GetPremiseOfSinglePremiseArgument = StoreAccessor(s => (argumentNodeID) => {
     let argument = GetNode(argumentNodeID);
