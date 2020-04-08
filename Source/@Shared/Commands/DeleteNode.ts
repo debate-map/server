@@ -1,4 +1,4 @@
-import {AddSchema, AssertV, AssertValidate, Command, MergeDBUpdates} from "mobx-firelink";
+import {AddSchema, AssertV, AssertValidate, Command, MergeDBUpdates, WrapDBValue} from "mobx-firelink";
 import {MapEdit, UserEdit} from "../CommandMacros";
 import {MapNodeL2} from "../Store/firebase/nodes/@MapNode";
 import {MapNodeRevision} from "../Store/firebase/nodes/@MapNodeRevision";
@@ -110,7 +110,7 @@ export class DeleteNode extends Command<{mapID?: string, nodeID: string, withCon
 
 		// delete edit-time entry within each map (if it exists)
 		for (const mapID of this.mapIDs) {
-			updates[`mapNodeEditTimes/${mapID}/.${nodeID}`] = null;
+			updates[`mapNodeEditTimes/${mapID}/.${nodeID}`] = WrapDBValue(null, {merge: true});
 		}
 
 		if (this.sub_deleteContainerArgument) {

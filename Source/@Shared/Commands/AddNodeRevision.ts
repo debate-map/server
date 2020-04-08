@@ -1,5 +1,5 @@
 import {CE} from "js-vextensions";
-import {AssertV, AssertValidate, Command, GenerateUUID} from "mobx-firelink";
+import {AssertV, AssertValidate, Command, GenerateUUID, WrapDBValue} from "mobx-firelink";
 import {MapEdit, UserEdit} from "../CommandMacros";
 import {GetNode} from "../Store/firebase/nodes";
 import {MapNode} from "../Store/firebase/nodes/@MapNode";
@@ -53,7 +53,7 @@ export class AddNodeRevision extends Command<{mapID: string, revision: MapNodeRe
 		updates[`nodes/${revision.node}/.currentRevision`] = this.revisionID;
 		updates[`nodeRevisions/${this.revisionID}`] = revision;
 		// updates[`maps/${mapID}/nodeEditTimes/data/.${revision.node}`] = revision.createdAt;
-		updates[`mapNodeEditTimes/${mapID}/.${revision.node}`] = revision.createdAt;
+		updates[`mapNodeEditTimes/${mapID}/.${revision.node}`] = WrapDBValue(revision.createdAt, {merge: true});
 		return updates;
 	}
 }
