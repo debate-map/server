@@ -1,7 +1,7 @@
 import {Assert, CachedTransform, GetValues, IsString, VURL, E, Clone, CE} from "js-vextensions";
 import {SplitStringBySlash_Cached, SlicePath, StoreAccessor} from "mobx-firelink";
-import {GetImage} from "../images";
-import {GetNiceNameForImageType} from "../images/@Image";
+import {GetMedia} from "../media";
+import {GetNiceNameForMediaType, MediaType} from "../media/@Media";
 import {RatingType} from "../nodeRatings/@RatingType";
 import {GetNodeRevision} from "../nodeRevisions";
 import {ForLink_GetError, ForNewLink_GetError, GetNode, GetNodeChildrenL2, GetNodeID, GetParentNode, GetParentNodeL2, HolderType, IsNodeSubnode, GetNodeChildrenL3} from "../nodes";
@@ -12,6 +12,8 @@ import {PermissionGroupSet} from "../users/@User";
 import {GetNodeTags, GetNodeTagComps, GetFinalTagCompsForTag} from "../nodeTags";
 import {CanContributeToNode} from "../users/$user";
 import {TagComp_MirrorChildrenFromXToY} from "../nodeTags/@MapNodeTag";
+import {SourceType, Source} from "../nodeRevisions/@SourceChain";
+import Moment from "moment";
 
 export function PreProcessLatex(text: string) {
 	// text = text.replace(/\\term{/g, "\\text{");
@@ -310,25 +312,39 @@ export const GetNodeDisplayText = StoreAccessor(s=>(node: MapNodeL2, path?: stri
 			}
 			return result;
 		}
-		if (node.current.quote) {
-			const firstSource = node.current.quote.sourceChains[0].sources[0];
-			// if (PROD && firstSource == null) return '(first source is null)'; // defensive
-			return `The statement below was made${ // (as shown)
-				firstSource.name ? ` in "${firstSource.name}"` : ""}${
-					firstSource.author ? ` by ${firstSource.author}` : ""}${
-						firstSource.link ? ` at "${VURL.Parse(firstSource.link, false).toString({domain_protocol: false})}"` : "" // maybe temp
-			}.`;
-		}
-		if (node.current.image) {
-			const image = GetImage(node.current.image.id);
-			if (image == null) return "...";
-			// if (image.sourceChains == null) return `The ${GetNiceNameForImageType(image.type)} below is unmodified.`; // temp
-			const firstSource = image.sourceChains[0].sources[0];
-			return `The ${GetNiceNameForImageType(image.type)} below was published${ // (as shown)`
-				firstSource.name ? ` in "${firstSource.name}"` : ""}${
-					firstSource.author ? ` by ${firstSource.author}` : ""}${
-						firstSource.link ? ` at "${VURL.Parse(firstSource.link, false).toString({domain_protocol: false})}"` : "" // maybe temp
-			}.`;
+		
+		if (node.current.quote || node.current.media) {
+			let text: string;
+			let firstSource: Source;
+			if (node.current.quote) {
+				text = `The statement below was made`;
+				firstSource = node.current.quote.sourceChains[0].sources[0];
+			}
+			if (node.current.media) {
+				const media = GetMedia(node.current.media.id);
+				if (media == null) return "...";
+				// if (image.sourceChains == null) return `The ${GetNiceNameForImageType(image.type)} below is unmodified.`; // temp
+				text = `The ${GetNiceNameForMediaType(media.type)} below was ${media.captured ? "captured" : "produced"}`;
+				firstSource = node.current.media.sourceChains[0].sources[0];
+			}
+
+			if (firstSource.name) text += ` in ${firstSource.name}`;
+			if (firstSource.location) text += ` at ${firstSource.location}`;
+			if (firstSource.author) text += ` by ${firstSource.author}`;
+
+			function TimeToStr(time: number) {
+				//return Moment(time, "YYYY-MM-DD HH:mm:ss");
+				return Moment(time, "YYYY-MM-DD HH:mm");
+			}
+			if (firstSource.time_min != null && firstSource.time_max == null) text += `, after ${TimeToStr(firstSource.time_min)}`;
+			if (firstSource.time_min == null && firstSource.time_max != null) text += `, before ${TimeToStr(firstSource.time_max)}`;
+			if (firstSource.time_min != null && firstSource.time_max != null) {
+				if (firstSource.time_min == firstSource.time_max) text += `, at ${TimeToStr(firstSource.time_min)}`;
+				else text += `, between ${TimeToStr(firstSource.time_min)} and ${TimeToStr(firstSource.time_max)}`;
+			}
+
+			if (firstSource.link) text += ` at ${VURL.Parse(firstSource.link, false).toString({domain_protocol: false})}`; // maybe temp
+			return text;
 		}
 
 		if (form) {

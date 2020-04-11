@@ -2,7 +2,7 @@ import {GetValues_ForSchema, CE} from "js-vextensions";
 import {AddSchema, GetSchemaJSON} from "mobx-firelink";
 import {QuoteAttachment} from "../nodeRevisions/@QuoteAttachment";
 import {MapType} from "../maps/@Map";
-import {ImageAttachment} from "../nodeRevisions/@ImageAttachment";
+import {MediaAttachment} from "../nodeRevisions/@MediaAttachment";
 import {AccessLevel} from "./@MapNode";
 import {EquationAttachment} from "../nodeRevisions/@EquationAttachment";
 import {TermAttachment} from "../nodeRevisions/@TermAttachment";
@@ -82,7 +82,7 @@ export class MapNodeRevision {
 	equation: EquationAttachment;
 	references: ReferencesAttachment;
 	quote: QuoteAttachment;
-	image: ImageAttachment;
+	media: MediaAttachment;
 
 	// permissions
 	// only applied client-side; would need to be in protected branch of tree (or use a long, random, and unreferenced node-id) to be "actually" inaccessible
@@ -121,7 +121,7 @@ AddSchema("MapNodeRevision", {
 		equation: {$ref: "EquationAttachment"},
 		references: {$ref: "ReferencesAttachment"},
 		quote: {$ref: "QuoteAttachment"},
-		image: {$ref: "ImageAttachment"},
+		media: {$ref: "MediaAttachment"},
 
 		// permissions
 		accessLevel: {oneOf: GetValues_ForSchema(AccessLevel).concat({const: null})},
@@ -138,7 +138,7 @@ AddSchema("MapNodeRevision", {
 	allOf: [
 		// if not an argument or content-node, require "titles" prop
 		{
-			if: {prohibited: ["argumentType", "equation", "quote", "image"]},
+			if: {prohibited: ["argumentType", "equation", "quote", "media"]},
 			then: {required: ["titles"]},
 		},
 	],

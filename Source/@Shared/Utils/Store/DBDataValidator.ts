@@ -8,7 +8,7 @@ export function ValidateDBData(data: FirebaseDBShape) {
 		});
 	}
 
-	ValidateCollection(data.images, "Image");
+	ValidateCollection(data.medias, "Media");
 	ValidateCollection(data.layers, "Layer");
 	ValidateCollection(data.maps, "Map");
 	ValidateCollection(data.nodes, "MapNode");

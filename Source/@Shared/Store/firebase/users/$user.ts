@@ -9,7 +9,7 @@ import {Term} from "../terms/@Term";
 import {Timeline} from "../timelines/@Timeline";
 import {GetUser} from "../users";
 import {GetUser_Private} from "../users_private";
-import {Image} from "../images/@Image";
+import {Media} from "../media/@Media";
 import {Map} from "../maps/@Map";
 import {PermissionGroupSet} from "./@User";
 

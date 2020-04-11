@@ -1,7 +1,7 @@
 import {ObservableMap} from "mobx";
 import {Collection_Closed, Collection, StoreAccessor} from "mobx-firelink";
 import {GeneralData} from "./firebase/general";
-import {Image} from "./firebase/images/@Image";
+import {Media} from "./firebase/media/@Media";
 import {Layer} from "./firebase/layers/@Layer";
 import {NodeEditTimes} from "./firebase/mapNodeEditTimes";
 import {Map} from "./firebase/maps/@Map";
@@ -27,7 +27,7 @@ export interface FirebaseDBShape {
 		// feedback: FeedbackDBShape;
 	}>;
 
-	images: Collection<Image>;
+	medias: Collection<Media>;
 	layers: Collection<Layer>;
 	maps: Collection<Map>;
 	mapNodeEditTimes: Collection<NodeEditTimes>;

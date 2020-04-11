@@ -1,20 +1,20 @@
 import {UserEdit} from "../CommandMacros";
 import {Command_Old, GetAsync, Command} from "mobx-firelink";
-import {GetImage} from "../Store/firebase/images";
-import {Image} from "../Store/firebase/images/@Image";
+import {Media} from "../Store/firebase/media/@Media";
+import {GetMedia} from "../../Link";
 
 @UserEdit
-export class DeleteImage extends Command<{id: string}, {}> {
-	oldData: Image;
+export class DeleteMedia extends Command<{id: string}, {}> {
+	oldData: Media;
 	Validate() {
 		const {id} = this.payload;
-		this.oldData = GetImage(id);
+		this.oldData = GetMedia(id);
 	}
 
 	GetDBUpdates() {
 		const {id} = this.payload;
 		const updates = {
-			[`images/${id}`]: null,
+			[`medias/${id}`]: null,
 		};
 		return updates;
 	}

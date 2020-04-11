@@ -24,9 +24,9 @@ AddSchema("SourceChain", {
 
 export enum SourceType {
 	Speech = 10,
-	Writing = 20,
-	/* Image = 30,
-	Video = 40, */
+	Text = 20,
+	Image = 30,
+	Video = 40,
 	Webpage = 50,
 }
 AddSchema("SourceType", {oneOf: GetValues_ForSchema(SourceType)});
@@ -34,9 +34,14 @@ AddSchema("SourceType", {oneOf: GetValues_ForSchema(SourceType)});
 export const Source_linkURLPattern = "^https?://[^\\s/$.?#]+\\.[^\\s]+$";
 export class Source {
 	type = SourceType.Webpage;
-	name: string;
-	author: string;
-	link: string; // only the "Webpage" SourceType uses this (and this is all it uses atm)
+
+	// uses with * means shown in the main row (rather than in dropdown)
+	name: string; // used by: Speech, Text*
+	author: string; // used by: Speech*, Text*, Image*, Video*
+	location: string; // used by: Speech*, Image*, Video*
+	time_min: number; // used by: Speech, Text, Image, Video, Webpage
+	time_max: number; // used by: Speech, Text, Image, Video, Webpage
+	link: string; // used by: Webpage*
 }
 AddSchema("Source", {
 	properties: {
@@ -57,7 +62,7 @@ AddSchema("Source", {
 		{
 			if: {
 				properties: {
-					type: {enum: [SourceType.Writing, SourceType.Speech]},
+					type: {enum: [SourceType.Text, SourceType.Speech]},
 				},
 			},
 			then: {
@@ -83,13 +88,13 @@ AddSchema("Source", {
 
 export function GetSourceNamePlaceholderText(sourceType: SourceType) {
 	if (sourceType == SourceType.Speech) return "speech name";
-	if (sourceType == SourceType.Writing) return "book/document name";
+	if (sourceType == SourceType.Text) return "book/document name";
 	// if (sourceType == SourceType.Webpage) return "(webpage name)";
 	Assert(false);
 }
 export function GetSourceAuthorPlaceholderText(sourceType: SourceType) {
 	if (sourceType == SourceType.Speech) return "speaker";
-	if (sourceType == SourceType.Writing) return "book/document author";
+	if (sourceType == SourceType.Text) return "book/document author";
 	// if (sourceType == SourceType.Webpage) return "(webpage name)";
 	Assert(false);
 }
