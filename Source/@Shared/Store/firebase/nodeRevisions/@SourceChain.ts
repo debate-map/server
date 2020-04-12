@@ -48,9 +48,12 @@ AddSchema("Source", {
 		type: {$ref: "SourceType"},
 		name: {pattern: "\\S.*"},
 		author: {pattern: "\\S.*"},
-		link: {type: "string"}, // allow overriding url pattern; it just highlights possible mistakes
+		location: {type: "string"},
+		time_min: {type: "number"},
+		time_max: {type: "number"},
 		// link: { format: 'uri' },
 		// link: { pattern: Source_linkURLPattern },
+		link: {type: "string"}, // allow overriding url pattern; it just highlights possible mistakes
 	},
 	// required: ["name", "author", "link"],
 	/* anyOf: [
@@ -60,28 +63,39 @@ AddSchema("Source", {
 	], */
 	allOf: [
 		{
-			if: {
-				properties: {
-					type: {enum: [SourceType.Text, SourceType.Speech]},
-				},
-			},
+			if: {properties: {type: {enum: [SourceType.Speech]}}},
 			then: {
 				anyOf: [{required: ["name"]}, {required: ["author"]}],
 				prohibited: ["link"],
 			},
-			// else: {prohibited: ["name", "author", "link"]},
 		},
 		{
-			if: {
-				properties: {
-					type: {const: SourceType.Webpage},
-				},
+			if: {properties: {type: {enum: [SourceType.Text]}}},
+			then: {
+				anyOf: [{required: ["name"]}, {required: ["author"]}],
+				prohibited: ["link"],
 			},
+		},
+		{
+			if: {properties: {type: {enum: [SourceType.Image]}}},
+			then: {
+				anyOf: [{required: ["location"]}, {required: ["author"]}],
+				prohibited: ["link"],
+			},
+		},
+		{
+			if: {properties: {type: {enum: [SourceType.Video]}}},
+			then: {
+				anyOf: [{required: ["location"]}, {required: ["author"]}],
+				prohibited: ["link"],
+			},
+		},
+		{
+			if: {properties: {type: {const: SourceType.Webpage}}},
 			then: {
 				required: ["link"],
-				prohibited: ["name", "author"],
+				prohibited: ["name"],
 			},
-			// else: {prohibited: ["name", "author", "link"]},
 		},
 	],
 });
@@ -89,12 +103,16 @@ AddSchema("Source", {
 export function GetSourceNamePlaceholderText(sourceType: SourceType) {
 	if (sourceType == SourceType.Speech) return "speech name";
 	if (sourceType == SourceType.Text) return "book/document name";
+	if (sourceType == SourceType.Image) return "image name";
+	if (sourceType == SourceType.Video) return "video name";
 	// if (sourceType == SourceType.Webpage) return "(webpage name)";
 	Assert(false);
 }
 export function GetSourceAuthorPlaceholderText(sourceType: SourceType) {
 	if (sourceType == SourceType.Speech) return "speaker";
 	if (sourceType == SourceType.Text) return "book/document author";
-	// if (sourceType == SourceType.Webpage) return "(webpage name)";
+	if (sourceType == SourceType.Image) return `image author`;
+	if (sourceType == SourceType.Video) return "video author";
+	if (sourceType == SourceType.Webpage) return "webpage author";
 	Assert(false);
 }

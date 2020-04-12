@@ -11,7 +11,7 @@ AddSchema(`Update${MTName}Details_payload`, [MTName], ()=>({
 	properties: {
 		id: {type: "string"},
 		updates: Schema({
-			properties: CE(GetSchemaJSON(MTName).properties).Including("name", "type", "captured", "url", "description"),
+			properties: CE(GetSchemaJSON(MTName).properties).Including("name", "type", "url", "description"),
 		}),
 	},
 	required: ["id", "updates"],

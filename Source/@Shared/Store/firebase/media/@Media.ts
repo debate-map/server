@@ -22,7 +22,6 @@ export class Media {
 
 	name: string;
 	type: MediaType;
-	captured: boolean; // if true, means the image/video is claimed as a capturing of real-world footage
 	url = "";
 	description: string;
 
@@ -35,7 +34,6 @@ AddSchema("Media", {
 	properties: {
 		name: {type: "string", pattern: Media_namePattern},
 		type: {$ref: "MediaType"},
-		captured: {type: "boolean"},
 		// url: { pattern: Media_urlPattern },
 		url: {type: "string"}, // allow overriding url pattern; it just highlights possible mistakes
 		description: {type: "string"},
@@ -43,8 +41,7 @@ AddSchema("Media", {
 		creator: {type: "string"},
 		createdAt: {type: "number"},
 	},
-	required: ["name", "type", "url", "description", "sourceChains", "creator", "createdAt"],
+	required: ["name", "type", "url", "description", "creator", "createdAt"],
 });
 
-// todo: update UI code
 // todo: update existing db entries (MapNodeRevision: image->media, ImageAttachment: add previewWidth and sourceChains, Image: remove previewWidth and sourceChains)

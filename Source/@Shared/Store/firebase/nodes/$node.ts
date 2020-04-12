@@ -111,6 +111,7 @@ export function IsNodeL2(node: MapNode): node is MapNodeL2 {
 	return node["current"];
 }
 export function AsNodeL2(node: MapNode, currentRevision: MapNodeRevision) {
+	Assert(currentRevision, "Empty node-revision sent to AsNodeL2!");
 	// Assert(currentRevision.titles, "A MapNodeRevision object must have a titles property!"); // temp removed (for db-upgrade)
 	const result = E(node, {current: currentRevision}) as MapNodeL2;
 	delete result["displayPolarity"];
@@ -124,7 +125,8 @@ export const GetNodeL2 = StoreAccessor(s=>(nodeID: string | MapNode, path?: stri
 
 	// if any of the data in a MapNodeL2 is not loaded yet, just return null (we want it to be all or nothing)
 	const currentRevision = GetNodeRevision(node.currentRevision);
-	if (currentRevision === undefined) return undefined;
+	if (currentRevision === undefined) return undefined; // if node-revision still loading, have GetNodeL2 return "still loading"
+	if (currentRevision === null) return null; // if node-revision non-existent, have GetNodeL2 return null as well
 
 	const nodeL2 = AsNodeL2(node, currentRevision);
 	//return CachedTransform("GetNodeL2", [path], nodeL2, ()=>nodeL2);
@@ -135,6 +137,7 @@ export function IsNodeL3(node: MapNode): node is MapNodeL3 {
 	return node["displayPolarity"] && node["link"];
 }
 export function AsNodeL3(node: MapNodeL2, displayPolarity?: Polarity, link?: ChildEntry) {
+	Assert(IsNodeL2(node), "Node sent to AsNodeL3 was not an L2 node!");
 	displayPolarity = displayPolarity || Polarity.Supporting;
 	link = link || {
 		_: true,
@@ -317,24 +320,28 @@ export const GetNodeDisplayText = StoreAccessor(s=>(node: MapNodeL2, path?: stri
 			let text: string;
 			let firstSource: Source;
 			if (node.current.quote) {
-				text = `The statement below was made`;
+				text = `The statements below were made`;
 				firstSource = node.current.quote.sourceChains[0].sources[0];
+
+				if (firstSource.name) text += ` as part of ${firstSource.name}`;
 			}
 			if (node.current.media) {
 				const media = GetMedia(node.current.media.id);
 				if (media == null) return "...";
 				// if (image.sourceChains == null) return `The ${GetNiceNameForImageType(image.type)} below is unmodified.`; // temp
-				text = `The ${GetNiceNameForMediaType(media.type)} below was ${media.captured ? "captured" : "produced"}`;
+				text = `The ${GetNiceNameForMediaType(media.type)} below`;
 				firstSource = node.current.media.sourceChains[0].sources[0];
+
+				if (firstSource.name) text += `, as part of ${firstSource.name},`;
+				text += ` was ${node.current.media.captured ? "captured" : "produced"}`;
 			}
 
-			if (firstSource.name) text += ` in ${firstSource.name}`;
 			if (firstSource.location) text += ` at ${firstSource.location}`;
 			if (firstSource.author) text += ` by ${firstSource.author}`;
 
 			function TimeToStr(time: number) {
-				//return Moment(time, "YYYY-MM-DD HH:mm:ss");
-				return Moment(time, "YYYY-MM-DD HH:mm");
+				//return Moment(time).format("YYYY-MM-DD HH:mm:ss");
+				return Moment(time).format("YYYY-MM-DD HH:mm");
 			}
 			if (firstSource.time_min != null && firstSource.time_max == null) text += `, after ${TimeToStr(firstSource.time_min)}`;
 			if (firstSource.time_min == null && firstSource.time_max != null) text += `, before ${TimeToStr(firstSource.time_max)}`;
