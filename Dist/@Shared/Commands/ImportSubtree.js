@@ -42,8 +42,8 @@ export class ImportSubtree extends Command {
         const { mapID, importRatings, importRatings_userIDs } = this.payload;
         const node = AsNodeL1(WithoutHelpers(subtreeData).Excluding("ratings", "childrenData", "finalPolarity", "currentRevision", "parents", "children", "childrenOrder"));
         const revision = WithoutHelpers(subtreeData.current).Excluding("node", "approved", "relative", "voteLevel");
-        if (revision.image)
-            revision.image.id = `${revision.image.id}`;
+        if (revision.media)
+            revision.media.id = `${revision.media.id}`;
         if (revision["contentNode"]) {
             CE(revision).VSet({ quote: revision["contentNode"], contentNode: DEL });
             if (revision.quote.sourceChains.length) {

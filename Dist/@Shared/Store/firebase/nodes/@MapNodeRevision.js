@@ -77,7 +77,7 @@ AddSchema("MapNodeRevision", {
         equation: { $ref: "EquationAttachment" },
         references: { $ref: "ReferencesAttachment" },
         quote: { $ref: "QuoteAttachment" },
-        image: { $ref: "ImageAttachment" },
+        media: { $ref: "MediaAttachment" },
         // permissions
         accessLevel: { oneOf: GetValues_ForSchema(AccessLevel).concat({ const: null }) },
         votingDisabled: { type: ["null", "boolean"] },
@@ -92,7 +92,7 @@ AddSchema("MapNodeRevision", {
     allOf: [
         // if not an argument or content-node, require "titles" prop
         {
-            if: { prohibited: ["argumentType", "equation", "quote", "image"] },
+            if: { prohibited: ["argumentType", "equation", "quote", "media"] },
             then: { required: ["titles"] },
         },
     ],

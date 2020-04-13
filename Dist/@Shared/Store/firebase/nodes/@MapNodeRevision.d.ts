@@ -1,6 +1,6 @@
 import { QuoteAttachment } from "../nodeRevisions/@QuoteAttachment";
 import { MapType } from "../maps/@Map";
-import { ImageAttachment } from "../nodeRevisions/@ImageAttachment";
+import { MediaAttachment } from "../nodeRevisions/@MediaAttachment";
 import { AccessLevel } from "./@MapNode";
 import { EquationAttachment } from "../nodeRevisions/@EquationAttachment";
 import { TermAttachment } from "../nodeRevisions/@TermAttachment";
@@ -40,7 +40,7 @@ export declare class MapNodeRevision {
     equation: EquationAttachment;
     references: ReferencesAttachment;
     quote: QuoteAttachment;
-    image: ImageAttachment;
+    media: MediaAttachment;
     accessLevel: AccessLevel;
     votingDisabled: boolean;
     permission_edit: PermissionInfo;

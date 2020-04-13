@@ -1,7 +1,7 @@
 import { Assert, GetValues, IsString, VURL, E, Clone, CE } from "js-vextensions";
 import { SplitStringBySlash_Cached, SlicePath, StoreAccessor } from "mobx-firelink";
-import { GetImage } from "../images";
-import { GetNiceNameForImageType } from "../images/@Image";
+import { GetMedia } from "../media";
+import { GetNiceNameForMediaType } from "../media/@Media";
 import { GetNodeRevision } from "../nodeRevisions";
 import { ForLink_GetError, ForNewLink_GetError, GetNode, GetNodeChildrenL2, GetNodeID, GetParentNode, GetParentNodeL2, IsNodeSubnode, GetNodeChildrenL3 } from "../nodes";
 import { ClaimForm, Polarity } from "./@MapNode";
@@ -10,6 +10,7 @@ import { MapNodeType } from "./@MapNodeType";
 import { GetNodeTags, GetFinalTagCompsForTag } from "../nodeTags";
 import { CanContributeToNode } from "../users/$user";
 import { TagComp_MirrorChildrenFromXToY } from "../nodeTags/@MapNodeTag";
+import Moment from "moment";
 export function PreProcessLatex(text) {
     // text = text.replace(/\\term{/g, "\\text{");
     // "\term{some-term}{123}" -> "\text{@term[some-term,123]}
@@ -104,6 +105,7 @@ export function IsNodeL2(node) {
     return node["current"];
 }
 export function AsNodeL2(node, currentRevision) {
+    Assert(currentRevision, "Empty node-revision sent to AsNodeL2!");
     // Assert(currentRevision.titles, "A MapNodeRevision object must have a titles property!"); // temp removed (for db-upgrade)
     const result = E(node, { current: currentRevision });
     delete result["displayPolarity"];
@@ -119,7 +121,9 @@ export const GetNodeL2 = StoreAccessor(s => (nodeID, path) => {
     // if any of the data in a MapNodeL2 is not loaded yet, just return null (we want it to be all or nothing)
     const currentRevision = GetNodeRevision(node.currentRevision);
     if (currentRevision === undefined)
-        return undefined;
+        return undefined; // if node-revision still loading, have GetNodeL2 return "still loading"
+    if (currentRevision === null)
+        return null; // if node-revision non-existent, have GetNodeL2 return null as well
     const nodeL2 = AsNodeL2(node, currentRevision);
     //return CachedTransform("GetNodeL2", [path], nodeL2, ()=>nodeL2);
     return nodeL2;
@@ -128,6 +132,7 @@ export function IsNodeL3(node) {
     return node["displayPolarity"] && node["link"];
 }
 export function AsNodeL3(node, displayPolarity, link) {
+    Assert(IsNodeL2(node), "Node sent to AsNodeL3 was not an L2 node!");
     displayPolarity = displayPolarity || Polarity.Supporting;
     link = link || {
         _: true,
@@ -306,22 +311,47 @@ export const GetNodeDisplayText = StoreAccessor(s => (node, path, form) => {
             }
             return result;
         }
-        if (node.current.quote) {
-            const firstSource = node.current.quote.sourceChains[0].sources[0];
-            // if (PROD && firstSource == null) return '(first source is null)'; // defensive
-            return `The statement below was made${ // (as shown)
-            firstSource.name ? ` in "${firstSource.name}"` : ""}${firstSource.author ? ` by ${firstSource.author}` : ""}${firstSource.link ? ` at "${VURL.Parse(firstSource.link, false).toString({ domain_protocol: false })}"` : "" // maybe temp
-            }.`;
-        }
-        if (node.current.image) {
-            const image = GetImage(node.current.image.id);
-            if (image == null)
-                return "...";
-            // if (image.sourceChains == null) return `The ${GetNiceNameForImageType(image.type)} below is unmodified.`; // temp
-            const firstSource = image.sourceChains[0].sources[0];
-            return `The ${GetNiceNameForImageType(image.type)} below was published${ // (as shown)`
-            firstSource.name ? ` in "${firstSource.name}"` : ""}${firstSource.author ? ` by ${firstSource.author}` : ""}${firstSource.link ? ` at "${VURL.Parse(firstSource.link, false).toString({ domain_protocol: false })}"` : "" // maybe temp
-            }.`;
+        if (node.current.quote || node.current.media) {
+            let text;
+            let firstSource;
+            if (node.current.quote) {
+                text = `The statements below were made`;
+                firstSource = node.current.quote.sourceChains[0].sources[0];
+                if (firstSource.name)
+                    text += ` as part of ${firstSource.name}`;
+            }
+            if (node.current.media) {
+                const media = GetMedia(node.current.media.id);
+                if (media == null)
+                    return "...";
+                // if (image.sourceChains == null) return `The ${GetNiceNameForImageType(image.type)} below is unmodified.`; // temp
+                text = `The ${GetNiceNameForMediaType(media.type)} below`;
+                firstSource = node.current.media.sourceChains[0].sources[0];
+                if (firstSource.name)
+                    text += `, as part of ${firstSource.name},`;
+                text += ` was ${node.current.media.captured ? "captured" : "produced"}`;
+            }
+            if (firstSource.location)
+                text += ` at ${firstSource.location}`;
+            if (firstSource.author)
+                text += ` by ${firstSource.author}`;
+            function TimeToStr(time) {
+                //return Moment(time).format("YYYY-MM-DD HH:mm:ss");
+                return Moment(time).format("YYYY-MM-DD HH:mm");
+            }
+            if (firstSource.time_min != null && firstSource.time_max == null)
+                text += `, after ${TimeToStr(firstSource.time_min)}`;
+            if (firstSource.time_min == null && firstSource.time_max != null)
+                text += `, before ${TimeToStr(firstSource.time_max)}`;
+            if (firstSource.time_min != null && firstSource.time_max != null) {
+                if (firstSource.time_min == firstSource.time_max)
+                    text += `, at ${TimeToStr(firstSource.time_min)}`;
+                else
+                    text += `, between ${TimeToStr(firstSource.time_min)} and ${TimeToStr(firstSource.time_max)}`;
+            }
+            if (firstSource.link)
+                text += ` at ${VURL.Parse(firstSource.link, false).toString({ domain_protocol: false })}`; // maybe temp
+            return text;
         }
         if (form) {
             if (form == ClaimForm.Negation)

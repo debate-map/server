@@ -1,5 +1,5 @@
 import { QuoteAttachment } from "./@QuoteAttachment";
-import { ImageAttachment } from "./@ImageAttachment";
+import { MediaAttachment } from "./@MediaAttachment";
 import { EquationAttachment } from "./@EquationAttachment";
 import { ReferencesAttachment } from "./@ReferencesAttachment";
 import { CE } from "js-vextensions";
@@ -10,7 +10,7 @@ export var AttachmentType;
     AttachmentType[AttachmentType["Equation"] = 20] = "Equation";
     AttachmentType[AttachmentType["References"] = 30] = "References";
     AttachmentType[AttachmentType["Quote"] = 40] = "Quote";
-    AttachmentType[AttachmentType["Image"] = 50] = "Image";
+    AttachmentType[AttachmentType["Media"] = 50] = "Media";
 })(AttachmentType || (AttachmentType = {}));
 export function GetAttachmentType(node) {
     return GetAttachmentType_Revision(node.current);
@@ -19,14 +19,12 @@ export function GetAttachmentType_Revision(revision) {
     return (revision.equation ? AttachmentType.Equation
         : revision.references ? AttachmentType.References
             : revision.quote ? AttachmentType.Quote
-                : revision.image ? AttachmentType.Image
+                : revision.media ? AttachmentType.Media
                     : AttachmentType.None);
 }
 export function ResetNodeRevisionAttachment(revision, attachmentType) {
-    CE(revision).Extend({ equation: null, references: null, quote: null, image: null });
-    if (attachmentType == AttachmentType.None) {
-    }
-    else if (attachmentType == AttachmentType.Equation) {
+    CE(revision).Extend({ equation: null, references: null, quote: null, media: null });
+    if (attachmentType == AttachmentType.Equation) {
         revision.equation = new EquationAttachment();
     }
     else if (attachmentType == AttachmentType.References) {
@@ -35,7 +33,7 @@ export function ResetNodeRevisionAttachment(revision, attachmentType) {
     else if (attachmentType == AttachmentType.Quote) {
         revision.quote = new QuoteAttachment();
     }
-    else {
-        revision.image = new ImageAttachment();
+    else if (attachmentType == AttachmentType.Media) {
+        revision.media = new MediaAttachment();
     }
 }

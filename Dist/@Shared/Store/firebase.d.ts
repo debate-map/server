@@ -1,6 +1,6 @@
 import { Collection_Closed, Collection } from "mobx-firelink";
 import { GeneralData } from "./firebase/general";
-import { Image } from "./firebase/images/@Image";
+import { Media } from "./firebase/media/@Media";
 import { Layer } from "./firebase/layers/@Layer";
 import { NodeEditTimes } from "./firebase/mapNodeEditTimes";
 import { Map } from "./firebase/maps/@Map";
@@ -20,7 +20,7 @@ export interface FirebaseDBShape {
         data: GeneralData;
     }>;
     modules: Collection_Closed<{}>;
-    images: Collection<Image>;
+    medias: Collection<Media>;
     layers: Collection<Layer>;
     maps: Collection<Map>;
     mapNodeEditTimes: Collection<NodeEditTimes>;

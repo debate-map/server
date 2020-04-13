@@ -5,7 +5,7 @@ export function ValidateDBData(data) {
             AssertValidate(itemType, entry, `${itemType} invalid`);
         });
     }
-    ValidateCollection(data.images, "Image");
+    ValidateCollection(data.medias, "Media");
     ValidateCollection(data.layers, "Layer");
     ValidateCollection(data.maps, "Map");
     ValidateCollection(data.nodes, "MapNode");

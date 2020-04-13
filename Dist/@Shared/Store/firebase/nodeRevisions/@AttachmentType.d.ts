@@ -5,7 +5,7 @@ export declare enum AttachmentType {
     Equation = 20,
     References = 30,
     Quote = 40,
-    Image = 50
+    Media = 50
 }
 export declare function GetAttachmentType(node: MapNodeL2): AttachmentType;
 export declare function GetAttachmentType_Revision(revision: MapNodeRevision): AttachmentType;

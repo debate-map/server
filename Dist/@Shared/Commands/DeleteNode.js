@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var DeleteNode_1;
-import { AddSchema, AssertV, AssertValidate, Command, MergeDBUpdates } from "mobx-firelink";
+import { AddSchema, AssertV, AssertValidate, Command, MergeDBUpdates, WrapDBValue } from "mobx-firelink";
 import { MapEdit, UserEdit } from "../CommandMacros";
 import { GetNodeL2 } from "../Store/firebase/nodes/$node";
 import { GetNodeRevisions } from "../Store/firebase/nodeRevisions";
@@ -95,7 +95,7 @@ let DeleteNode = DeleteNode_1 = class DeleteNode extends Command {
         }
         // delete edit-time entry within each map (if it exists)
         for (const mapID of this.mapIDs) {
-            updates[`mapNodeEditTimes/${mapID}/.${nodeID}`] = null;
+            updates[`mapNodeEditTimes/${mapID}/.${nodeID}`] = WrapDBValue(null, { merge: true });
         }
         if (this.sub_deleteContainerArgument) {
             updates = MergeDBUpdates(updates, this.sub_deleteContainerArgument.GetDBUpdates());

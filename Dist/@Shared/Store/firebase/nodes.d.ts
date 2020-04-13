@@ -64,8 +64,8 @@ export declare function GetHolderType(childType: MapNodeType, parentType: MapNod
 export declare const ForLink_GetError: ((parentType: MapNodeType, childType: MapNodeType) => string) & {
     Wait: (parentType: MapNodeType, childType: MapNodeType) => string;
 };
-export declare const ForNewLink_GetError: ((parentID: string, newChild: Pick<MapNode, "_key" | "type">, permissions: PermissionGroupSet, newHolderType?: HolderType) => string | false) & {
-    Wait: (parentID: string, newChild: Pick<MapNode, "_key" | "type">, permissions: PermissionGroupSet, newHolderType?: HolderType) => string | false;
+export declare const ForNewLink_GetError: ((parentID: string, newChild: Pick<MapNode, "type" | "_key">, permissions: PermissionGroupSet, newHolderType?: HolderType) => string | false) & {
+    Wait: (parentID: string, newChild: Pick<MapNode, "type" | "_key">, permissions: PermissionGroupSet, newHolderType?: HolderType) => string | false;
 };
 export declare const ForDelete_GetError: ((userID: string, node: MapNodeL2, subcommandInfo?: {
     asPartOfMapDelete?: boolean;

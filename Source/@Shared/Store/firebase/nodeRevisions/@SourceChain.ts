@@ -61,7 +61,7 @@ AddSchema("Source", {
 		{required: ["author"], prohibited: ["link"]},
 		{required: ["link"], prohibited: ["name", "author"]}
 	], */
-	allOf: [
+	/*allOf: [
 		{
 			if: {properties: {type: {enum: [SourceType.Speech]}}},
 			then: {
@@ -97,7 +97,7 @@ AddSchema("Source", {
 				prohibited: ["name"],
 			},
 		},
-	],
+	],*/
 });
 
 export function GetSourceNamePlaceholderText(sourceType: SourceType) {
