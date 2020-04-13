@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "js-vextensions": "^1.0.28",
-    "mobx-firelink": "^1.0.48",
+    "mobx-firelink": "^1.0.55",
     "moment": "^2.24.0"
   }
 }

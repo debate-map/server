@@ -43,5 +43,3 @@ AddSchema("Media", {
 	},
 	required: ["name", "type", "url", "description", "creator", "createdAt"],
 });
-
-// todo: update existing db entries (MapNodeRevision: image->media, ImageAttachment: add previewWidth and sourceChains, Image: remove previewWidth and sourceChains)
