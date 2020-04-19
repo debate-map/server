@@ -106,6 +106,7 @@ export const GetFillPercent_AtPath = StoreAccessor(s=>(node: MapNodeL3, path: st
 
 export const GetMarkerPercent_AtPath = StoreAccessor(s=>(node: MapNodeL3, path: string, boxType?: HolderType, ratingType?: RatingType, weighting = WeightingType.Votes)=>{
 	ratingType = ratingType || {[HolderType.Truth]: "truth", [HolderType.Relevance]: "relevance"}[boxType] as any || GetMainRatingType(node);
+	if (node.current.votingDisabled) return null;
 	if (weighting == WeightingType.Votes || !rsCompatibleNodeTypes.includes(node.type)) {
 		return GetRatingAverage_AtPath(node, ratingType, MeID());
 	}
