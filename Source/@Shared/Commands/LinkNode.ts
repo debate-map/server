@@ -52,8 +52,8 @@ export class LinkNode extends Command<{mapID: string, parentID: string, childID:
 			childForm && {form: childForm},
 			childPolarity && {polarity: childPolarity},
 		);
-		if (this.parent_oldData && this.parent_oldData.type == MapNodeType.Argument) {
-			updates[`nodes/${parentID}/.childrenOrder`] = (this.parent_oldData.childrenOrder || []).concat([childID]);
+		if (this.parent_oldData?.childrenOrder) {
+			updates[`nodes/${parentID}/.childrenOrder`] = this.parent_oldData.childrenOrder.concat([childID]);
 		}
 		return updates;
 	}

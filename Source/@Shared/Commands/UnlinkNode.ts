@@ -38,7 +38,8 @@ export class UnlinkNode extends Command<{mapID: string, parentID: string, childI
 		updates[`nodes/${childID}/.parents/.${parentID}`] = null;
 		updates[`nodes/${parentID}/.children/.${childID}`] = null;
 		if (this.parent_oldChildrenOrder) {
-			updates[`nodes/${parentID}/.childrenOrder`] = CE(CE(this.parent_oldChildrenOrder).Except(childID)).IfEmptyThen(null);
+			//updates[`nodes/${parentID}/.childrenOrder`] = CE(CE(this.parent_oldChildrenOrder).Except(childID)).IfEmptyThen(null);
+			updates[`nodes/${parentID}/.childrenOrder`] = CE(this.parent_oldChildrenOrder).Except(childID);
 		}
 		return updates;
 	}

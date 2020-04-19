@@ -7,6 +7,7 @@ import {MapNode, ChildEntry, Polarity} from "../Store/firebase/nodes/@MapNode";
 import {MapNodeRevision} from "../Store/firebase/nodes/@MapNodeRevision";
 import {MapNodeType} from "../Store/firebase/nodes/@MapNodeType";
 import {GetNode} from "../Store/firebase/nodes";
+import {AddArgumentAndClaim} from "../../Link";
 
 type Payload = {mapID: string, parentID: string, node: MapNode, revision: MapNodeRevision, link?: ChildEntry, asMapRoot?: boolean};
 
@@ -35,7 +36,8 @@ export class AddChildNode extends Command<Payload, {nodeID: string, revisionID: 
 			AssertV(this.payload.link.polarity != null, "An argument node must have its polarity specified in its parent-link.")
 		}
 
-		if (!asMapRoot && this.parentCommand == null) {
+		const isAddClaimSub = this.parentCommand instanceof AddArgumentAndClaim && this.parentCommand.sub_addClaim == this;
+		if (!asMapRoot && !isAddClaimSub) {
 			// this.parent_oldChildrenOrder = await GetDataAsync('nodes', parentID, '.childrenOrder') as number[];
 			this.parent_oldData = GetNode(parentID);
 		}
@@ -54,8 +56,8 @@ export class AddChildNode extends Command<Payload, {nodeID: string, revisionID: 
 		// add as child of parent
 		if (!asMapRoot) {
 			newUpdates[`nodes/${parentID}/.children/.${this.sub_addNode.nodeID}`] = link;
-			// if this node is being placed as a child of an argument, update the argument's children-order property
-			if (this.parent_oldData && this.parent_oldData.type == MapNodeType.Argument) {
+			// if parent node is using manual children-ordering, update that array
+			if (this.parent_oldData?.childrenOrder) {
 				newUpdates[`nodes/${parentID}/.childrenOrder`] = (this.parent_oldData.childrenOrder || []).concat([this.sub_addNode.nodeID]);
 			}
 		}
