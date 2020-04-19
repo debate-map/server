@@ -36,7 +36,9 @@ export class MapNode {
 
 	parents: ParentSet;
 	children: ChildSet;
-	childrenOrder: UUID[]; // only set when type:argument
+	childrenOrder: UUID[];
+	//childOrderType = ChildOrderType.ByRating;
+	//childrenOrder: UUID[]; // only set when childOrderType is manual
 	// talkRoot: number;
 	multiPremiseArgument?: boolean;
 
@@ -63,6 +65,7 @@ AddSchema("MapNode", {
 
 		parents: {$ref: "ParentSet"},
 		children: {$ref: "ChildSet"},
+		childrenOrderType: {$ref: "ChildOrderType"},
 		childrenOrder: {items: {$ref: "UUID"}},
 		// talkRoot: {type: "number"},
 		multiPremiseArgument: {type: "boolean"},
@@ -150,6 +153,12 @@ AddSchema("ChildEntry", {
 	},
 	required: ["_"],
 });
+
+export enum ChildOrderType {
+	Manual = 10,
+	ByRating = 20,
+}
+AddSchema("ChildOrderType", {oneOf: GetValues_ForSchema(ChildOrderType)});
 
 // layer+anchor parents (for if subnode)
 // ==========

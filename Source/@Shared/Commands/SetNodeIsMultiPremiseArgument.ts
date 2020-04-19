@@ -28,6 +28,7 @@ export class SetNodeIsMultiPremiseArgument extends Command<{mapID?: string, node
 
 		this.newNodeData = {...AsNodeL1(this.oldNodeData), ...{multiPremiseArgument}};
 		if (multiPremiseArgument) {
+			//this.newNodeData.childrenOrderType = ChildOrderType.Manual;
 			this.newNodeData.childrenOrder = CE(this.oldNodeData.children).VKeys();
 
 			if (this.oldNodeData.current.titles.base.length == 0) {
@@ -42,6 +43,7 @@ export class SetNodeIsMultiPremiseArgument extends Command<{mapID?: string, node
 				this.sub_addRevision.Validate();
 			}
 		} else {
+			//this.newNodeData.childrenOrderType = ChildOrderType.ByRating;
 			this.newNodeData.childrenOrder = null;
 		}
 
