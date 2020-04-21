@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { MergeDBUpdates, Command, AssertV } from "mobx-firelink";
 import { AssertValidate, GenerateUUID } from "mobx-firelink";
-import { OmitIfFalsy } from "js-vextensions";
+import { OmitIfFalsy, E } from "js-vextensions";
 import { UserEdit } from "../CommandMacros";
 import { AddChildNode } from "./AddChildNode";
 import { MapNode } from "../Store/firebase/nodes/@MapNode";
@@ -22,7 +22,7 @@ let AddMap = class AddMap extends Command {
         map.createdAt = Date.now();
         map.editedAt = map.createdAt;
         const newRootNode = new MapNode({ type: MapNodeType.Category, creator: map.creator, rootNodeForMap: this.mapID, ownerMapID: OmitIfFalsy(map.type == MapType.Private && this.mapID) });
-        const newRootNodeRevision = new MapNodeRevision({ titles: { base: "Root" }, votingDisabled: true });
+        const newRootNodeRevision = new MapNodeRevision(E(map.nodeDefaults, { titles: { base: "Root" }, votingDisabled: true }));
         this.sub_addNode = (_b = this.sub_addNode, (_b !== null && _b !== void 0 ? _b : new AddChildNode({ mapID: this.mapID, parentID: null, node: newRootNode, revision: newRootNodeRevision, asMapRoot: true }).MarkAsSubcommand(this)));
         this.sub_addNode.Validate();
         map.rootNode = this.sub_addNode.sub_addNode.nodeID;

@@ -389,6 +389,12 @@ export const IsMultiPremiseArgument = StoreAccessor(s => (node) => {
     return node.type == MapNodeType.Argument && nodeChildren.filter(a=>a.type == MapNodeType.Claim).length > 1; */
     return node && node.type == MapNodeType.Argument && node.multiPremiseArgument;
 });
+export function IsPrivateNode(node) {
+    return node.ownerMapID != null;
+}
+export function IsPublicNode(node) {
+    return node.ownerMapID == null;
+}
 export const IsPremiseOfSinglePremiseArgument = StoreAccessor(s => (node, parent) => {
     if (parent == null)
         return null;

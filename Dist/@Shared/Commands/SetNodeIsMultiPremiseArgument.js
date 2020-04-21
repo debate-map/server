@@ -25,6 +25,7 @@ let SetNodeIsMultiPremiseArgument = class SetNodeIsMultiPremiseArgument extends 
         AssertV(this.oldNodeData, "oldNodeData is null.");
         this.newNodeData = Object.assign(Object.assign({}, AsNodeL1(this.oldNodeData)), { multiPremiseArgument });
         if (multiPremiseArgument) {
+            //this.newNodeData.childrenOrderType = ChildOrderType.Manual;
             this.newNodeData.childrenOrder = CE(this.oldNodeData.children).VKeys();
             if (this.oldNodeData.current.titles.base.length == 0) {
                 const newRevision = Clone(this.oldNodeData.current);
@@ -37,6 +38,7 @@ let SetNodeIsMultiPremiseArgument = class SetNodeIsMultiPremiseArgument extends 
             }
         }
         else {
+            //this.newNodeData.childrenOrderType = ChildOrderType.ByRating;
             this.newNodeData.childrenOrder = null;
         }
         AssertValidate("MapNode", this.newNodeData, "New node-data invalid");

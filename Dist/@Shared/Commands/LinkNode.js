@@ -10,7 +10,6 @@ import { Command, AssertV } from "mobx-firelink";
 import { UserEdit } from "../CommandMacros";
 import { LinkNode_HighLevel } from "./LinkNode_HighLevel";
 import { GetNode } from "../Store/firebase/nodes";
-import { MapNodeType } from "../Store/firebase/nodes/@MapNodeType";
 let LinkNode = class LinkNode extends Command {
     /* async Prepare(parent_oldChildrenOrder_override?: number[]) {
         let {parentID, childID, childForm} = this.payload;
@@ -35,14 +34,15 @@ let LinkNode = class LinkNode extends Command {
         }
     }
     GetDBUpdates() {
+        var _a;
         const { parentID, childID, childForm, childPolarity } = this.payload;
         const updates = {};
         // add parent as parent-of-child
         updates[`nodes/${childID}/.parents/.${parentID}`] = { _: true };
         // add child as child-of-parent
         updates[`nodes/${parentID}/.children/.${childID}`] = E({ _: true }, childForm && { form: childForm }, childPolarity && { polarity: childPolarity });
-        if (this.parent_oldData && this.parent_oldData.type == MapNodeType.Argument) {
-            updates[`nodes/${parentID}/.childrenOrder`] = (this.parent_oldData.childrenOrder || []).concat([childID]);
+        if ((_a = this.parent_oldData) === null || _a === void 0 ? void 0 : _a.childrenOrder) {
+            updates[`nodes/${parentID}/.childrenOrder`] = this.parent_oldData.childrenOrder.concat([childID]);
         }
         return updates;
     }

@@ -23,8 +23,9 @@
 		//"strictNullChecks": true, // maybe enable later
 		//"strictFunctionTypes": true,
 		//"strictPropertyInitialization": true,
+
 		// fixes issue when parent-repo importing Source folder directly (without, ts may oddly complain "[some package] not under rootDir of [this package]")
-		"composite": true
+		//"composite": true
 	},
 	"include": [
 		"Typings/**/*.d.ts",

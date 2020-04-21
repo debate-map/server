@@ -17,11 +17,12 @@ export class AddArgumentAndClaim extends Command {
             mapID, parentID: argumentParentID, node: argumentNode, revision: argumentRevision, link: argumentLink,
         }).MarkAsSubcommand(this)));
         this.sub_addArgument.Validate();
+        //this.sub_addArgument.parent_oldData = argumentNode; // needed so add-argument sub knows to update the children-order prop of parent
         this.sub_addClaim = (_b = this.sub_addClaim, (_b !== null && _b !== void 0 ? _b : new AddChildNode({ mapID, parentID: this.sub_addArgument.returnData.nodeID, node: claimNode, revision: claimRevision, link: claimLink }).MarkAsSubcommand(this)));
         /* this.sub_addClaim.lastNodeID_addAmount = 1;
         this.sub_addClaim.lastNodeRevisionID_addAmount = 1; */
         this.sub_addClaim.Validate();
-        this.sub_addClaim.parent_oldData = argumentNode; // we need to do this so add-claim sub knows it's child of argument, and thus updates the children-order prop of the argument
+        this.sub_addClaim.parent_oldData = argumentNode; // needed so add-claim sub knows to update the children-order prop of argument
         this.returnData = {
             argumentNodeID: this.sub_addArgument.sub_addNode.nodeID,
             argumentRevisionID: this.sub_addArgument.sub_addNode.sub_addRevision.revisionID,

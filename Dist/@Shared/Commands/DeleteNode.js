@@ -79,7 +79,8 @@ let DeleteNode = DeleteNode_1 = class DeleteNode extends Command {
             // let parent_childrenOrder = this.oldParentID__childrenOrder[parentID];
             const parent_childrenOrder = this.oldParentChildrenOrders[index];
             if (parent_childrenOrder) {
-                updates[`nodes/${parentID}/.childrenOrder`] = CE(CE(parent_childrenOrder).Except(nodeID)).IfEmptyThen(null);
+                //updates[`nodes/${parentID}/.childrenOrder`] = CE(CE(parent_childrenOrder).Except(nodeID)).IfEmptyThen(null);
+                updates[`nodes/${parentID}/.childrenOrder`] = CE(parent_childrenOrder).Except(nodeID);
             }
         }
         // delete placement in layer

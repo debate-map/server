@@ -61,6 +61,10 @@ export declare type ChildEntry = {
     polarity?: Polarity;
     _mirrorLink?: boolean;
 };
+export declare enum ChildOrderType {
+    Manual = 10,
+    ByRating = 20
+}
 export declare type LayerPlusAnchorParentSet = {
     [key: string]: boolean;
 };

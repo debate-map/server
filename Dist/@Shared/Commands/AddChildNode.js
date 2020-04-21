@@ -12,6 +12,7 @@ import { AddNode } from "./AddNode";
 import { Polarity } from "../Store/firebase/nodes/@MapNode";
 import { MapNodeType } from "../Store/firebase/nodes/@MapNodeType";
 import { GetNode } from "../Store/firebase/nodes";
+import { AddArgumentAndClaim } from "../../Link";
 let AddChildNode = class AddChildNode extends Command {
     Validate() {
         var _a;
@@ -30,7 +31,8 @@ let AddChildNode = class AddChildNode extends Command {
         if (node.type == MapNodeType.Argument) {
             AssertV(this.payload.link.polarity != null, "An argument node must have its polarity specified in its parent-link.");
         }
-        if (!asMapRoot && this.parentCommand == null) {
+        const isAddClaimSub = this.parentCommand instanceof AddArgumentAndClaim && this.parentCommand.sub_addClaim == this;
+        if (!asMapRoot && !isAddClaimSub) {
             // this.parent_oldChildrenOrder = await GetDataAsync('nodes', parentID, '.childrenOrder') as number[];
             this.parent_oldData = GetNode(parentID);
         }
@@ -40,14 +42,15 @@ let AddChildNode = class AddChildNode extends Command {
         };
     }
     GetDBUpdates() {
+        var _a;
         const { parentID, link, asMapRoot } = this.payload;
         const updates = this.sub_addNode.GetDBUpdates();
         const newUpdates = {};
         // add as child of parent
         if (!asMapRoot) {
             newUpdates[`nodes/${parentID}/.children/.${this.sub_addNode.nodeID}`] = link;
-            // if this node is being placed as a child of an argument, update the argument's children-order property
-            if (this.parent_oldData && this.parent_oldData.type == MapNodeType.Argument) {
+            // if parent node is using manual children-ordering, update that array
+            if ((_a = this.parent_oldData) === null || _a === void 0 ? void 0 : _a.childrenOrder) {
                 newUpdates[`nodes/${parentID}/.childrenOrder`] = (this.parent_oldData.childrenOrder || []).concat([this.sub_addNode.nodeID]);
             }
         }

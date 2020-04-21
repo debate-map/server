@@ -34,6 +34,7 @@ AddSchema("MapNode", {
         currentRevision: { type: "string" },
         parents: { $ref: "ParentSet" },
         children: { $ref: "ChildSet" },
+        childrenOrderType: { $ref: "ChildOrderType" },
         childrenOrder: { items: { $ref: "UUID" } },
         // talkRoot: {type: "number"},
         multiPremiseArgument: { type: "boolean" },
@@ -67,4 +68,10 @@ AddSchema("ChildEntry", {
     },
     required: ["_"],
 });
+export var ChildOrderType;
+(function (ChildOrderType) {
+    ChildOrderType[ChildOrderType["Manual"] = 10] = "Manual";
+    ChildOrderType[ChildOrderType["ByRating"] = 20] = "ByRating";
+})(ChildOrderType || (ChildOrderType = {}));
+AddSchema("ChildOrderType", { oneOf: GetValues_ForSchema(ChildOrderType) });
 AddSchema("LayerPlusAnchorParentSet", { patternProperties: { [`${UUID_regex_partial}\\+${UUID_regex_partial}`]: { type: "boolean" } } });

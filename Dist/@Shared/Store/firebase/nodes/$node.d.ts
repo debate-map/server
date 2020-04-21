@@ -73,6 +73,8 @@ export declare const IsSinglePremiseArgument: ((node: MapNode) => boolean) & {
 export declare const IsMultiPremiseArgument: ((node: MapNode) => boolean) & {
     Wait: (node: MapNode) => boolean;
 };
+export declare function IsPrivateNode(node: MapNode): boolean;
+export declare function IsPublicNode(node: MapNode): boolean;
 export declare const IsPremiseOfSinglePremiseArgument: ((node: MapNode, parent: MapNode) => boolean) & {
     Wait: (node: MapNode, parent: MapNode) => boolean;
 };
