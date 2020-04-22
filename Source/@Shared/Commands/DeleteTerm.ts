@@ -1,5 +1,5 @@
 import {UserEdit} from "../CommandMacros";
-import {Command_Old, GetAsync, Command, AssertV} from "mobx-firelink";
+import {Command_Old, GetAsync, Command, AssertV, WrapDBValue} from "mobx-firelink";
 import {Term} from "../Store/firebase/terms/@Term";
 import {GetTerm} from "../Store/firebase/terms";
 
@@ -16,7 +16,7 @@ export class DeleteTerm extends Command<{termID: string}, {}> {
 		const {termID} = this.payload;
 		const updates = {
 			[`terms/${termID}`]: null,
-			[`termNames/${this.oldData.name.toLowerCase()}/.${termID}`]: null,
+			//[`termNames/${this.oldData.name.toLowerCase()}/.${termID}`]: WrapDBValue(null, {merge: true}),
 		};
 		return updates;
 	}

@@ -1,5 +1,5 @@
 import {UserEdit} from "../CommandMacros";
-import {AssertValidate, GenerateUUID} from "mobx-firelink";
+import {AssertValidate, GenerateUUID, WrapDBValue} from "mobx-firelink";
 import {Command_Old, Command} from "mobx-firelink";
 import {Term} from "../Store/firebase/terms/@Term";
 
@@ -21,7 +21,7 @@ export class AddTerm extends Command<{term: Term}, string> {
 		const updates = {
 			// 'general/data/.lastTermID': this.termID,
 			[`terms/${this.termID}`]: term,
-			[`termNames/${term.name.toLowerCase()}/.${this.termID}`]: true,
+			//[`termNames/${term.name.toLowerCase()}/.${this.termID}`]: WrapDBValue(true, {merge: true}),
 		};
 		return updates;
 	}

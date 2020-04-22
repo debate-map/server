@@ -6,6 +6,6 @@ export declare class AddTerm extends Command<{
     termID: string;
     Validate(): void;
     GetDBUpdates(): {
-        [x: string]: boolean | Term;
+        [x: string]: Term;
     };
 }

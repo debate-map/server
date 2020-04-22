@@ -1,6 +1,6 @@
 import {Assert, CE} from "js-vextensions";
 import {UserEdit} from "../CommandMacros";
-import {AssertValidate, AddSchema, GetSchemaJSON, Schema} from "mobx-firelink";
+import {AssertValidate, AddSchema, GetSchemaJSON, Schema, WrapDBValue} from "mobx-firelink";
 import {Command_Old, GetAsync, Command, AssertV} from "mobx-firelink";
 import {Term} from "../Store/firebase/terms/@Term";
 import {GetTerm} from "../Store/firebase/terms";
@@ -36,10 +36,10 @@ export class UpdateTerm extends Command<{termID: string, updates: Partial<Term>}
 		const updates = {
 			[`terms/${termID}`]: this.newData,
 		} as any;
-		if (this.newData.name != this.oldData.name) {
-			updates[`termNames/${this.oldData.name.toLowerCase()}/.${termID}`] = null;
-			updates[`termNames/${this.newData.name.toLowerCase()}/.${termID}`] = true;
-		}
+		/*if (this.newData.name != this.oldData.name) {
+			updates[`termNames/${this.oldData.name.toLowerCase()}/.${termID}`] = WrapDBValue(null, {merge: true});
+			updates[`termNames/${this.newData.name.toLowerCase()}/.${termID}`] = WrapDBValue(true, {merge: true});
+		}*/
 		return updates;
 	}
 }

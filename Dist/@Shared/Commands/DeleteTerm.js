@@ -17,7 +17,6 @@ let DeleteTerm = class DeleteTerm extends Command {
         const { termID } = this.payload;
         const updates = {
             [`terms/${termID}`]: null,
-            [`termNames/${this.oldData.name.toLowerCase()}/.${termID}`]: null,
         };
         return updates;
     }

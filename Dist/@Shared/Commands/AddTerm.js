@@ -22,7 +22,6 @@ let AddTerm = class AddTerm extends Command {
         const updates = {
             // 'general/data/.lastTermID': this.termID,
             [`terms/${this.termID}`]: term,
-            [`termNames/${term.name.toLowerCase()}/.${this.termID}`]: true,
         };
         return updates;
     }

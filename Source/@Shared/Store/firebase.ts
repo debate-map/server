@@ -40,7 +40,7 @@ export interface FirebaseDBShape {
 	nodePhrasings: Collection<MapNodePhrasing>;
 	nodeTags: Collection<MapNodeTag>;
 	terms: Collection<Term>;
-	termNames: Collection<any>;
+	//termNames: Collection<any>;
 	timelines: Collection<Timeline>;
 	timelineSteps: Collection<TimelineStep>;
 	users: Collection<User>;

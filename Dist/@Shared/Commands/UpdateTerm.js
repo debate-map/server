@@ -32,10 +32,10 @@ let UpdateTerm = class UpdateTerm extends Command {
         const updates = {
             [`terms/${termID}`]: this.newData,
         };
-        if (this.newData.name != this.oldData.name) {
-            updates[`termNames/${this.oldData.name.toLowerCase()}/.${termID}`] = null;
-            updates[`termNames/${this.newData.name.toLowerCase()}/.${termID}`] = true;
-        }
+        /*if (this.newData.name != this.oldData.name) {
+            updates[`termNames/${this.oldData.name.toLowerCase()}/.${termID}`] = WrapDBValue(null, {merge: true});
+            updates[`termNames/${this.newData.name.toLowerCase()}/.${termID}`] = WrapDBValue(true, {merge: true});
+        }*/
         return updates;
     }
 };
