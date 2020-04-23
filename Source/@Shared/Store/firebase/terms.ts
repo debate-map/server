@@ -1,5 +1,5 @@
 import {CachedTransform, IsNaN, emptyArray, emptyArray_forLoading, Assert, CE} from "js-vextensions";
-import {GetDoc, GetDocs, StoreAccessor, WhereOp} from "mobx-firelink";
+import {GetDoc, GetDocs, StoreAccessor, WhereOp, Validate} from "mobx-firelink";
 import {Term} from "./terms/@Term";
 import {GetNodeRevision} from "./nodeRevisions";
 
@@ -29,7 +29,10 @@ export const GetTermsAttached = StoreAccessor(s=>(nodeRevisionID: string, emptyF
 	const revision = GetNodeRevision(nodeRevisionID);
 	if (revision == null) return emptyArray;
 	//const terms = revision.termAttachments?.map(a=>GetTerm(a.id)) ?? emptyArray;
-	const terms = revision.termAttachments?.map(attachment=>GetDoc({}, a=>a.terms.get(attachment.id))) ?? emptyArray;
+	const terms = revision.termAttachments?.map(attachment=> {
+		if (Validate("UUID", attachment.id) != null) return null; // if invalid term-id, don't try to retrieve entry
+		return GetDoc({}, a=>a.terms.get(attachment.id));
+	}) ?? emptyArray;
 	if (emptyForLoading && CE(terms).Any(a=>a === undefined)) return emptyArray_forLoading;
 	return terms;
 });
