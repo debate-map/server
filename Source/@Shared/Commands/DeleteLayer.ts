@@ -3,6 +3,8 @@ import {UserEdit} from "../CommandMacros";
 import {Layer} from "../Store/firebase/layers/@Layer";
 import {UserMapInfoSet} from "../Store/firebase/userMapInfo/@UserMapInfo";
 import {GetLayer, ForDeleteLayer_GetError} from "../Store/firebase/layers";
+import {IsUserCreatorOrMod} from "../../Link";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
 
 @UserEdit
 export class DeleteLayer extends Command<{layerID: string}, {}> {
@@ -12,6 +14,7 @@ export class DeleteLayer extends Command<{layerID: string}, {}> {
 		const {layerID} = this.payload;
 		// this.oldData = await GetDoc_Async({}, (a) => a.layers.get(layerID));
 		this.oldData = AV.NonNull = GetLayer(layerID);
+		AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
 		this.userMapInfoSets = AV.NonNull = GetDocs({resultForLoading: undefined}, a=>a.userMapInfo);
 
 		const earlyError = ForDeleteLayer_GetError(this.userInfo.id, this.oldData);

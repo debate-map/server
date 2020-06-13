@@ -9,11 +9,13 @@ import { Command, AV } from "mobx-firelink";
 import { GetTimelineStep } from "../Store/firebase/timelineSteps";
 import { GetTimeline } from "../Store/firebase/timelines";
 import { CE } from "js-vextensions";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 let DeleteTimelineStep = class DeleteTimelineStep extends Command {
     Validate() {
         const { stepID } = this.payload;
         this.oldData = AV.NonNull = GetTimelineStep(stepID);
         const timeline = AV.NonNull = GetTimeline(this.oldData.timelineID);
+        AssertExistsAndUserIsCreatorOrMod(this, { creator: timeline.creator }, "delete");
         this.timeline_oldSteps = timeline.steps;
     }
     GetDBUpdates() {

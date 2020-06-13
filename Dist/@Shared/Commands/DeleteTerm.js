@@ -5,13 +5,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { UserEdit } from "../CommandMacros";
-import { Command, AssertV } from "mobx-firelink";
+import { Command } from "mobx-firelink";
 import { GetTerm } from "../Store/firebase/terms";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 let DeleteTerm = class DeleteTerm extends Command {
     Validate() {
         const { termID } = this.payload;
         this.oldData = GetTerm(termID);
-        AssertV(this.oldData, "oldData is null.");
+        AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
     }
     GetDBUpdates() {
         const { termID } = this.payload;

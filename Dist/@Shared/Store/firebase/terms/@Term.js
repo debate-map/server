@@ -15,14 +15,14 @@ export const Term_disambiguationFormat = '^[a-zA-Z0-9 ,\'"%-\\/]+$';
 export const Term_definitionFormat = "^(.|\n)+$";
 AddSchema("Term", {
     properties: {
+        creator: { type: "string" },
+        createdAt: { type: "number" },
         name: { type: "string", pattern: Term_nameFormat },
         disambiguation: { type: "string", pattern: Term_disambiguationFormat },
         type: { $ref: "TermType" },
         forms: { items: { type: "string", pattern: Term_formsEntryFormat }, minItems: 1, uniqueItems: true },
         definition: { type: "string", pattern: Term_definitionFormat },
         note: { type: "string" },
-        creator: { type: "string" },
-        createdAt: { type: "number" },
     },
     required: ["name", "forms", "type", "definition", /* "components", */ "creator", "createdAt"],
 });

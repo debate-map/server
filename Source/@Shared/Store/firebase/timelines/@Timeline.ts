@@ -7,10 +7,11 @@ export class Timeline {
 	}
 
 	_key: string;
-	mapID: string;
-	name: string;
 	creator: string; // probably todo: rename to creatorID
 	createdAt: number;
+
+	mapID: string;
+	name: string;
 
 	videoID: string;
 	videoStartTime: number;
@@ -20,10 +21,11 @@ export class Timeline {
 }
 AddSchema("Timeline", {
 	properties: {
-		mapID: {type: "string"},
-		name: {type: "string"},
 		creator: {type: "string"},
 		createdAt: {type: "number"},
+		
+		mapID: {type: "string"},
+		name: {type: "string"},
 
 		videoID: {type: ["string", "null"]},
 		videoStartTime: {type: ["number", "null"]},

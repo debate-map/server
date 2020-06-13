@@ -7,10 +7,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { AV, Command } from "mobx-firelink";
 import { UserEdit } from "../CommandMacros";
 import { GetNodeTag } from "../Store/firebase/nodeTags";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 let DeleteNodeTag = class DeleteNodeTag extends Command {
     Validate() {
         const { id } = this.payload;
         this.oldData = AV.NonNull = GetNodeTag(id);
+        AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
     }
     GetDBUpdates() {
         const { id } = this.payload;

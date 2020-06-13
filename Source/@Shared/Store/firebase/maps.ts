@@ -5,9 +5,10 @@ import {Map, MapType} from "./maps/@Map";
 export const GetMaps = StoreAccessor(s=>(orderByEdits = false): Map[]=>{
 	/* const mapsMap = GetData({ collection: true }, 'maps');
 	return CachedTransform('GetMaps', [], mapsMap, () => (mapsMap ? mapsMap.VValues(true) : [])); */
-	const mapsMap = GetDocs({}, a=>a.maps);
+	/*const mapsMap = GetDocs({}, a=>a.maps);
 	if (!mapsMap) return emptyArray_forLoading;
-	let result = ObjectCE(mapsMap).VValues();
+	let result = ObjectCE(mapsMap).VValues();*/
+	let result = GetDocs({}, a=>a.maps);
 	if (orderByEdits) result = CE(result).OrderByDescending(a=>ToNumber(a && a.edits, 0));
 	return result;
 });

@@ -5,16 +5,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { UserEdit } from "../CommandMacros";
-import { MergeDBUpdates, GetDocs, AssertV, Command } from "mobx-firelink";
+import { MergeDBUpdates, GetDocs, Command } from "mobx-firelink";
 import { DeleteNode } from "./DeleteNode";
 import { GetMap } from "../Store/firebase/maps";
 import { CE } from "js-vextensions";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 let DeleteMap = class DeleteMap extends Command {
     Validate() {
         var _a;
         const { mapID } = this.payload;
         this.oldData = GetMap(mapID);
-        AssertV(this.oldData, "oldData is null.");
+        AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
         this.userMapInfoSets = GetDocs({}, a => a.userMapInfo) || [];
         this.sub_deleteNode = (_a = this.sub_deleteNode, (_a !== null && _a !== void 0 ? _a : new DeleteNode({ mapID, nodeID: this.oldData.rootNode }).MarkAsSubcommand(this)));
         this.sub_deleteNode.asPartOfMapDelete = true;

@@ -5,15 +5,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { UserEdit } from "../CommandMacros";
-import { Command, AssertV } from "mobx-firelink";
+import { Command } from "mobx-firelink";
 import { CE } from "js-vextensions";
 import { GetTimeline } from "../Store/firebase/timelines";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 let UpdateTimelineStepOrder = class UpdateTimelineStepOrder extends Command {
     Validate() {
         var _a;
         const { timelineID, stepID, newIndex } = this.payload;
         const timeline = GetTimeline(timelineID);
-        AssertV(timeline, "timeline is null.");
+        AssertExistsAndUserIsCreatorOrMod(this, timeline, "update");
         this.timeline_oldSteps = (_a = timeline.steps, (_a !== null && _a !== void 0 ? _a : []));
         this.timeline_newSteps = this.timeline_oldSteps.slice();
         CE(this.timeline_newSteps).Move(stepID, newIndex, false); // dnd system applies index-fixing itself, so don't apply here

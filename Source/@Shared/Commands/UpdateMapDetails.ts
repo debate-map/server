@@ -5,6 +5,7 @@ import {UserEdit} from "../CommandMacros";
 import {Map} from "../Store/firebase/maps/@Map";
 import {GetMap} from "../Store/firebase/maps";
 import {CE} from "js-vextensions";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
 
 type MainType = Map;
 const MTName = "Map";
@@ -29,7 +30,7 @@ export class UpdateMapDetails extends Command<{id: string, updates: Partial<Main
 
 		const {id: mapID, updates: mapUpdates} = this.payload;
 		this.oldData = GetMap(mapID);
-		AssertV(this.oldData, "oldData is null.");
+		AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "update");
 		this.newData = {...this.oldData, ...mapUpdates};
 		this.newData.editedAt = Date.now();
 		AssertValidate(MTName, this.newData, `New ${MTName.toLowerCase()}-data invalid`);

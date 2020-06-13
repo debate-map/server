@@ -1,9 +1,11 @@
-import {AddSchema, AssertValidate, GetSchemaJSON, Schema} from "mobx-firelink";
+import {AddSchema, AssertValidate, GetSchemaJSON, Schema, AV} from "mobx-firelink";
 import {Command_Old, GetAsync, Command, AssertV} from "mobx-firelink";
 import {UserEdit} from "../CommandMacros";
 import {TimelineStep} from "../Store/firebase/timelineSteps/@TimelineStep";
 import {GetTimelineStep} from "../Store/firebase/timelineSteps";
 import {CE} from "js-vextensions";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
+import {GetTimeline} from "../../Link";
 
 AddSchema("UpdateTimelineStep_payload", ["TimelineStep"], ()=>({
 	properties: {
@@ -24,7 +26,8 @@ export class UpdateTimelineStep extends Command<{stepID: string, stepUpdates: Pa
 
 		const {stepID, stepUpdates} = this.payload;
 		this.oldData = GetTimelineStep(stepID);
-		AssertV(this.oldData, "oldData is null.");
+		const timeline = AV.NonNull = GetTimeline(this.oldData.timelineID);
+		AssertExistsAndUserIsCreatorOrMod(this, {creator: timeline.creator}, "update");
 		this.newData = {...this.oldData, ...stepUpdates};
 		AssertValidate("TimelineStep", this.newData, "New timeline-step-data invalid");
 	}

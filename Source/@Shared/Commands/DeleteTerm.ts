@@ -2,6 +2,7 @@ import {UserEdit} from "../CommandMacros";
 import {Command_Old, GetAsync, Command, AssertV, WrapDBValue} from "mobx-firelink";
 import {Term} from "../Store/firebase/terms/@Term";
 import {GetTerm} from "../Store/firebase/terms";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
 
 @UserEdit
 export class DeleteTerm extends Command<{termID: string}, {}> {
@@ -9,7 +10,7 @@ export class DeleteTerm extends Command<{termID: string}, {}> {
 	Validate() {
 		const {termID} = this.payload;
 		this.oldData = GetTerm(termID);
-		AssertV(this.oldData, "oldData is null.");
+		AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
 	}
 
 	GetDBUpdates() {

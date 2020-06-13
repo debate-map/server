@@ -5,11 +5,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { CE } from "js-vextensions";
-import { AddSchema, AssertV, AssertValidate, Command, GetSchemaJSON, Schema } from "mobx-firelink";
+import { AddSchema, AssertValidate, Command, GetSchemaJSON, Schema } from "mobx-firelink";
 import { UserEdit } from "../CommandMacros";
 import { GetMedia } from "../../Link";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 const MTName = "Media";
-AddSchema(`Update${MTName}Details_payload`, [MTName], () => ({
+AddSchema(`Update${MTName}Data_payload`, [MTName], () => ({
     properties: {
         id: { type: "string" },
         updates: Schema({
@@ -20,12 +21,12 @@ AddSchema(`Update${MTName}Details_payload`, [MTName], () => ({
 }));
 let UpdateMediaData = class UpdateMediaData extends Command {
     Validate() {
-        AssertValidate(`Update${MTName}Details_payload`, this.payload, "Payload invalid");
+        AssertValidate(`Update${MTName}Data_payload`, this.payload, "Payload invalid");
         const { id, updates } = this.payload;
         this.oldData = GetMedia(id);
-        AssertV(this.oldData, "oldData is null.");
+        AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "update");
         this.newData = Object.assign(Object.assign({}, this.oldData), updates);
-        AssertValidate("Media", this.newData, "New-data invalid");
+        AssertValidate(MTName, this.newData, "New-data invalid");
     }
     GetDBUpdates() {
         const { id } = this.payload;

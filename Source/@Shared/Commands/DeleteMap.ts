@@ -5,6 +5,8 @@ import {DeleteNode} from "./DeleteNode";
 import {GetMap} from "../Store/firebase/maps";
 import {Map} from "../Store/firebase/maps/@Map";
 import {CE} from "js-vextensions";
+import {IsUserCreatorOrMod} from "../Store/firebase/users/$user";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
 
 @UserEdit
 export class DeleteMap extends Command<{mapID: string}, {}> {
@@ -14,7 +16,7 @@ export class DeleteMap extends Command<{mapID: string}, {}> {
 	Validate() {
 		const {mapID} = this.payload;
 		this.oldData = GetMap(mapID);
-		AssertV(this.oldData, "oldData is null.");
+		AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
 		this.userMapInfoSets = GetDocs({}, a=>a.userMapInfo) || [];
 
 		this.sub_deleteNode = this.sub_deleteNode ?? new DeleteNode({mapID, nodeID: this.oldData.rootNode}).MarkAsSubcommand(this);

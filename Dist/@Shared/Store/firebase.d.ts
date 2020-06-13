@@ -15,6 +15,7 @@ import { User } from "./firebase/users/@User";
 import { User_Private } from "./firebase/users_private/@User_Private";
 import { MapNodeTag } from "./firebase/nodeTags/@MapNodeTag";
 import { Rating } from "./firebase/nodeRatings/@Rating";
+import { Share } from "./firebase/shares/@Share";
 export interface FirebaseDBShape {
     general: Collection_Closed<{
         data: GeneralData;
@@ -29,6 +30,7 @@ export interface FirebaseDBShape {
     nodeRevisions: Collection<MapNodeRevision>;
     nodePhrasings: Collection<MapNodePhrasing>;
     nodeTags: Collection<MapNodeTag>;
+    shares: Collection<Share>;
     terms: Collection<Term>;
     timelines: Collection<Timeline>;
     timelineSteps: Collection<TimelineStep>;

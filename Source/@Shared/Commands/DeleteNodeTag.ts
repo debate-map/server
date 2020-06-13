@@ -2,6 +2,7 @@ import {AV, Command} from "mobx-firelink";
 import {UserEdit} from "../CommandMacros";
 import {MapNodeTag} from "../Store/firebase/nodeTags/@MapNodeTag";
 import {GetNodeTag} from "../Store/firebase/nodeTags";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
 
 @UserEdit
 export class DeleteNodeTag extends Command<{id: string}, {}> {
@@ -9,6 +10,7 @@ export class DeleteNodeTag extends Command<{id: string}, {}> {
 	Validate() {
 		const {id} = this.payload;
 		this.oldData = AV.NonNull = GetNodeTag(id);
+		AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
 	}
 
 	GetDBUpdates() {

@@ -6,10 +6,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { MapEdit } from "../CommandMacros";
 import { AddSchema, AssertValidate, Schema, GetSchemaJSON } from "mobx-firelink";
-import { Command, AssertV } from "mobx-firelink";
+import { Command } from "mobx-firelink";
 import { UserEdit } from "../CommandMacros";
 import { GetMap } from "../Store/firebase/maps";
 import { CE } from "js-vextensions";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 const MTName = "Map";
 AddSchema(`Update${MTName}Details_payload`, [MTName], () => ({
     properties: {
@@ -25,7 +26,7 @@ let UpdateMapDetails = class UpdateMapDetails extends Command {
         AssertValidate(`Update${MTName}Details_payload`, this.payload, "Payload invalid");
         const { id: mapID, updates: mapUpdates } = this.payload;
         this.oldData = GetMap(mapID);
-        AssertV(this.oldData, "oldData is null.");
+        AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "update");
         this.newData = Object.assign(Object.assign({}, this.oldData), mapUpdates);
         this.newData.editedAt = Date.now();
         AssertValidate(MTName, this.newData, `New ${MTName.toLowerCase()}-data invalid`);

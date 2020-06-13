@@ -4,6 +4,7 @@ import {TimelineStep} from "../Store/firebase/timelineSteps/@TimelineStep";
 import {GetTimelineStep} from "../Store/firebase/timelineSteps";
 import {GetTimeline} from "../Store/firebase/timelines";
 import {CE} from "js-vextensions";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
 
 @UserEdit
 export class DeleteTimelineStep extends Command<{stepID: string}, {}> {
@@ -13,6 +14,7 @@ export class DeleteTimelineStep extends Command<{stepID: string}, {}> {
 		const {stepID} = this.payload;
 		this.oldData = AV.NonNull = GetTimelineStep(stepID);
 		const timeline = AV.NonNull = GetTimeline(this.oldData.timelineID);
+		AssertExistsAndUserIsCreatorOrMod(this, {creator: timeline.creator}, "delete");
 		this.timeline_oldSteps = timeline.steps;
 	}
 

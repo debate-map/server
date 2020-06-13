@@ -3,11 +3,12 @@ import {AddSchema, AssertV, AssertValidate, Command, GetSchemaJSON, Schema} from
 import {UserEdit} from "../CommandMacros";
 import {Media} from "../Store/firebase/media/@Media";
 import {GetMedia} from "../../Link";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
 
 type MainType = Media;
 const MTName = "Media";
 
-AddSchema(`Update${MTName}Details_payload`, [MTName], ()=>({
+AddSchema(`Update${MTName}Data_payload`, [MTName], ()=>({
 	properties: {
 		id: {type: "string"},
 		updates: Schema({
@@ -19,16 +20,16 @@ AddSchema(`Update${MTName}Details_payload`, [MTName], ()=>({
 
 @UserEdit
 export class UpdateMediaData extends Command<{id: string, updates: Partial<Media>}, {}> {
-	oldData: Media;
-	newData: Media;
+	oldData: MainType;
+	newData: MainType;
 	Validate() {
-		AssertValidate(`Update${MTName}Details_payload`, this.payload, "Payload invalid");
+		AssertValidate(`Update${MTName}Data_payload`, this.payload, "Payload invalid");
 
 		const {id, updates} = this.payload;
 		this.oldData = GetMedia(id);
-		AssertV(this.oldData, "oldData is null.");
+		AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "update");
 		this.newData = {...this.oldData, ...updates};
-		AssertValidate("Media", this.newData, "New-data invalid");
+		AssertValidate(MTName, this.newData, "New-data invalid");
 	}
 
 	GetDBUpdates() {

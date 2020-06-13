@@ -10,6 +10,7 @@ import { Command, AssertV } from "mobx-firelink";
 import { GetNode } from "../Store/firebase/nodes";
 import { HasAdminPermissions, IsUserCreatorOrMod } from "../Store/firebase/users/$user";
 import { IsPrivateNode, IsMultiPremiseArgument } from "../Store/firebase/nodes/$node";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 let UpdateNodeChildrenOrder = class UpdateNodeChildrenOrder extends Command {
     Validate() {
         AssertValidate({
@@ -22,7 +23,7 @@ let UpdateNodeChildrenOrder = class UpdateNodeChildrenOrder extends Command {
         }, this.payload, "Payload invalid");
         const { mapID, nodeID, childrenOrder } = this.payload;
         const node = this.oldNodeData = GetNode(nodeID);
-        AssertV(this.oldNodeData, "oldNodeData is null.");
+        AssertExistsAndUserIsCreatorOrMod(this, this.oldNodeData, "update");
         const changeableForNonAdmins = IsPrivateNode(node) || IsMultiPremiseArgument(node);
         const changeable_final = (IsUserCreatorOrMod(this.userInfo.id, node) && changeableForNonAdmins) || HasAdminPermissions(this.userInfo.id);
         AssertV(changeable_final, "You don't have permission to change this node's children-order.");

@@ -1,7 +1,8 @@
-import { AssertV, Command } from "mobx-firelink";
+import { Command } from "mobx-firelink";
 import { AddSchema, AssertValidate, GetSchemaJSON, Schema } from "mobx-firelink";
 import { GetTimeline } from "../Store/firebase/timelines";
 import { CE } from "js-vextensions";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 const MTName = "Timeline";
 AddSchema(`Update${MTName}_payload`, [MTName], () => ({
     properties: {
@@ -18,7 +19,7 @@ export class UpdateTimeline extends Command {
         const { id, updates } = this.payload;
         // this.oldData = await GetAsync(() => GetTimeline(id));
         this.oldData = GetTimeline(id);
-        AssertV(this.oldData, "oldData is null.");
+        AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "update");
         this.newData = Object.assign(Object.assign({}, this.oldData), updates);
         AssertValidate(MTName, this.newData, `New ${MTName.toLowerCase()}-data invalid`);
     }

@@ -7,10 +7,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { UserEdit } from "../CommandMacros";
 import { Command } from "mobx-firelink";
 import { GetMedia } from "../../Link";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 let DeleteMedia = class DeleteMedia extends Command {
     Validate() {
         const { id } = this.payload;
         this.oldData = GetMedia(id);
+        AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
     }
     GetDBUpdates() {
         const { id } = this.payload;

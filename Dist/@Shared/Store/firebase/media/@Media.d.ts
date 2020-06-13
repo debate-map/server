@@ -9,11 +9,11 @@ export declare class Media {
         type: MediaType;
     } & Partial<Media>);
     _key: string;
+    creator: string;
+    createdAt: number;
     name: string;
     type: MediaType;
     url: string;
     description: string;
-    creator: string;
-    createdAt: number;
 }
 export declare const Media_namePattern = "^[a-zA-Z0-9 ,'\"%\\-()\\/]+$";

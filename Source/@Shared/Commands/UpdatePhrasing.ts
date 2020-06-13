@@ -4,6 +4,7 @@ import {Command_Old, GetAsync, Command, AssertV} from "mobx-firelink";
 import {MapNodePhrasing} from "../Store/firebase/nodePhrasings/@MapNodePhrasing";
 import {GetNodePhrasing} from "../Store/firebase/nodePhrasings";
 import {CE} from "js-vextensions";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
 
 type MainType = MapNodePhrasing;
 const MTName = "MapNodePhrasing";
@@ -28,7 +29,7 @@ export class UpdatePhrasing extends Command<{id: string, updates: Partial<MainTy
 
 		const {id, updates} = this.payload;
 		this.oldData = GetNodePhrasing(id);
-		AssertV(this.oldData, "oldData is null.");
+		AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "update");
 		this.newData = {...this.oldData, ...updates};
 		AssertValidate(MTName, this.newData, `New ${MTName.toLowerCase()}-data invalid`);
 	}

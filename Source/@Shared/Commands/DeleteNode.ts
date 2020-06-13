@@ -7,6 +7,8 @@ import {GetNodeRevisions} from "../Store/firebase/nodeRevisions";
 import {GetNode, ForDelete_GetError} from "../Store/firebase/nodes";
 import {GetMaps} from "../Store/firebase/maps";
 import {CE} from "js-vextensions";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
+import {AddMap} from "./AddMap";
 
 AddSchema("DeleteNode_payload", {
 	properties: {
@@ -38,7 +40,7 @@ export class DeleteNode extends Command<{mapID?: string, nodeID: string, withCon
 		const {asPartOfMapDelete, parentsToIgnore, childrenToIgnore} = this;
 
 		this.oldData = GetNodeL2(nodeID);
-		AssertV(this.oldData, "oldData is null.");
+		AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
 		// this.oldRevisions = await GetAsync(() => GetNodeRevisions(nodeID));
 		// this.oldRevisions = await Promise.all(...oldRevisionIDs.map(id => GetDataAsync('nodeRevisions', id)));
 		// this.oldRevisions = await Promise.all(...oldRevisionIDs.map(id => GetAsync(() => GetNodeRevision(id))));

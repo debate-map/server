@@ -1,13 +1,13 @@
-import { emptyArray_forLoading, ToNumber, CE, ObjectCE } from "js-vextensions";
+import { ToNumber, CE } from "js-vextensions";
 import { GetDoc, GetDocs, StoreAccessor } from "mobx-firelink";
 import { MapType } from "./maps/@Map";
 export const GetMaps = StoreAccessor(s => (orderByEdits = false) => {
     /* const mapsMap = GetData({ collection: true }, 'maps');
     return CachedTransform('GetMaps', [], mapsMap, () => (mapsMap ? mapsMap.VValues(true) : [])); */
-    const mapsMap = GetDocs({}, a => a.maps);
-    if (!mapsMap)
-        return emptyArray_forLoading;
-    let result = ObjectCE(mapsMap).VValues();
+    /*const mapsMap = GetDocs({}, a=>a.maps);
+    if (!mapsMap) return emptyArray_forLoading;
+    let result = ObjectCE(mapsMap).VValues();*/
+    let result = GetDocs({}, a => a.maps);
     if (orderByEdits)
         result = CE(result).OrderByDescending(a => ToNumber(a && a.edits, 0));
     return result;

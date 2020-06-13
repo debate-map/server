@@ -8,6 +8,9 @@ export class Term {
 	}
 
 	_key?: string;
+	creator: string;
+	createdAt: number;
+
 	name: string;
 	forms: string[];
 	disambiguation: string;
@@ -16,8 +19,6 @@ export class Term {
 	definition: string;
 	note: string;
 
-	creator: string;
-	createdAt: number;
 }
 // export const termNameFormat = "^[^.#$\\[\\]]+$";
 export const Term_nameFormat = '^[a-zA-Z0-9 ,\'"%-]+$';
@@ -28,6 +29,9 @@ export const Term_disambiguationFormat = '^[a-zA-Z0-9 ,\'"%-\\/]+$';
 export const Term_definitionFormat = "^(.|\n)+$";
 AddSchema("Term", {
 	properties: {
+		creator: {type: "string"},
+		createdAt: {type: "number"},
+
 		name: {type: "string", pattern: Term_nameFormat},
 		disambiguation: {type: "string", pattern: Term_disambiguationFormat},
 		type: {$ref: "TermType"},
@@ -35,9 +39,6 @@ AddSchema("Term", {
 
 		definition: {type: "string", pattern: Term_definitionFormat},
 		note: {type: "string"},
-
-		creator: {type: "string"},
-		createdAt: {type: "number"},
 	},
 	required: ["name", "forms", "type", "definition", /* "components", */ "creator", "createdAt"],
 });

@@ -7,11 +7,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { AssertV, AV, Command, GetDocs } from "mobx-firelink";
 import { UserEdit } from "../CommandMacros";
 import { GetLayer, ForDeleteLayer_GetError } from "../Store/firebase/layers";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 let DeleteLayer = class DeleteLayer extends Command {
     Validate() {
         const { layerID } = this.payload;
         // this.oldData = await GetDoc_Async({}, (a) => a.layers.get(layerID));
         this.oldData = AV.NonNull = GetLayer(layerID);
+        AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
         this.userMapInfoSets = AV.NonNull = GetDocs({ resultForLoading: undefined }, a => a.userMapInfo);
         const earlyError = ForDeleteLayer_GetError(this.userInfo.id, this.oldData);
         AssertV(earlyError == null, earlyError);

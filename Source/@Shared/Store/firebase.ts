@@ -17,6 +17,7 @@ import {User_Private} from "./firebase/users_private/@User_Private";
 import {MapNodeTag} from "./firebase/nodeTags/@MapNodeTag";
 import {fire} from "../MobXFirelink";
 import {Rating} from "./firebase/nodeRatings/@Rating";
+import {Share} from "./firebase/shares/@Share";
 
 // manually import these, since otherwise they're never runtime-imported
 require("./firebase/users_private/@User_Private");
@@ -39,6 +40,7 @@ export interface FirebaseDBShape {
 	// nodeViewers: Collection<ViewerSet>; // removed due to privacy concerns
 	nodePhrasings: Collection<MapNodePhrasing>;
 	nodeTags: Collection<MapNodeTag>;
+	shares: Collection<Share>;
 	terms: Collection<Term>;
 	//termNames: Collection<any>;
 	timelines: Collection<Timeline>;

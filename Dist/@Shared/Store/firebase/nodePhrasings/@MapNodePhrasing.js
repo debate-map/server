@@ -7,14 +7,14 @@ export class MapNodePhrasing {
 }
 AddSchema("MapNodePhrasing", {
     properties: {
+        creator: { type: "string" },
+        createdAt: { type: "number" },
         node: { type: "string" },
         type: { $ref: "MapNodePhrasingType" },
         text: { type: "string" },
         description: { type: "string" },
-        creator: { type: "string" },
-        createdAt: { type: "number" },
     },
-    required: ["node", "type", "text", "creator", "createdAt"],
+    required: ["creator", "createdAt", "node", "type", "text"],
 });
 export var MapNodePhrasingType;
 (function (MapNodePhrasingType) {

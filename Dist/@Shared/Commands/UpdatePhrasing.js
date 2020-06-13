@@ -6,9 +6,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { AddSchema, GetSchemaJSON, Schema, AssertValidate } from "mobx-firelink";
 import { UserEdit } from "../CommandMacros";
-import { Command, AssertV } from "mobx-firelink";
+import { Command } from "mobx-firelink";
 import { GetNodePhrasing } from "../Store/firebase/nodePhrasings";
 import { CE } from "js-vextensions";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 const MTName = "MapNodePhrasing";
 AddSchema(`Update${MTName}_payload`, [MTName], () => ({
     properties: {
@@ -24,7 +25,7 @@ let UpdatePhrasing = class UpdatePhrasing extends Command {
         AssertValidate(`Update${MTName}_payload`, this.payload, "Payload invalid");
         const { id, updates } = this.payload;
         this.oldData = GetNodePhrasing(id);
-        AssertV(this.oldData, "oldData is null.");
+        AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "update");
         this.newData = Object.assign(Object.assign({}, this.oldData), updates);
         AssertValidate(MTName, this.newData, `New ${MTName.toLowerCase()}-data invalid`);
     }

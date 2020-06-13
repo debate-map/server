@@ -4,14 +4,14 @@ export declare class Term {
         type: TermType;
     } & Partial<Term>);
     _key?: string;
+    creator: string;
+    createdAt: number;
     name: string;
     forms: string[];
     disambiguation: string;
     type: TermType;
     definition: string;
     note: string;
-    creator: string;
-    createdAt: number;
 }
 export declare const Term_nameFormat = "^[a-zA-Z0-9 ,'\"%-]+$";
 export declare const Term_formsEntryFormat = "^[^A-Z]+$";

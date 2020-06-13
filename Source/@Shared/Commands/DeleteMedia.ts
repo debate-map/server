@@ -1,7 +1,8 @@
 import {UserEdit} from "../CommandMacros";
-import {Command_Old, GetAsync, Command} from "mobx-firelink";
+import {Command_Old, GetAsync, Command, AssertV} from "mobx-firelink";
 import {Media} from "../Store/firebase/media/@Media";
-import {GetMedia} from "../../Link";
+import {GetMedia, IsUserCreatorOrMod} from "../../Link";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
 
 @UserEdit
 export class DeleteMedia extends Command<{id: string}, {}> {
@@ -9,6 +10,7 @@ export class DeleteMedia extends Command<{id: string}, {}> {
 	Validate() {
 		const {id} = this.payload;
 		this.oldData = GetMedia(id);
+		AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
 	}
 
 	GetDBUpdates() {

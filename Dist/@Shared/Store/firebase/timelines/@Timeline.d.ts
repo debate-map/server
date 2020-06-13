@@ -4,10 +4,10 @@ export declare class Timeline {
         creator: string;
     } & Partial<Timeline>);
     _key: string;
-    mapID: string;
-    name: string;
     creator: string;
     createdAt: number;
+    mapID: string;
+    name: string;
     videoID: string;
     videoStartTime: number;
     videoHeightVSWidthPercent: number;

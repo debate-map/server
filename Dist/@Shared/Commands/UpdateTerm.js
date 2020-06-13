@@ -7,8 +7,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { CE } from "js-vextensions";
 import { UserEdit } from "../CommandMacros";
 import { AssertValidate, AddSchema, GetSchemaJSON, Schema } from "mobx-firelink";
-import { Command, AssertV } from "mobx-firelink";
+import { Command } from "mobx-firelink";
 import { GetTerm } from "../Store/firebase/terms";
+import { AssertExistsAndUserIsCreatorOrMod } from "./Helpers/SharedAsserts";
 const MTName = "Term";
 AddSchema(`Update${MTName}_payload`, [MTName], () => ({
     properties: {
@@ -23,7 +24,7 @@ let UpdateTerm = class UpdateTerm extends Command {
     Validate() {
         const { termID, updates } = this.payload;
         this.oldData = GetTerm(termID);
-        AssertV(this.oldData, "oldData is null.");
+        AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "update");
         this.newData = Object.assign(Object.assign({}, this.oldData), updates);
         AssertValidate("Term", this.newData, "New-data invalid");
     }

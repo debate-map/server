@@ -6,6 +6,7 @@ import {GetNode} from "../Store/firebase/nodes";
 import {HasAdminPermissions, IsUserCreatorOrMod} from "../Store/firebase/users/$user";
 import {MapNodeType} from "../Store/firebase/nodes/@MapNodeType";
 import {IsPrivateNode, IsMultiPremiseArgument} from "../Store/firebase/nodes/$node";
+import {AssertExistsAndUserIsCreatorOrMod} from "./Helpers/SharedAsserts";
 
 @MapEdit
 @UserEdit
@@ -24,7 +25,7 @@ export class UpdateNodeChildrenOrder extends Command<{mapID?: string, nodeID: st
 
 		const {mapID, nodeID, childrenOrder} = this.payload;
 		const node = this.oldNodeData = GetNode(nodeID);
-		AssertV(this.oldNodeData, "oldNodeData is null.");
+		AssertExistsAndUserIsCreatorOrMod(this, this.oldNodeData, "update");
 
 		const changeableForNonAdmins = IsPrivateNode(node) || IsMultiPremiseArgument(node);
 		const changeable_final = (IsUserCreatorOrMod(this.userInfo.id, node) && changeableForNonAdmins) || HasAdminPermissions(this.userInfo.id);

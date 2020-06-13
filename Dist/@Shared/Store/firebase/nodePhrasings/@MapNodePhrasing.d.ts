@@ -3,12 +3,12 @@ export declare class MapNodePhrasing {
         node: string;
     } & Partial<MapNodePhrasing>);
     _key?: string;
+    creator: string;
+    createdAt: number;
     node: string;
     type: MapNodePhrasingType;
     text: string;
     description: string;
-    creator: string;
-    createdAt: number;
 }
 export declare enum MapNodePhrasingType {
     Precise = 10,
