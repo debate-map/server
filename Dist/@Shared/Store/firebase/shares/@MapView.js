@@ -99,3 +99,7 @@ AddSchema("MapNodeView", {
 });
 // export type MapNodeView_SelfOnly = Omit<MapNodeView, 'children'>;
 // export const MapNodeView_SelfOnly_props = ['expanded', 'expanded_truth', 'expanded_relevance', 'selected', 'focused', 'viewOffset', 'openPanel', 'openTermID', 'childLimit_up', 'childLimit_down'];
+/*export function NormalizedMapView(mapView: MapView) {
+    const result = Clone(mapView);
+    return result;
+}*/ 

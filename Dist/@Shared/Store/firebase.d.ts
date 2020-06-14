@@ -38,8 +38,8 @@ export interface FirebaseDBShape {
     users_private: Collection<User_Private>;
     userMapInfo: Collection<UserMapInfoSet>;
 }
-export declare const GetAuth: (() => import("mobx-firelink").FireUserInfo) & {
-    Wait: () => import("mobx-firelink").FireUserInfo;
+export declare const GetAuth: (() => import("../../../../../../../../@Modules/mobx-firelink/Main/Dist").FireUserInfo) & {
+    Wait: () => import("../../../../../../../../@Modules/mobx-firelink/Main/Dist").FireUserInfo;
 };
 export declare const GetAuth_Raw: (() => any) & {
     Wait: () => any;

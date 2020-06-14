@@ -13,8 +13,8 @@ export declare const GetMapLayers: ((mapID: string) => Layer[]) & {
 export declare const GetSubnodeIDsInLayer: ((anchorNodeID: string, layerID: string) => string[]) & {
     Wait: (anchorNodeID: string, layerID: string) => string[];
 };
-export declare const GetSubnodesInLayer: ((anchorNodeID: string, layerID: string) => import("./nodes/@MapNode").MapNode[]) & {
-    Wait: (anchorNodeID: string, layerID: string) => import("./nodes/@MapNode").MapNode[];
+export declare const GetSubnodesInLayer: ((anchorNodeID: string, layerID: string) => import("@debate-map/server-link/Source/@Shared/Store/firebase/nodes/@MapNode").MapNode[]) & {
+    Wait: (anchorNodeID: string, layerID: string) => import("@debate-map/server-link/Source/@Shared/Store/firebase/nodes/@MapNode").MapNode[];
 };
 export declare const GetSubnodesInEnabledLayersEnhanced: ((userID: string, mapID: string, anchorNodeID: string) => MapNodeL3[]) & {
     Wait: (userID: string, mapID: string, anchorNodeID: string) => MapNodeL3[];
