@@ -61,11 +61,11 @@ export class LinkNode_HighLevel extends Command {
                 newPolarity = newPolarity || Polarity.Supporting; // if new-polarity isn't supplied, just default to Supporting (this can happen if a claim is copied from search-results)
                 const argumentWrapper = new MapNode({ type: MapNodeType.Argument, ownerMapID: OmitIfFalsy(this.newParent_data.ownerMapID) });
                 const argumentWrapperRevision = new MapNodeRevision(this.map_data.nodeDefaults);
-                this.sub_addArgumentWrapper = (_a = this.sub_addArgumentWrapper, (_a !== null && _a !== void 0 ? _a : new AddChildNode({
+                this.sub_addArgumentWrapper = (_a = this.sub_addArgumentWrapper) !== null && _a !== void 0 ? _a : new AddChildNode({
                     mapID, parentID: newParentID, node: argumentWrapper, revision: argumentWrapperRevision,
                     // link: E({ _: true }, newPolarity && { polarity: newPolarity }) as any,
                     link: E({ _: true, polarity: newPolarity }),
-                }).MarkAsSubcommand(this)));
+                }).MarkAsSubcommand(this);
                 this.sub_addArgumentWrapper.Validate();
                 this.returnData.argumentWrapperID = this.sub_addArgumentWrapper.sub_addNode.nodeID;
                 newParentID_forClaim = this.sub_addArgumentWrapper.sub_addNode.nodeID;
@@ -75,15 +75,15 @@ export class LinkNode_HighLevel extends Command {
                 AssertV(mustCreateWrapperArg === false, `Linking node #${nodeID} under #${newParentID} requires creating a wrapper-arg, but this was disallowed by passed prop.`);
             }
         }
-        this.sub_linkToNewParent = (_b = this.sub_linkToNewParent, (_b !== null && _b !== void 0 ? _b : new LinkNode({ mapID, parentID: newParentID_forClaim, childID: nodeID, childForm: newForm, childPolarity: newPolarity }).MarkAsSubcommand(this)));
+        this.sub_linkToNewParent = (_b = this.sub_linkToNewParent) !== null && _b !== void 0 ? _b : new LinkNode({ mapID, parentID: newParentID_forClaim, childID: nodeID, childForm: newForm, childPolarity: newPolarity }).MarkAsSubcommand(this);
         this.sub_linkToNewParent.Validate();
         if (unlinkFromOldParent) {
-            this.sub_unlinkFromOldParent = (_c = this.sub_unlinkFromOldParent, (_c !== null && _c !== void 0 ? _c : new UnlinkNode({ mapID, parentID: oldParentID, childID: nodeID }).MarkAsSubcommand(this)));
+            this.sub_unlinkFromOldParent = (_c = this.sub_unlinkFromOldParent) !== null && _c !== void 0 ? _c : new UnlinkNode({ mapID, parentID: oldParentID, childID: nodeID }).MarkAsSubcommand(this);
             this.sub_unlinkFromOldParent.allowOrphaning = true; // allow "orphaning" of nodeID, since we're going to reparent it simultaneously -- using the sub_linkToNewParent subcommand
             this.sub_unlinkFromOldParent.Validate();
             // if the old parent was a single-premise argument, and the moved node was its only child, also delete the old parent
             if (deleteEmptyArgumentWrapper && IsSinglePremiseArgument(oldParent_data) && CE(oldParent_data.children).VKeys().length === 1) {
-                this.sub_deleteOldParent = (_d = this.sub_deleteOldParent, (_d !== null && _d !== void 0 ? _d : new DeleteNode({ mapID, nodeID: oldParentID }).MarkAsSubcommand(this)));
+                this.sub_deleteOldParent = (_d = this.sub_deleteOldParent) !== null && _d !== void 0 ? _d : new DeleteNode({ mapID, nodeID: oldParentID }).MarkAsSubcommand(this);
                 this.sub_deleteOldParent.childrenToIgnore = [nodeID]; // let DeleteNode sub that it doesn't need to wait for nodeID to be deleted (since we're moving it out from old-parent simultaneously with old-parent's deletion)
                 this.sub_deleteOldParent.Validate();
             }

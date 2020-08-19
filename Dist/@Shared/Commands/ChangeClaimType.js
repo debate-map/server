@@ -38,7 +38,7 @@ let ChangeClaimType = class ChangeClaimType extends Command {
         this.oldType = GetAttachmentType(oldData);
         this.newData = Object.assign({}, AsNodeL1(oldData));
         // this.newRevisionID = (await GetDataAsync('general', 'data', '.lastNodeRevisionID')) + 1;
-        this.newRevisionID = (_a = this.newRevisionID, (_a !== null && _a !== void 0 ? _a : GenerateUUID()));
+        this.newRevisionID = (_a = this.newRevisionID) !== null && _a !== void 0 ? _a : GenerateUUID();
         this.newRevision = Object.assign({}, oldData.current);
         this.newData.currentRevision = this.newRevisionID;
         if (this.oldType == AttachmentType.None) {

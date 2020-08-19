@@ -1,5 +1,5 @@
 import {ObservableMap} from "mobx";
-import {Collection_Closed, Collection, StoreAccessor} from "mobx-firelink";
+import {Collection_Closed, Collection, StoreAccessor, FireUserInfo} from "mobx-firelink";
 import {GeneralData} from "./firebase/general";
 import {Media} from "./firebase/media/@Media";
 import {Layer} from "./firebase/layers/@Layer";
@@ -87,7 +87,7 @@ export interface FirebaseDBShape {
 export const GetAuth = StoreAccessor(s=>()=>{
 	//return s.firelink.userInfo;
 	return fire.userInfo;
-});
+}) as ()=>FireUserInfo;
 export const GetAuth_Raw = StoreAccessor(s=>()=>{
 	//return s.firelink.userInfo_raw;
 	return fire.userInfo_raw as any;

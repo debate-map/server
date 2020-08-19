@@ -127,7 +127,7 @@ export const GetNodeChildren = StoreAccessor(s=>(nodeID: string, includeMirrorCh
 	let result = CE(node.children || {}).VKeys().map(id=>GetNode(id));
 	if (includeMirrorChildren) {
 		//let tags = GetNodeTags(nodeID);
-		let tagComps = GetNodeTagComps(nodeID, tagsToIgnore);
+		let tagComps = GetNodeTagComps(nodeID, true, tagsToIgnore);
 		// maybe todo: have disable-direct-children merely stop you from adding new direct children, not hide existing ones
 		if (CE(tagComps).Any(a=>a instanceof TagComp_MirrorChildrenFromXToY && a.nodeY == nodeID && a.disableDirectChildren)) {
 			result = [];

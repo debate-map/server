@@ -15,7 +15,7 @@ let UpdateTimelineStepOrder = class UpdateTimelineStepOrder extends Command {
         const { timelineID, stepID, newIndex } = this.payload;
         const timeline = GetTimeline(timelineID);
         AssertExistsAndUserIsCreatorOrMod(this, timeline, "update");
-        this.timeline_oldSteps = (_a = timeline.steps, (_a !== null && _a !== void 0 ? _a : []));
+        this.timeline_oldSteps = (_a = timeline.steps) !== null && _a !== void 0 ? _a : [];
         this.timeline_newSteps = this.timeline_oldSteps.slice();
         CE(this.timeline_newSteps).Move(stepID, newIndex, false); // dnd system applies index-fixing itself, so don't apply here
     }

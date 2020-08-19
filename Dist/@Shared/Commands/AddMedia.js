@@ -13,7 +13,7 @@ let AddMedia = class AddMedia extends Command {
         var _a;
         AssertV(HasModPermissions(this.userInfo.id), "Only moderators can add media currently. (till review/approval system is implemented)");
         const { media } = this.payload;
-        this.mediaID = (_a = this.mediaID, (_a !== null && _a !== void 0 ? _a : GenerateUUID()));
+        this.mediaID = (_a = this.mediaID) !== null && _a !== void 0 ? _a : GenerateUUID();
         media.creator = this.userInfo.id;
         media.createdAt = Date.now();
         this.returnData = this.mediaID;

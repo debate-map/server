@@ -194,13 +194,13 @@ export const GetLinkUnderParent = StoreAccessor(s => (nodeID, parent, includeMir
         return null;
     let link = (_a = parent.children) === null || _a === void 0 ? void 0 : _a[nodeID]; // null-check, since after child-delete, parent-data might have updated before child-data removed
     if (includeMirrorLinks && link == null) {
-        let tags = GetNodeTags(parent._key).filter(tag => { var _a; return tag && !((_a = tagsToIgnore) === null || _a === void 0 ? void 0 : _a.includes(tag._key)); });
+        let tags = GetNodeTags(parent._key).filter(tag => tag && !(tagsToIgnore === null || tagsToIgnore === void 0 ? void 0 : tagsToIgnore.includes(tag._key)));
         for (const tag of tags) {
             //let tagComps = GetNodeTagComps(parent._key);
             const tagComps = GetFinalTagCompsForTag(tag);
             for (const comp of tagComps) {
                 if (comp instanceof TagComp_MirrorChildrenFromXToY && comp.nodeY == parent._key) {
-                    let mirrorChildren = GetNodeChildrenL3(comp.nodeX, undefined, undefined, ((tagsToIgnore !== null && tagsToIgnore !== void 0 ? tagsToIgnore : [])).concat(tag._key));
+                    let mirrorChildren = GetNodeChildrenL3(comp.nodeX, undefined, undefined, (tagsToIgnore !== null && tagsToIgnore !== void 0 ? tagsToIgnore : []).concat(tag._key));
                     mirrorChildren = mirrorChildren.filter(child => {
                         return child && ((child.link.polarity == Polarity.Supporting && comp.mirrorSupporting) || (child.link.polarity == Polarity.Opposing && comp.mirrorOpposing));
                     });

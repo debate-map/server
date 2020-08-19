@@ -1,4 +1,4 @@
-import { Collection_Closed, Collection } from "mobx-firelink";
+import { Collection_Closed, Collection, FireUserInfo } from "mobx-firelink";
 import { GeneralData } from "./firebase/general";
 import { Media } from "./firebase/media/@Media";
 import { Layer } from "./firebase/layers/@Layer";
@@ -38,9 +38,7 @@ export interface FirebaseDBShape {
     users_private: Collection<User_Private>;
     userMapInfo: Collection<UserMapInfoSet>;
 }
-export declare const GetAuth: (() => import("../../../../../../../../@Modules/mobx-firelink/Main/Dist").FireUserInfo) & {
-    Wait: () => import("../../../../../../../../@Modules/mobx-firelink/Main/Dist").FireUserInfo;
-};
+export declare const GetAuth: () => FireUserInfo;
 export declare const GetAuth_Raw: (() => any) & {
     Wait: () => any;
 };

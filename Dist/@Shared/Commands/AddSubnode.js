@@ -12,7 +12,7 @@ let AddSubnode = class AddSubnode extends Command {
     Validate() {
         var _a;
         const { mapID, layerID, anchorNodeID, subnode, subnodeRevision } = this.payload;
-        this.sub_addNode = (_a = this.sub_addNode, (_a !== null && _a !== void 0 ? _a : new AddNode({ mapID, node: subnode, revision: subnodeRevision }).MarkAsSubcommand(this)));
+        this.sub_addNode = (_a = this.sub_addNode) !== null && _a !== void 0 ? _a : new AddNode({ mapID, node: subnode, revision: subnodeRevision }).MarkAsSubcommand(this);
         this.sub_addNode.Validate();
         this.layer_oldData = GetLayer(layerID);
         AssertV(this.layer_oldData, "layer_oldData is null.");

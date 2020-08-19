@@ -1,7 +1,6 @@
 import { GetNode } from "../../Store/firebase/nodes";
 import { CE } from "js-vextensions";
 export function SearchUpFromNodeForNodeMatchingX(startNodeID, xMatchFunc, nodeIDsToIgnore) {
-    var _a;
     // return CachedTransform_WithStore('GetShortestPathFromRootToNode', [rootNodeID, node._key], {}, () => {
     const startNode = GetNode(startNodeID); // call this so cache system knows to recalculate when node-data changes
     if (startNode == null)
@@ -24,7 +23,7 @@ export function SearchUpFromNodeForNodeMatchingX(startNodeID, xMatchFunc, nodeID
             for (const parentID of CE(node.parents || {}).VKeys()) {
                 if (layerHead.path.includes(parentID))
                     continue; // parent-id is already part of path; ignore, so we don't cause infinite-loop
-                if ((_a = nodeIDsToIgnore) === null || _a === void 0 ? void 0 : _a.includes(parentID))
+                if (nodeIDsToIgnore === null || nodeIDsToIgnore === void 0 ? void 0 : nodeIDsToIgnore.includes(parentID))
                     continue;
                 newLayerHeads.push({ id: parentID, path: [parentID].concat(layerHead.path) });
             }

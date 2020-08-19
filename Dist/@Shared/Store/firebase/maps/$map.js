@@ -17,7 +17,7 @@ export const GetMapEditorIDs = StoreAccessor(s => (mapID) => {
     const map = GetMap(mapID);
     if (map == null)
         return null;
-    return _a = map.editorIDs, (_a !== null && _a !== void 0 ? _a : emptyArray);
+    return (_a = map.editorIDs) !== null && _a !== void 0 ? _a : emptyArray;
 });
 export const GetMapEditors = StoreAccessor(s => (mapID) => {
     return GetMapEditorIDs(mapID).map(id => GetUser(id));

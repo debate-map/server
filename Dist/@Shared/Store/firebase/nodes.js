@@ -122,7 +122,7 @@ export const GetNodeChildren = StoreAccessor(s => (nodeID, includeMirrorChildren
     let result = CE(node.children || {}).VKeys().map(id => GetNode(id));
     if (includeMirrorChildren) {
         //let tags = GetNodeTags(nodeID);
-        let tagComps = GetNodeTagComps(nodeID, tagsToIgnore);
+        let tagComps = GetNodeTagComps(nodeID, true, tagsToIgnore);
         // maybe todo: have disable-direct-children merely stop you from adding new direct children, not hide existing ones
         if (CE(tagComps).Any(a => a instanceof TagComp_MirrorChildrenFromXToY && a.nodeY == nodeID && a.disableDirectChildren)) {
             result = [];
@@ -135,7 +135,7 @@ export const GetNodeChildren = StoreAccessor(s => (nodeID, includeMirrorChildren
     return CleanArray(result, emptyForLoading);
 });
 export const GetNodeMirrorChildren = StoreAccessor(s => (nodeID, tagsToIgnore, emptyForLoading = true) => {
-    let tags = GetNodeTags(nodeID).filter(tag => { var _a; return tag && !((_a = tagsToIgnore) === null || _a === void 0 ? void 0 : _a.includes(tag._key)); });
+    let tags = GetNodeTags(nodeID).filter(tag => tag && !(tagsToIgnore === null || tagsToIgnore === void 0 ? void 0 : tagsToIgnore.includes(tag._key)));
     //let tagComps = GetNodeTagComps(nodeID, true, tagsToIgnore);
     let result = [];
     for (const tag of tags) {
@@ -143,11 +143,11 @@ export const GetNodeMirrorChildren = StoreAccessor(s => (nodeID, tagsToIgnore, e
         for (const tagComp of tagComps) {
             if (tagComp instanceof TagComp_MirrorChildrenFromXToY && tagComp.nodeY == nodeID) {
                 //let comp = tag.mirrorChildrenFromXToY;
-                let mirrorChildrenL3 = GetNodeChildrenL3(tagComp.nodeX, undefined, undefined, ((tagsToIgnore !== null && tagsToIgnore !== void 0 ? tagsToIgnore : [])).concat(tag._key));
+                let mirrorChildrenL3 = GetNodeChildrenL3(tagComp.nodeX, undefined, undefined, (tagsToIgnore !== null && tagsToIgnore !== void 0 ? tagsToIgnore : []).concat(tag._key));
                 mirrorChildrenL3 = mirrorChildrenL3.filter(child => {
                     if (child == null)
                         return false;
-                    let childTagComps = GetNodeTagComps(child._key, true, ((tagsToIgnore !== null && tagsToIgnore !== void 0 ? tagsToIgnore : [])).concat(tag._key));
+                    let childTagComps = GetNodeTagComps(child._key, true, (tagsToIgnore !== null && tagsToIgnore !== void 0 ? tagsToIgnore : []).concat(tag._key));
                     if (childTagComps == emptyArray_forLoading)
                         return false; // don't include child until we're sure it's allowed to be mirrored
                     const mirroringBlacklisted = CE(childTagComps).Any(comp => {
@@ -249,9 +249,8 @@ export function GetHolderType(childType, parentType) {
     return null;
 }
 export const ForLink_GetError = StoreAccessor(s => (parentType, childType) => {
-    var _a;
     const parentTypeInfo = MapNodeType_Info.for[parentType].childTypes;
-    if (!((_a = parentTypeInfo) === null || _a === void 0 ? void 0 : _a.includes(childType)))
+    if (!(parentTypeInfo === null || parentTypeInfo === void 0 ? void 0 : parentTypeInfo.includes(childType)))
         return `The child's type (${MapNodeType[childType]}) is not valid for the parent's type (${MapNodeType[parentType]}).`;
 });
 export const ForNewLink_GetError = StoreAccessor(s => (parentID, newChild, permissions, newHolderType) => {
@@ -278,18 +277,18 @@ export const ForNewLink_GetError = StoreAccessor(s => (parentID, newChild, permi
     return ForLink_GetError(parent.type, newChild.type);
 });
 export const ForDelete_GetError = StoreAccessor(s => (userID, node, subcommandInfo) => {
-    var _a, _b, _c, _d, _e;
+    var _a, _b;
     const baseText = `Cannot delete node #${node._key}, since `;
     if (!IsUserCreatorOrMod(userID, node))
         return `${baseText}you are not the owner of this node. (or a mod)`;
-    if (CE(CE(node.parents || {}).VKeys()).Except(...(_b = (_a = subcommandInfo) === null || _a === void 0 ? void 0 : _a.parentsToIgnore, (_b !== null && _b !== void 0 ? _b : []))).length > 1)
+    if (CE(CE(node.parents || {}).VKeys()).Except(...(_a = subcommandInfo === null || subcommandInfo === void 0 ? void 0 : subcommandInfo.parentsToIgnore) !== null && _a !== void 0 ? _a : []).length > 1)
         return `${baseText}it has more than one parent. Try unlinking it instead.`;
-    if (IsRootNode(node) && !((_c = subcommandInfo) === null || _c === void 0 ? void 0 : _c.asPartOfMapDelete))
+    if (IsRootNode(node) && !(subcommandInfo === null || subcommandInfo === void 0 ? void 0 : subcommandInfo.asPartOfMapDelete))
         return `${baseText}it's the root-node of a map.`;
     const nodeChildren = GetNodeChildrenL2(node._key);
     if (CE(nodeChildren).Any(a => a == null))
         return "[still loading children...]";
-    if (CE(nodeChildren.map(a => a._key)).Except(...(_e = (_d = subcommandInfo) === null || _d === void 0 ? void 0 : _d.childrenToIgnore, (_e !== null && _e !== void 0 ? _e : []))).length) {
+    if (CE(nodeChildren.map(a => a._key)).Except(...((_b = subcommandInfo === null || subcommandInfo === void 0 ? void 0 : subcommandInfo.childrenToIgnore) !== null && _b !== void 0 ? _b : [])).length) {
         return `Cannot delete this node (#${node._key}) until all its children have been unlinked or deleted.`;
     }
     return null;

@@ -9,7 +9,7 @@ export const RS_CalculateTruthScore = StoreAccessor(s => (claimID, calculationPa
     const claim = GetNodeL2(claimID);
     Assert(claim && claim.type == MapNodeType.Claim, "RS truth-score can only be calculated for a claim.");
     // if we've hit a cycle back to a claim we've already started calculating for (the root claim), consider the truth-score at this lower-location to be 100%
-    if (calculationPath.length && calculationPath.indexOf(calculationPath.Last()) < calculationPath.length - 1)
+    if (calculationPath.length && calculationPath.indexOf(CE(calculationPath).Last()) < calculationPath.length - 1)
         return 1;
     const childArguments = GetChildArguments(claim._key);
     if (childArguments == null || childArguments.length == 0)

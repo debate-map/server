@@ -13,7 +13,7 @@ let AddPhrasing = class AddPhrasing extends Command {
     Validate() {
         var _a;
         const { phrasing } = this.payload;
-        this.id = (_a = this.id, (_a !== null && _a !== void 0 ? _a : GenerateUUID()));
+        this.id = (_a = this.id) !== null && _a !== void 0 ? _a : GenerateUUID();
         phrasing.creator = this.userInfo.id;
         phrasing.createdAt = Date.now();
         AssertValidate("MapNodePhrasing", phrasing, "MapNodePhrasing invalid");

@@ -25,9 +25,9 @@ let AddChildNode = class AddChildNode extends Command {
         const { mapID, parentID, node, revision, link, asMapRoot } = this.payload;
         AssertV(node.parents == null, "node.parents must be empty. Instead, supply a parentID property in the payload.");
         const node_withParents = E(node, parentID ? { parents: { [parentID]: { _: true } } } : {});
-        this.sub_addNode = (_a = this.sub_addNode, (_a !== null && _a !== void 0 ? _a : new AddNode({ mapID, node: node_withParents, revision }).MarkAsSubcommand(this)));
+        this.sub_addNode = (_a = this.sub_addNode) !== null && _a !== void 0 ? _a : new AddNode({ mapID, node: node_withParents, revision }).MarkAsSubcommand(this);
         this.sub_addNode.Validate();
-        this.payload.link = (link !== null && link !== void 0 ? link : E({ _: true }, node.type == MapNodeType.Argument && { polarity: Polarity.Supporting }));
+        this.payload.link = link !== null && link !== void 0 ? link : E({ _: true }, node.type == MapNodeType.Argument && { polarity: Polarity.Supporting });
         if (node.type == MapNodeType.Argument) {
             AssertV(this.payload.link.polarity != null, "An argument node must have its polarity specified in its parent-link.");
         }

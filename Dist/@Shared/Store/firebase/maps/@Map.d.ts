@@ -4,6 +4,10 @@ export declare enum MapType {
     Public = 20,
     Global = 30
 }
+export declare enum MapVisibility {
+    Visible = 10,
+    Unlisted = 20
+}
 export declare class Map {
     constructor(initialData: {
         name: string;
@@ -16,6 +20,7 @@ export declare class Map {
     noteInline: boolean;
     type: MapType;
     rootNode: string;
+    visibility: MapVisibility;
     defaultExpandDepth: number;
     defaultTimelineID: string;
     requireMapEditorsCanEdit: boolean;

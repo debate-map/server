@@ -31,7 +31,7 @@ export function MapEdit(...args) {
                 if (mapID) {
                     const map = GetMap(mapID);
                     if (map != null) {
-                        this.map_oldEditCount = (_a = map.edits, (_a !== null && _a !== void 0 ? _a : 0));
+                        this.map_oldEditCount = (_a = map.edits) !== null && _a !== void 0 ? _a : 0;
                     }
                 }
                 return result;
@@ -67,7 +67,7 @@ export function UserEdit(targetClass) {
             const result = oldValidate.apply(this);
             const user = GetUser(this.userInfo.id);
             if (user) {
-                this.user_oldEditCount = (_a = user.edits, (_a !== null && _a !== void 0 ? _a : 0));
+                this.user_oldEditCount = (_a = user.edits) !== null && _a !== void 0 ? _a : 0;
             }
             return result;
         };

@@ -1,19 +1,17 @@
-import {emptyArray_forLoading, Assert, IsNaN, CE} from "js-vextensions";
+import {emptyArray_forLoading, Assert, IsNaN, CE, ArrayCE} from "js-vextensions";
 import {StoreAccessor} from "mobx-firelink";
-
-
 import {MapNodeType} from "../nodes/@MapNodeType";
 import {GetNodeL3, GetNodeL2} from "../nodes/$node";
 import {GetNodeChildrenL3, GetParentNodeL3} from "../nodes";
 import {Polarity, MapNodeL3} from "../nodes/@MapNode";
 import {ArgumentType} from "../nodes/@MapNodeRevision";
 
-export const RS_CalculateTruthScore = StoreAccessor(s=>(claimID: string, calculationPath = [] as string[]): number=>{
+export const RS_CalculateTruthScore = StoreAccessor(s=>(claimID: string, calculationPath: string[] = []): number=>{
 	const claim = GetNodeL2(claimID);
 	Assert(claim && claim.type == MapNodeType.Claim, "RS truth-score can only be calculated for a claim.");
 
 	// if we've hit a cycle back to a claim we've already started calculating for (the root claim), consider the truth-score at this lower-location to be 100%
-	if (calculationPath.length && calculationPath.indexOf(calculationPath.Last()) < calculationPath.length - 1) return 1;
+	if (calculationPath.length && calculationPath.indexOf(CE(calculationPath).Last()) < calculationPath.length - 1) return 1;
 
 	const childArguments = GetChildArguments(claim._key);
 	if (childArguments == null || childArguments.length == 0) return 1;

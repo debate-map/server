@@ -13,12 +13,12 @@ export class AddArgumentAndClaim extends Command {
             required: ["mapID", "argumentParentID", "argumentNode", "argumentRevision", "claimNode", "claimRevision"],
         }, this.payload, "Payload invalid");
         const { mapID, argumentParentID, argumentNode, argumentRevision, argumentLink, claimNode, claimRevision, claimLink } = this.payload;
-        this.sub_addArgument = (_a = this.sub_addArgument, (_a !== null && _a !== void 0 ? _a : new AddChildNode({
+        this.sub_addArgument = (_a = this.sub_addArgument) !== null && _a !== void 0 ? _a : new AddChildNode({
             mapID, parentID: argumentParentID, node: argumentNode, revision: argumentRevision, link: argumentLink,
-        }).MarkAsSubcommand(this)));
+        }).MarkAsSubcommand(this);
         this.sub_addArgument.Validate();
         //this.sub_addArgument.parent_oldData = argumentNode; // needed so add-argument sub knows to update the children-order prop of parent
-        this.sub_addClaim = (_b = this.sub_addClaim, (_b !== null && _b !== void 0 ? _b : new AddChildNode({ mapID, parentID: this.sub_addArgument.returnData.nodeID, node: claimNode, revision: claimRevision, link: claimLink }).MarkAsSubcommand(this)));
+        this.sub_addClaim = (_b = this.sub_addClaim) !== null && _b !== void 0 ? _b : new AddChildNode({ mapID, parentID: this.sub_addArgument.returnData.nodeID, node: claimNode, revision: claimRevision, link: claimLink }).MarkAsSubcommand(this);
         /* this.sub_addClaim.lastNodeID_addAmount = 1;
         this.sub_addClaim.lastNodeRevisionID_addAmount = 1; */
         this.sub_addClaim.Validate();

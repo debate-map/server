@@ -8,6 +8,12 @@ export enum MapType {
 	Public = 20,
 	Global = 30,
 }
+export enum MapVisibility {
+	Visible = 10,
+	Unlisted = 20,
+	//Hidden = 30, // will make client refuse to load map, for users that aren't on map viewers/editors list [contents still public, but makes outside viewing harder]
+}
+
 export class Map {
 	constructor(initialData: {name: string, type: MapType, creator: string} & Partial<Map>) {
 		CE(this).VSet(initialData);
@@ -26,6 +32,7 @@ export class Map {
 	noteInline = true;
 	type: MapType;
 	rootNode: string;
+	visibility: MapVisibility;
 	defaultExpandDepth = 2;
 	defaultTimelineID: string;
 	requireMapEditorsCanEdit: boolean;
@@ -51,6 +58,7 @@ AddSchema("Map", ["MapNodeRevision"], ()=>({
 		noteInline: {type: "boolean"},
 		type: {oneOf: GetValues_ForSchema(MapType)},
 		rootNode: {type: "string"},
+		visibility: {oneOf: GetValues_ForSchema(MapVisibility)},
 		defaultExpandDepth: {type: "number"},
 		defaultTimelineID: {type: "string"},
 		requireMapEditorsCanEdit: {type: "boolean"},

@@ -33,7 +33,7 @@ export const GetTermsAttached = StoreAccessor(s => (nodeRevisionID, emptyForLoad
         if (Validate("UUID", attachment.id) != null)
             return null; // if invalid term-id, don't try to retrieve entry
         return GetDoc({}, a => a.terms.get(attachment.id));
-    }), (_b !== null && _b !== void 0 ? _b : emptyArray));
+    })) !== null && _b !== void 0 ? _b : emptyArray;
     if (emptyForLoading && CE(terms).Any(a => a === undefined))
         return emptyArray_forLoading;
     return terms;

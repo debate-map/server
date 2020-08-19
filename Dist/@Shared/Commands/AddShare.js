@@ -34,7 +34,7 @@ let AddShare = class AddShare extends Command {
     Validate() {
         var _a;
         const { share } = this.payload;
-        this.shareID = (_a = this.shareID, (_a !== null && _a !== void 0 ? _a : GenerateSafeID()));
+        this.shareID = (_a = this.shareID) !== null && _a !== void 0 ? _a : GenerateSafeID();
         share.creator = this.userInfo.id;
         share.createdAt = Date.now();
         this.returnData = this.shareID;

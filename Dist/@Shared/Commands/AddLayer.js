@@ -11,7 +11,7 @@ let AddLayer = class AddLayer extends Command {
     Validate() {
         var _a;
         const { layer } = this.payload;
-        this.layerID = (_a = this.layerID, (_a !== null && _a !== void 0 ? _a : GenerateUUID()));
+        this.layerID = (_a = this.layerID) !== null && _a !== void 0 ? _a : GenerateUUID();
         layer.createdAt = Date.now();
         AssertValidate("Layer", layer, "Layer invalid");
     }

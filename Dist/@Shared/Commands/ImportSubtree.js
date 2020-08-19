@@ -33,7 +33,7 @@ export class ImportSubtree extends Command {
         // clear each run, since validate gets called more than once
         this.subs_last = this.subs;
         this.subs = [];
-        this.oldID_newID = (_a = Clone(nodesToLink), (_a !== null && _a !== void 0 ? _a : {}));
+        this.oldID_newID = (_a = Clone(nodesToLink)) !== null && _a !== void 0 ? _a : {};
         this.nodeRatingsToAdd = [];
         this.ProcessSubtree(this.rootSubtreeData, parentNodeID);
     }
@@ -56,12 +56,12 @@ export class ImportSubtree extends Command {
         if (this.oldID_newID[oldID]) {
             const newID = this.oldID_newID[oldID];
             //const linkNodeCommand = new LinkNode_HighLevel({mapID, parentID, node, revision}).MarkAsSubcommand(this);
-            const linkNodeCommand = (_a = this.subs_last[this.subs.length], (_a !== null && _a !== void 0 ? _a : new LinkNode({ mapID, parentID, childID: newID, childForm: subtreeData.link.form, childPolarity: subtreeData.link.polarity }).MarkAsSubcommand(this)));
+            const linkNodeCommand = (_a = this.subs_last[this.subs.length]) !== null && _a !== void 0 ? _a : new LinkNode({ mapID, parentID, childID: newID, childForm: subtreeData.link.form, childPolarity: subtreeData.link.polarity }).MarkAsSubcommand(this);
             linkNodeCommand.Validate();
             this.subs.push(linkNodeCommand);
         }
         else {
-            const addNodeCommand = (_b = this.subs_last[this.subs.length], (_b !== null && _b !== void 0 ? _b : new AddChildNode({ mapID, parentID, node, revision, link: WithoutHelpers(subtreeData.link) }).MarkAsSubcommand(this)));
+            const addNodeCommand = (_b = this.subs_last[this.subs.length]) !== null && _b !== void 0 ? _b : new AddChildNode({ mapID, parentID, node, revision, link: WithoutHelpers(subtreeData.link) }).MarkAsSubcommand(this);
             addNodeCommand.Validate();
             this.oldID_newID[oldID] = addNodeCommand.sub_addNode.nodeID;
             this.subs.push(addNodeCommand);

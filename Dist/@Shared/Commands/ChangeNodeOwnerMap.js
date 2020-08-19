@@ -38,7 +38,7 @@ let ChangeNodeOwnerMap = ChangeNodeOwnerMap_1 = class ChangeNodeOwnerMap extends
             AssertV(newOwnerMapID, "newOwnerMap still loading.");
             AssertV(newOwnerMap.type == MapType.Private, "Node must be in private map to be made private.");
             const permittedPublicParentIDs = argumentNodeID ? [argumentNodeID] : [];
-            const parents = GetNodesByIDs(CE((_a = oldData.parents, (_a !== null && _a !== void 0 ? _a : {}))).VKeys());
+            const parents = GetNodesByIDs(CE((_a = oldData.parents) !== null && _a !== void 0 ? _a : {}).VKeys());
             const parentsArePrivateInSameMap = !IsSpecialEmptyArray(parents) && newOwnerMapID && parents.every(a => a.ownerMapID == newOwnerMapID || permittedPublicParentIDs.includes(a._key));
             AssertV(parentsArePrivateInSameMap, "To make node private, all its parents must be private nodes within the same map. (to ensure we don't leave links in other maps, which would make the owner-map-id invalid)");
         }
@@ -55,10 +55,10 @@ let ChangeNodeOwnerMap = ChangeNodeOwnerMap_1 = class ChangeNodeOwnerMap extends
             AssertV(!IsSpecialEmptyArray(children), "children still loading.");
             AssertV(children.every(a => a.ownerMapID == null || permittedPrivateChildrenIDs.includes(a._key)), "To make node public, it must not have any private children.");
         }
-        this.newData = E(oldData, { ownerMapID: (newOwnerMapID !== null && newOwnerMapID !== void 0 ? newOwnerMapID : DEL) });
+        this.newData = E(oldData, { ownerMapID: newOwnerMapID !== null && newOwnerMapID !== void 0 ? newOwnerMapID : DEL });
         AssertValidate("MapNode", this.newData, "New node-data invalid");
         if (argumentNodeID) {
-            this.sub_changeOwnerMapForArgument = (_c = this.sub_changeOwnerMapForArgument, (_c !== null && _c !== void 0 ? _c : new ChangeNodeOwnerMap_1({ nodeID: argumentNodeID, newOwnerMapID }).MarkAsSubcommand(this)));
+            this.sub_changeOwnerMapForArgument = (_c = this.sub_changeOwnerMapForArgument) !== null && _c !== void 0 ? _c : new ChangeNodeOwnerMap_1({ nodeID: argumentNodeID, newOwnerMapID }).MarkAsSubcommand(this);
             this.sub_changeOwnerMapForArgument.Validate();
         }
     }

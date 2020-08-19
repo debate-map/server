@@ -24,7 +24,7 @@ let AddNodeRevision = class AddNodeRevision extends Command {
         var _a;
         const { revision } = this.payload;
         // this.revisionID = (await GetDataAsync('general', 'data', '.lastNodeRevisionID')) + this.lastNodeRevisionID_addAmount + 1;
-        this.revisionID = (_a = this.revisionID, (_a !== null && _a !== void 0 ? _a : GenerateUUID()));
+        this.revisionID = (_a = this.revisionID) !== null && _a !== void 0 ? _a : GenerateUUID();
         revision.creator = this.userInfo.id;
         revision.createdAt = Date.now();
         const titles_joined = CE(revision.titles || {}).VValues().join(" ");

@@ -1,5 +1,5 @@
-export declare const RS_CalculateTruthScore: ((claimID: string, calculationPath?: any) => number) & {
-    Wait: (claimID: string, calculationPath?: any) => number;
+export declare const RS_CalculateTruthScore: ((claimID: string, calculationPath?: string[]) => number) & {
+    Wait: (claimID: string, calculationPath?: string[]) => number;
 };
 export declare const RS_CalculateTruthScoreComposite: ((argumentID: string, calculationPath?: any) => number) & {
     Wait: (argumentID: string, calculationPath?: any) => number;

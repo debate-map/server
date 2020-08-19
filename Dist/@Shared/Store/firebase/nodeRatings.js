@@ -73,9 +73,8 @@ export var WeightingType;
 const rsCompatibleNodeTypes = [MapNodeType.Argument, MapNodeType.Claim];
 // export const GetFillPercent_AtPath = StoreAccessor('GetFillPercent_AtPath', (node: MapNodeL3, path: string, boxType?: HolderType, ratingType?: RatingType, filter?: RatingFilter, resultIfNoData = null) => {
 export const GetFillPercent_AtPath = StoreAccessor(s => (node, path, boxType, ratingType, weighting = WeightingType.Votes, userID, resultIfNoData = null) => {
-    var _a;
     ratingType = ratingType || { [HolderType.Truth]: "truth", [HolderType.Relevance]: "relevance" }[boxType] || GetMainRatingType(node);
-    if (weighting == WeightingType.Votes || !((_a = rsCompatibleNodeTypes) === null || _a === void 0 ? void 0 : _a.includes(node.type))) {
+    if (weighting == WeightingType.Votes || !(rsCompatibleNodeTypes === null || rsCompatibleNodeTypes === void 0 ? void 0 : rsCompatibleNodeTypes.includes(node.type))) {
         const result = GetRatingAverage_AtPath(node, ratingType, userID, resultIfNoData);
         Assert(result >= 0 && result <= 100, `Fill-percent (${result}) not in range.`);
         return result;

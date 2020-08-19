@@ -14,7 +14,7 @@ let AddNodeTag = class AddNodeTag extends Command {
         var _a;
         AssertV(HasModPermissions(this.userInfo.id), "Only moderators can add tags currently.");
         const { tag } = this.payload;
-        this.id = (_a = this.id, (_a !== null && _a !== void 0 ? _a : GenerateUUID()));
+        this.id = (_a = this.id) !== null && _a !== void 0 ? _a : GenerateUUID();
         tag.creator = this.userInfo.id;
         tag.createdAt = Date.now();
         AssertValidate("MapNodeTag", tag, "MapNodeTag invalid");

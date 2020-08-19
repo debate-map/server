@@ -18,12 +18,12 @@ let AddMap = class AddMap extends Command {
         var _a, _b;
         const { map } = this.payload;
         AssertV(map.featured === undefined, 'Cannot set "featured" to true while first adding a map. (hmmm)');
-        this.mapID = (_a = this.mapID, (_a !== null && _a !== void 0 ? _a : GenerateUUID()));
+        this.mapID = (_a = this.mapID) !== null && _a !== void 0 ? _a : GenerateUUID();
         map.createdAt = Date.now();
         map.editedAt = map.createdAt;
         const newRootNode = new MapNode({ type: MapNodeType.Category, creator: map.creator, rootNodeForMap: this.mapID, ownerMapID: OmitIfFalsy(map.type == MapType.Private && this.mapID) });
         const newRootNodeRevision = new MapNodeRevision(E(map.nodeDefaults, { titles: { base: "Root" }, votingDisabled: true }));
-        this.sub_addNode = (_b = this.sub_addNode, (_b !== null && _b !== void 0 ? _b : new AddChildNode({ mapID: this.mapID, parentID: null, node: newRootNode, revision: newRootNodeRevision, asMapRoot: true }).MarkAsSubcommand(this)));
+        this.sub_addNode = (_b = this.sub_addNode) !== null && _b !== void 0 ? _b : new AddChildNode({ mapID: this.mapID, parentID: null, node: newRootNode, revision: newRootNodeRevision, asMapRoot: true }).MarkAsSubcommand(this);
         this.sub_addNode.Validate();
         map.rootNode = this.sub_addNode.sub_addNode.nodeID;
         AssertValidate("Map", map, "Map invalid");

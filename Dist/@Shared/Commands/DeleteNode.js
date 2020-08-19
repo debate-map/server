@@ -30,7 +30,7 @@ let DeleteNode = DeleteNode_1 = class DeleteNode extends Command {
         this.childrenToIgnore = [];
     }
     Validate() {
-        var _a, _b;
+        var _a;
         AssertValidate("DeleteNode_payload", this.payload, "Payload invalid");
         const { mapID, nodeID, withContainerArgument } = this.payload;
         const { asPartOfMapDelete, parentsToIgnore, childrenToIgnore } = this;
@@ -48,7 +48,7 @@ let DeleteNode = DeleteNode_1 = class DeleteNode extends Command {
         // AssertV(this.oldParentChildrenOrders.All((a) => a != null), 'oldParentChildrenOrders has null entries.');
         // this.viewerIDs_main = await GetAsync(() => GetNodeViewers(nodeID));
         const maps = GetMaps();
-        this.mapIDs = (_a = maps) === null || _a === void 0 ? void 0 : _a.map(a => { var _a; return (_a = a) === null || _a === void 0 ? void 0 : _a._key; });
+        this.mapIDs = maps === null || maps === void 0 ? void 0 : maps.map(a => a === null || a === void 0 ? void 0 : a._key);
         AssertV(this.mapIDs && this.mapIDs.every(a => a != null), "mapIDs is null, or has null entries.");
         // probably todo: integrate this into the command Validate functions themselves
         /* Assert((this.oldData.parents || {}).VKeys().length <= 1, "Cannot delete this child, as it has more than one parent. Try unlinking it instead.");
@@ -57,7 +57,7 @@ let DeleteNode = DeleteNode_1 = class DeleteNode extends Command {
         const earlyError = ForDelete_GetError(this.userInfo.id, this.oldData, this.parentCommand && { asPartOfMapDelete, parentsToIgnore, childrenToIgnore });
         AssertV(earlyError == null, earlyError);
         if (withContainerArgument) {
-            this.sub_deleteContainerArgument = (_b = this.sub_deleteContainerArgument, (_b !== null && _b !== void 0 ? _b : new DeleteNode_1({ mapID, nodeID: withContainerArgument }).MarkAsSubcommand(this)));
+            this.sub_deleteContainerArgument = (_a = this.sub_deleteContainerArgument) !== null && _a !== void 0 ? _a : new DeleteNode_1({ mapID, nodeID: withContainerArgument }).MarkAsSubcommand(this);
             this.sub_deleteContainerArgument.childrenToIgnore = [nodeID];
             // this.sub_deleteContainerArgument.Validate_Early();
             this.sub_deleteContainerArgument.Validate();

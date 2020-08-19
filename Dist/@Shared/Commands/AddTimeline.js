@@ -11,7 +11,7 @@ let AddTimeline = class AddTimeline extends Command {
     Validate() {
         var _a;
         const { mapID, timeline } = this.payload;
-        this.timelineID = (_a = this.timelineID, (_a !== null && _a !== void 0 ? _a : GenerateUUID()));
+        this.timelineID = (_a = this.timelineID) !== null && _a !== void 0 ? _a : GenerateUUID();
         timeline.mapID = mapID;
         timeline.createdAt = Date.now();
         this.returnData = this.timelineID;

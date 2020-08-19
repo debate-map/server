@@ -11,15 +11,15 @@ import { GetTimeline } from "../Store/firebase/timelines";
 import { CE } from "js-vextensions";
 let AddTimelineStep = class AddTimelineStep extends Command {
     Validate() {
-        var _a, _b;
+        var _a;
         const { timelineID, step, stepIndex } = this.payload;
         // const lastStepID = await GetDataAsync('general', 'data', '.lastTimelineStepID') as number;
-        this.stepID = (_a = this.stepID, (_a !== null && _a !== void 0 ? _a : GenerateUUID()));
+        this.stepID = (_a = this.stepID) !== null && _a !== void 0 ? _a : GenerateUUID();
         step.timelineID = timelineID;
         // this.timeline_oldSteps = await GetDocField_Async(a=>a.timelines.get(timelineID), a=>a.steps) || [];
         const timeline = GetTimeline(timelineID);
         AssertV(timeline, "timeline not yet loaded.");
-        this.timeline_oldSteps = ((_b = timeline) === null || _b === void 0 ? void 0 : _b.steps) || [];
+        this.timeline_oldSteps = (timeline === null || timeline === void 0 ? void 0 : timeline.steps) || [];
         this.timeline_newSteps = this.timeline_oldSteps.slice();
         if (stepIndex) {
             CE(this.timeline_newSteps).Insert(stepIndex, this.stepID);

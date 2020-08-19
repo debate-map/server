@@ -7,6 +7,12 @@ export var MapType;
     MapType[MapType["Public"] = 20] = "Public";
     MapType[MapType["Global"] = 30] = "Global";
 })(MapType || (MapType = {}));
+export var MapVisibility;
+(function (MapVisibility) {
+    MapVisibility[MapVisibility["Visible"] = 10] = "Visible";
+    MapVisibility[MapVisibility["Unlisted"] = 20] = "Unlisted";
+    //Hidden = 30, // will make client refuse to load map, for users that aren't on map viewers/editors list [contents still public, but makes outside viewing harder]
+})(MapVisibility || (MapVisibility = {}));
 export class Map {
     constructor(initialData) {
         this.noteInline = true;
@@ -30,6 +36,7 @@ AddSchema("Map", ["MapNodeRevision"], () => ({
         noteInline: { type: "boolean" },
         type: { oneOf: GetValues_ForSchema(MapType) },
         rootNode: { type: "string" },
+        visibility: { oneOf: GetValues_ForSchema(MapVisibility) },
         defaultExpandDepth: { type: "number" },
         defaultTimelineID: { type: "string" },
         requireMapEditorsCanEdit: { type: "boolean" },

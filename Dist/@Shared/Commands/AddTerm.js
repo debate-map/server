@@ -11,7 +11,7 @@ let AddTerm = class AddTerm extends Command {
     Validate() {
         var _a;
         const { term } = this.payload;
-        this.termID = (_a = this.termID, (_a !== null && _a !== void 0 ? _a : GenerateUUID()));
+        this.termID = (_a = this.termID) !== null && _a !== void 0 ? _a : GenerateUUID();
         term.creator = this.userInfo.id;
         term.createdAt = Date.now();
         this.returnData = this.termID;

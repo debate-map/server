@@ -15,7 +15,7 @@ export const GetUserPermissionGroups = StoreAccessor(s => (userID) => {
     var _a, _b;
     if (userID == null)
         return null;
-    return _b = (_a = GetUser(userID)) === null || _a === void 0 ? void 0 : _a.permissionGroups, (_b !== null && _b !== void 0 ? _b : defaultPermissions);
+    return (_b = (_a = GetUser(userID)) === null || _a === void 0 ? void 0 : _a.permissionGroups) !== null && _b !== void 0 ? _b : defaultPermissions;
 });
 export function GetUserAccessLevel(userID) {
     const groups = GetUserPermissionGroups(userID);
@@ -54,7 +54,7 @@ export const IsUserCreatorOrMod = StoreAccessor(s => (userID, entity) => {
     return (entity && entity.creator === userID && HasBasicPermissions(userID)) || HasModPermissions(userID);
 });
 export const CanEditNode = StoreAccessor(s => (userID, nodeID) => {
-    var _a, _b, _c, _d;
+    var _a, _b, _c;
     // mods and admins can always edit
     if (HasModPermissions(userID) || HasAdminPermissions(userID)) {
         return true;
@@ -66,7 +66,7 @@ export const CanEditNode = StoreAccessor(s => (userID, nodeID) => {
         return false;
     const revision = node.current;
     // probably temp
-    const editPerm = (_a = revision.permission_edit, (_a !== null && _a !== void 0 ? _a : { type: PermissionInfoType.Anyone }));
+    const editPerm = (_a = revision.permission_edit) !== null && _a !== void 0 ? _a : { type: PermissionInfoType.Anyone };
     if (editPerm.type == PermissionInfoType.Anyone) {
         return CanGetBasicPermissions(userID);
     }
@@ -77,12 +77,12 @@ export const CanEditNode = StoreAccessor(s => (userID, nodeID) => {
         if (revision.creator == userID)
             return true; // node-creator can always edit
         const map = GetMap(node.ownerMapID);
-        return _d = (_c = (_b = map) === null || _b === void 0 ? void 0 : _b.editorIDs) === null || _c === void 0 ? void 0 : _c.includes(userID), (_d !== null && _d !== void 0 ? _d : false);
+        return (_c = (_b = map === null || map === void 0 ? void 0 : map.editorIDs) === null || _b === void 0 ? void 0 : _b.includes(userID)) !== null && _c !== void 0 ? _c : false;
     }
     Assert(false, "Invalid permission-info-type.");
 });
 export const CanContributeToNode = StoreAccessor(s => (userID, nodeID) => {
-    var _a, _b, _c, _d;
+    var _a, _b, _c;
     // mods and admins can always contribute
     if (HasModPermissions(userID) || HasAdminPermissions(userID)) {
         return true;
@@ -94,7 +94,7 @@ export const CanContributeToNode = StoreAccessor(s => (userID, nodeID) => {
         return false;
     const revision = node.current;
     // probably temp
-    const contributePerm = (_a = revision.permission_contribute, (_a !== null && _a !== void 0 ? _a : { type: PermissionInfoType.Anyone }));
+    const contributePerm = (_a = revision.permission_contribute) !== null && _a !== void 0 ? _a : { type: PermissionInfoType.Anyone };
     if (contributePerm.type == PermissionInfoType.Anyone) {
         return CanGetBasicPermissions(userID);
     }
@@ -105,7 +105,7 @@ export const CanContributeToNode = StoreAccessor(s => (userID, nodeID) => {
         if (revision.creator == userID)
             return true; // node-creator can always contribute
         const map = GetMap(node.ownerMapID);
-        return _d = (_c = (_b = map) === null || _b === void 0 ? void 0 : _b.editorIDs) === null || _c === void 0 ? void 0 : _c.includes(userID), (_d !== null && _d !== void 0 ? _d : false);
+        return (_c = (_b = map === null || map === void 0 ? void 0 : map.editorIDs) === null || _b === void 0 ? void 0 : _b.includes(userID)) !== null && _c !== void 0 ? _c : false;
     }
     Assert(false, "Invalid permission-info-type.");
 });

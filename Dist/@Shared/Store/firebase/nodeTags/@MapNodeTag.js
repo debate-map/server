@@ -72,10 +72,7 @@ AddSchema("TagComp_MirrorChildrenFromXToY", {
     },
 });
 export class TagComp_XIsExtendedByY extends TagComp {
-    constructor(initialData) {
-        super();
-        CE(this).VSet(initialData);
-    }
+    constructor(initialData) { super(); CE(this).VSet(initialData); }
     GetFinalTagComps() {
         let result = super.GetFinalTagComps();
         let mirrorComp_xConsToY = new TagComp_MirrorChildrenFromXToY({
@@ -178,8 +175,8 @@ export const TagComp_names = TagComp_classes.map(c => c.displayName);
 function CalculateTagCompClassStatics() {
     var _a, _b;
     for (const compClass of TagComp_classes) {
-        compClass.key = (_a = compClass.key, (_a !== null && _a !== void 0 ? _a : CalculateTagCompKey(compClass.name)));
-        compClass.displayName = (_b = compClass.displayName, (_b !== null && _b !== void 0 ? _b : CalculateTagCompDisplayName(compClass.name)));
+        compClass.key = (_a = compClass.key) !== null && _a !== void 0 ? _a : CalculateTagCompKey(compClass.name);
+        compClass.displayName = (_b = compClass.displayName) !== null && _b !== void 0 ? _b : CalculateTagCompDisplayName(compClass.name);
     }
 }
 export function CalculateTagCompKey(className) {

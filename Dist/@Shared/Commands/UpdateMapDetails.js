@@ -16,7 +16,7 @@ AddSchema(`Update${MTName}Details_payload`, [MTName], () => ({
     properties: {
         id: { type: "string" },
         updates: Schema({
-            properties: CE(GetSchemaJSON(MTName).properties).Including("name", "note", "noteLine", "defaultExpandDepth", "defaultTimelineID", "requireMapEditorsCanEdit", "nodeDefaults", "editorIDs"),
+            properties: CE(GetSchemaJSON(MTName).properties).Including("name", "note", "noteInline", "visibility", "defaultExpandDepth", "defaultTimelineID", "requireMapEditorsCanEdit", "nodeDefaults", "editorIDs"),
         }),
     },
     required: ["id", "updates"],

@@ -17,7 +17,7 @@ let DeleteMap = class DeleteMap extends Command {
         this.oldData = GetMap(mapID);
         AssertExistsAndUserIsCreatorOrMod(this, this.oldData, "delete");
         this.userMapInfoSets = GetDocs({}, a => a.userMapInfo) || [];
-        this.sub_deleteNode = (_a = this.sub_deleteNode, (_a !== null && _a !== void 0 ? _a : new DeleteNode({ mapID, nodeID: this.oldData.rootNode }).MarkAsSubcommand(this)));
+        this.sub_deleteNode = (_a = this.sub_deleteNode) !== null && _a !== void 0 ? _a : new DeleteNode({ mapID, nodeID: this.oldData.rootNode }).MarkAsSubcommand(this);
         this.sub_deleteNode.asPartOfMapDelete = true;
         this.sub_deleteNode.Validate();
         // todo: use parents recursion on l2 nodes to make sure they're all connected to at least one other map root

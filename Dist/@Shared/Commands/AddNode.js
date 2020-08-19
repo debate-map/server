@@ -8,11 +8,11 @@ export class AddNode extends Command {
         const { mapID, node, revision } = this.payload;
         AssertV(node.currentRevision == null || node.currentRevision == this.sub_addRevision.revisionID, "Cannot specify node's revision-id. It will be generated automatically.");
         AssertV(revision.node == null || revision.node == this.nodeID, "Cannot specify revision's node-id. It will be generated automatically.");
-        this.nodeID = (_a = this.nodeID, (_a !== null && _a !== void 0 ? _a : GenerateUUID()));
+        this.nodeID = (_a = this.nodeID) !== null && _a !== void 0 ? _a : GenerateUUID();
         node.creator = this.userInfo.id;
         node.createdAt = Date.now();
         revision.node = this.nodeID;
-        this.sub_addRevision = (_b = this.sub_addRevision, (_b !== null && _b !== void 0 ? _b : new AddNodeRevision({ mapID, revision }).MarkAsSubcommand(this)));
+        this.sub_addRevision = (_b = this.sub_addRevision) !== null && _b !== void 0 ? _b : new AddNodeRevision({ mapID, revision }).MarkAsSubcommand(this);
         this.sub_addRevision.Validate();
         node.currentRevision = this.sub_addRevision.revisionID;
         // if sub of AddChildNode for new argument, ignore the "childrenOrder" prop requirement (gets added by later link-impact-node subcommand)

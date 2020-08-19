@@ -1,4 +1,4 @@
-import {observable} from "mobx-firelink/node_modules/mobx";
+import {observable} from "mobx";
 import {Vector2, Clone} from "js-vextensions";
 import {AddSchema} from "mobx-firelink";
 

@@ -17,10 +17,10 @@ export class CloneNode extends Command {
         const nodePolarity = AV.NonNull = GetLinkAtPath(baseNodePath).polarity;
         const newChildNode = Clone(baseNode).VSet({ children: DEL, childrenOrder: DEL, currentRevision: DEL, current: DEL, parents: DEL });
         const newChildRevision = Clone(baseNode.current).VSet({ node: DEL });
-        this.sub_addNode = (_a = this.sub_addNode, (_a !== null && _a !== void 0 ? _a : new AddChildNode({
+        this.sub_addNode = (_a = this.sub_addNode) !== null && _a !== void 0 ? _a : new AddChildNode({
             mapID, parentID: newParentID, node: newChildNode, revision: newChildRevision,
             link: E({ _: true }, nodeForm && { form: nodeForm }, nodePolarity && { polarity: nodePolarity }),
-        }).MarkAsSubcommand(this)));
+        }).MarkAsSubcommand(this);
         this.sub_addNode.Validate();
         // prepare link-children
         // ==========
