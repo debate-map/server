@@ -26,10 +26,10 @@
   "devDependencies": {
     "firebase": "^7.6.1",
     "mobx": "^5.15.1",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.3"
   },
   "dependencies": {
-    "js-vextensions": "^1.0.39",
+    "js-vextensions": "^1.0.44",
     "mobx-firelink": "^1.0.56",
     "moment": "^2.24.0"
   }

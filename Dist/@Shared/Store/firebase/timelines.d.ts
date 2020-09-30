@@ -4,6 +4,6 @@ export declare const GetTimeline: ((id: string) => Timeline) & {
     Wait: (id: string) => Timeline;
 };
 export declare function GetMapTimelineIDs(map: Map): string[];
-export declare const GetMapTimelines: ((map: Map) => any[]) & {
-    Wait: (map: Map) => any[];
+export declare const GetMapTimelines: ((map: Map) => Timeline[]) & {
+    Wait: (map: Map) => Timeline[];
 };

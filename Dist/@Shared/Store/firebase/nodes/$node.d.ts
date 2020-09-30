@@ -37,8 +37,8 @@ export declare const GetNodeL3: ((path: string, tagsToIgnore?: string[]) => MapN
 export declare const GetNodeForm: ((node: MapNodeL2 | MapNodeL3, pathOrParent?: string | MapNodeL2) => ClaimForm) & {
     Wait: (node: MapNodeL2 | MapNodeL3, pathOrParent?: string | MapNodeL2) => ClaimForm;
 };
-export declare const GetLinkUnderParent: ((nodeID: string, parent: MapNode, includeMirrorLinks?: any, tagsToIgnore?: string[]) => ChildEntry) & {
-    Wait: (nodeID: string, parent: MapNode, includeMirrorLinks?: any, tagsToIgnore?: string[]) => ChildEntry;
+export declare const GetLinkUnderParent: ((nodeID: string, parent: MapNode, includeMirrorLinks?: boolean, tagsToIgnore?: string[]) => ChildEntry) & {
+    Wait: (nodeID: string, parent: MapNode, includeMirrorLinks?: boolean, tagsToIgnore?: string[]) => ChildEntry;
 };
 export declare function GetLinkAtPath(path: string): ChildEntry;
 export declare class NodeContributionInfo {

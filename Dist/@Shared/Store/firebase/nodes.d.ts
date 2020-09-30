@@ -8,8 +8,8 @@ export declare enum HolderType {
     Relevance = 20
 }
 export declare function PathSegmentToNodeID(segment: string): UUID;
-export declare const GetNodesByIDs: ((ids: string[], emptyForLoading?: any) => MapNode[]) & {
-    Wait: (ids: string[], emptyForLoading?: any) => MapNode[];
+export declare const GetNodesByIDs: ((ids: string[], emptyForLoading?: boolean) => MapNode[]) & {
+    Wait: (ids: string[], emptyForLoading?: boolean) => MapNode[];
 };
 export declare const GetNodesByTitle: ((title: string, titleKey: TitleKey) => MapNode[]) & {
     Wait: (title: string, titleKey: TitleKey) => MapNode[];
@@ -36,26 +36,26 @@ export declare const GetNodeID: ((path: string) => string) & {
     Wait: (path: string) => string;
 };
 export declare function CleanArray(array: any[], emptyArrayIfItemLoading?: boolean): any[];
-export declare const GetNodeParents: ((nodeID: string, emptyForLoading?: any) => any[]) & {
-    Wait: (nodeID: string, emptyForLoading?: any) => any[];
+export declare const GetNodeParents: ((nodeID: string, emptyForLoading?: boolean) => any[]) & {
+    Wait: (nodeID: string, emptyForLoading?: boolean) => any[];
 };
-export declare const GetNodeParentsL2: ((nodeID: string, emptyForLoading?: any) => any[]) & {
-    Wait: (nodeID: string, emptyForLoading?: any) => any[];
+export declare const GetNodeParentsL2: ((nodeID: string, emptyForLoading?: boolean) => any[]) & {
+    Wait: (nodeID: string, emptyForLoading?: boolean) => any[];
 };
-export declare const GetNodeParentsL3: ((nodeID: string, path: string, emptyForLoading?: any) => any[]) & {
-    Wait: (nodeID: string, path: string, emptyForLoading?: any) => any[];
+export declare const GetNodeParentsL3: ((nodeID: string, path: string, emptyForLoading?: boolean) => any[]) & {
+    Wait: (nodeID: string, path: string, emptyForLoading?: boolean) => any[];
 };
-export declare const GetNodeChildren: ((nodeID: string, includeMirrorChildren?: any, tagsToIgnore?: string[], emptyForLoading?: any) => MapNode[]) & {
-    Wait: (nodeID: string, includeMirrorChildren?: any, tagsToIgnore?: string[], emptyForLoading?: any) => MapNode[];
+export declare const GetNodeChildren: ((nodeID: string, includeMirrorChildren?: boolean, tagsToIgnore?: string[], emptyForLoading?: boolean) => MapNode[]) & {
+    Wait: (nodeID: string, includeMirrorChildren?: boolean, tagsToIgnore?: string[], emptyForLoading?: boolean) => MapNode[];
 };
-export declare const GetNodeMirrorChildren: ((nodeID: string, tagsToIgnore?: string[], emptyForLoading?: any) => any[]) & {
-    Wait: (nodeID: string, tagsToIgnore?: string[], emptyForLoading?: any) => any[];
+export declare const GetNodeMirrorChildren: ((nodeID: string, tagsToIgnore?: string[], emptyForLoading?: boolean) => any[]) & {
+    Wait: (nodeID: string, tagsToIgnore?: string[], emptyForLoading?: boolean) => any[];
 };
-export declare const GetNodeChildrenL2: ((nodeID: string, includeMirrorChildren?: any, tagsToIgnore?: string[], emptyForLoading?: any) => any[]) & {
-    Wait: (nodeID: string, includeMirrorChildren?: any, tagsToIgnore?: string[], emptyForLoading?: any) => any[];
+export declare const GetNodeChildrenL2: ((nodeID: string, includeMirrorChildren?: boolean, tagsToIgnore?: string[], emptyForLoading?: boolean) => any[]) & {
+    Wait: (nodeID: string, includeMirrorChildren?: boolean, tagsToIgnore?: string[], emptyForLoading?: boolean) => any[];
 };
-export declare const GetNodeChildrenL3: ((nodeID: string, path?: string, includeMirrorChildren?: any, tagsToIgnore?: string[], emptyForLoading?: any) => MapNodeL3[]) & {
-    Wait: (nodeID: string, path?: string, includeMirrorChildren?: any, tagsToIgnore?: string[], emptyForLoading?: any) => MapNodeL3[];
+export declare const GetNodeChildrenL3: ((nodeID: string, path?: string, includeMirrorChildren?: boolean, tagsToIgnore?: string[], emptyForLoading?: boolean) => MapNodeL3[]) & {
+    Wait: (nodeID: string, path?: string, includeMirrorChildren?: boolean, tagsToIgnore?: string[], emptyForLoading?: boolean) => MapNodeL3[];
 };
 export declare const GetPremiseOfSinglePremiseArgument: ((argumentNodeID: string) => MapNode) & {
     Wait: (argumentNodeID: string) => MapNode;
@@ -64,8 +64,8 @@ export declare function GetHolderType(childType: MapNodeType, parentType: MapNod
 export declare const ForLink_GetError: ((parentType: MapNodeType, childType: MapNodeType) => string) & {
     Wait: (parentType: MapNodeType, childType: MapNodeType) => string;
 };
-export declare const ForNewLink_GetError: ((parentID: string, newChild: Pick<MapNode, "type" | "_key">, permissions: PermissionGroupSet, newHolderType?: HolderType) => string | false) & {
-    Wait: (parentID: string, newChild: Pick<MapNode, "type" | "_key">, permissions: PermissionGroupSet, newHolderType?: HolderType) => string | false;
+export declare const ForNewLink_GetError: ((parentID: string, newChild: Pick<MapNode, "_key" | "type">, permissions: PermissionGroupSet, newHolderType?: HolderType) => string | false) & {
+    Wait: (parentID: string, newChild: Pick<MapNode, "_key" | "type">, permissions: PermissionGroupSet, newHolderType?: HolderType) => string | false;
 };
 export declare const ForDelete_GetError: ((userID: string, node: MapNodeL2, subcommandInfo?: {
     asPartOfMapDelete?: boolean;

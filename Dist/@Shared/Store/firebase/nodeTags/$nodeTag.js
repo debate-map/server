@@ -1,3 +1,4 @@
+export {};
 /*export const tagNodeSlotNames = ["x", "y"];
 export function GetNodeTagNodeSlots(tag: MapNodeTag) {
     const result = tag.type.toLowerCase().split(" ").filter(word=>tagNodeSlotNames.Contains(word));

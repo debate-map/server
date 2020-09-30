@@ -21,11 +21,11 @@ export declare enum WeightingType {
     Votes = 10,
     ReasonScore = 20
 }
-export declare const GetFillPercent_AtPath: ((node: MapNodeL3, path: string, boxType?: HolderType, ratingType?: RatingType, weighting?: any, userID?: string, resultIfNoData?: any) => number) & {
-    Wait: (node: MapNodeL3, path: string, boxType?: HolderType, ratingType?: RatingType, weighting?: any, userID?: string, resultIfNoData?: any) => number;
+export declare const GetFillPercent_AtPath: ((node: MapNodeL3, path: string, boxType?: HolderType, ratingType?: RatingType, weighting?: WeightingType, userID?: string, resultIfNoData?: any) => number) & {
+    Wait: (node: MapNodeL3, path: string, boxType?: HolderType, ratingType?: RatingType, weighting?: WeightingType, userID?: string, resultIfNoData?: any) => number;
 };
-export declare const GetMarkerPercent_AtPath: ((node: MapNodeL3, path: string, boxType?: HolderType, ratingType?: RatingType, weighting?: any) => number) & {
-    Wait: (node: MapNodeL3, path: string, boxType?: HolderType, ratingType?: RatingType, weighting?: any) => number;
+export declare const GetMarkerPercent_AtPath: ((node: MapNodeL3, path: string, boxType?: HolderType, ratingType?: RatingType, weighting?: WeightingType) => number) & {
+    Wait: (node: MapNodeL3, path: string, boxType?: HolderType, ratingType?: RatingType, weighting?: WeightingType) => number;
 };
 /** Returns an int from 0 to 100. */
 /** Returns an int from 0 to 100. */

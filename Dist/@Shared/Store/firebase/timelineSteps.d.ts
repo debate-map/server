@@ -3,13 +3,13 @@ import { TimelineStep } from "./timelineSteps/@TimelineStep";
 export declare const GetTimelineStep: ((id: string) => TimelineStep) & {
     Wait: (id: string) => TimelineStep;
 };
-export declare const GetTimelineSteps: ((timeline: Timeline, emptyForLoading?: any) => TimelineStep[]) & {
-    Wait: (timeline: Timeline, emptyForLoading?: any) => TimelineStep[];
+export declare const GetTimelineSteps: ((timeline: Timeline, emptyForLoading?: boolean) => TimelineStep[]) & {
+    Wait: (timeline: Timeline, emptyForLoading?: boolean) => TimelineStep[];
 };
-export declare const GetNodeRevealTimesInSteps: ((steps: TimelineStep[], baseOnLastReveal?: any) => any[] | {
+export declare const GetNodeRevealTimesInSteps: ((steps: TimelineStep[], baseOnLastReveal?: boolean) => never[] | {
     [key: string]: number;
 }) & {
-    Wait: (steps: TimelineStep[], baseOnLastReveal?: any) => any[] | {
+    Wait: (steps: TimelineStep[], baseOnLastReveal?: boolean) => never[] | {
         [key: string]: number;
     };
 };
