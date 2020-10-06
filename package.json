@@ -24,7 +24,7 @@
     "mobx": "^5.0.0"
   },
   "devDependencies": {
-    "firebase": "^7.6.1",
+    "firebase": "^7.21.1",
     "mobx": "^5.15.1",
     "typescript": "^4.0.3"
   },
