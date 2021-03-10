@@ -33,7 +33,7 @@ export class AddNodeRevision extends Command<{mapID: string, revision: MapNodeRe
 		revision.createdAt = Date.now();
 
 		const titles_joined = CE(revision.titles || {}).VValues().join(" ");
-		revision.titles.allTerms = CE(GetSearchTerms(titles_joined)).ToMap(a=>a, ()=>true);
+		revision.titles.allTerms = CE(GetSearchTerms(titles_joined)).ToMapObj(a=>a, ()=>true);
 
 		if (this.parentCommand == null) {
 			this.node_oldData = GetNode(revision.node);

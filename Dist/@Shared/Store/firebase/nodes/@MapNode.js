@@ -39,8 +39,21 @@ AddSchema("MapNode", {
         // talkRoot: {type: "number"},
         multiPremiseArgument: { type: "boolean" },
         layerPlusAnchorParents: { $ref: "LayerPlusAnchorParentSet" },
+        // layerOwner: { $ref: 'UUID' },
     },
     required: ["type", "creator", "createdAt", "currentRevision"],
+    /* allOf: [
+        // if an argument, require "childrenOrder" prop
+        {
+            if: {
+                properties: {
+                    type: {const: MapNodeType.Argument},
+                }
+            },
+            then: {required: ["childrenOrder"]},
+            else: {prohibited: ["childrenOrder"]}
+        }
+    ], */
 });
 AddSchema("MapNode_Partial", (() => {
     const schema = GetSchemaJSON("MapNode");

@@ -69,6 +69,7 @@ AddSchema("MapNodeRevision", {
                 // base: {pattern: MapNodeRevision_titlePattern}, negation: {pattern: MapNodeRevision_titlePattern}, yesNoQuestion: {pattern: MapNodeRevision_titlePattern},
                 base: { type: "string" }, negation: { type: "string" }, yesNoQuestion: { type: "string" },
             },
+            // required: ["base", "negation", "yesNoQuestion"],
         },
         note: { type: ["null", "string"] },
         termAttachments: { items: { $ref: "TermAttachment" } },

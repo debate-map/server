@@ -18,6 +18,7 @@ let DeleteTerm = class DeleteTerm extends Command {
         const { termID } = this.payload;
         const updates = {
             [`terms/${termID}`]: null,
+            //[`termNames/${this.oldData.name.toLowerCase()}/.${termID}`]: WrapDBValue(null, {merge: true}),
         };
         return updates;
     }

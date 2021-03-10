@@ -28,7 +28,7 @@ let AddNodeRevision = class AddNodeRevision extends Command {
         revision.creator = this.userInfo.id;
         revision.createdAt = Date.now();
         const titles_joined = CE(revision.titles || {}).VValues().join(" ");
-        revision.titles.allTerms = CE(GetSearchTerms(titles_joined)).ToMap(a => a, () => true);
+        revision.titles.allTerms = CE(GetSearchTerms(titles_joined)).ToMapObj(a => a, () => true);
         if (this.parentCommand == null) {
             this.node_oldData = GetNode(revision.node);
             AssertV(this.node_oldData, "node_oldData is null.");

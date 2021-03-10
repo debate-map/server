@@ -44,8 +44,51 @@ AddSchema("Source", {
         time_max: { type: "number" },
         // link: { format: 'uri' },
         // link: { pattern: Source_linkURLPattern },
-        link: { type: "string" },
+        link: { type: "string" }, // allow overriding url pattern; it just highlights possible mistakes
     },
+    // required: ["name", "author", "link"],
+    /* anyOf: [
+        {required: ["name"], prohibited: ["link"]},
+        {required: ["author"], prohibited: ["link"]},
+        {required: ["link"], prohibited: ["name", "author"]}
+    ], */
+    /*allOf: [
+        {
+            if: {properties: {type: {enum: [SourceType.Speech]}}},
+            then: {
+                anyOf: [{required: ["name"]}, {required: ["author"]}],
+                prohibited: ["link"],
+            },
+        },
+        {
+            if: {properties: {type: {enum: [SourceType.Text]}}},
+            then: {
+                anyOf: [{required: ["name"]}, {required: ["author"]}],
+                prohibited: ["link"],
+            },
+        },
+        {
+            if: {properties: {type: {enum: [SourceType.Image]}}},
+            then: {
+                anyOf: [{required: ["location"]}, {required: ["author"]}],
+                prohibited: ["link"],
+            },
+        },
+        {
+            if: {properties: {type: {enum: [SourceType.Video]}}},
+            then: {
+                anyOf: [{required: ["location"]}, {required: ["author"]}],
+                prohibited: ["link"],
+            },
+        },
+        {
+            if: {properties: {type: {const: SourceType.Webpage}}},
+            then: {
+                required: ["link"],
+                prohibited: ["name"],
+            },
+        },
+    ],*/
 });
 export function GetSourceNamePlaceholderText(sourceType) {
     if (sourceType == SourceType.Speech)

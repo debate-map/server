@@ -21,7 +21,8 @@ let LinkNode = class LinkNode extends Command {
         AssertV(parentID != childID, "Parent-id and child-id cannot be the same!");
         this.child_oldData = GetNode(childID);
         AssertV(this.child_oldData || this.parentCommand != null, "Child does not exist!");
-        this.parent_oldData = (_b = (this.parentCommand instanceof LinkNode_HighLevel && this == this.parentCommand.sub_linkToNewParent ? (_a = this.parentCommand.sub_addArgumentWrapper) === null || _a === void 0 ? void 0 : _a.payload.node : null)) !== null && _b !== void 0 ? _b : GetNode(parentID);
+        this.parent_oldData =
+            (_b = (this.parentCommand instanceof LinkNode_HighLevel && this == this.parentCommand.sub_linkToNewParent ? (_a = this.parentCommand.sub_addArgumentWrapper) === null || _a === void 0 ? void 0 : _a.payload.node : null)) !== null && _b !== void 0 ? _b : GetNode(parentID);
         AssertV(this.parent_oldData || this.parentCommand != null, "Parent does not exist!");
         if (this.parent_oldData) {
             AssertV(!((_c = this.parent_oldData.childrenOrder) === null || _c === void 0 ? void 0 : _c.includes(childID)), `Node #${childID} is already a child of node #${parentID}.`);

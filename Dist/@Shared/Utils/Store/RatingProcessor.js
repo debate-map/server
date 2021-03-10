@@ -66,7 +66,7 @@ export const GetArgumentImpactPseudoRatings = StoreAccessor(s => (argument, prem
         return emptyArray_forLoading; // must still be loading
     if (premises.length == 0)
         return emptyArray;
-    const childForms_map = CE(premises).ToMap((child, index) => `childForm_${index}`, child => {
+    const childForms_map = CE(premises).ToMapObj((child, index) => `childForm_${index}`, child => {
         return GetNodeForm(child, argument);
     });
     // let dataUsedInCalculation = {...childRatingSets, ...childForms_map};
