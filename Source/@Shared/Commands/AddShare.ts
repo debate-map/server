@@ -18,15 +18,20 @@ I feel this is a suitable balance between:
 */
 
 /** Generates a base-50, 10-char id. Designed as a balance between compactness, clash-avoidance, and profanity-avoidance. */
-export function GenerateSafeID(targetLength = 10) {
+export function GenerateSafeID(targetLength = 10, avoidHardCodedRemnants = true) {
 	let result = "";
 	let charsToFill: number;
 	while ((charsToFill = targetLength - result.length) > 0) {
-		let uuid_noVowelsOrVowelDigits = GenerateUUID().replace(/[AEIOUaeiou4310]/g, "");
-		result += uuid_noVowelsOrVowelDigits.substr(0, charsToFill);
+		let uuid = GenerateUUID(false); // we do profanity-avoidance ourselves;
+		uuid = uuid.replace(/[AEIOUaeiou4310]/g, "");
+		if (avoidHardCodedRemnants) {
+			uuid = uuid
+				.replace(/pp/g, "p")
+				.replace(/kkk/g, "kk")
+				.replace(/xxx/g, "xx");
+		}
+		result += uuid.substr(0, charsToFill);
 	}
-	// todo: have start-letters check from GenerateUUID func run *after* (or within) the loop above, not before (else checks might not be met)
-
 	return result;
 }
 
