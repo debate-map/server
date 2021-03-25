@@ -13,7 +13,7 @@ The below implements: base50, length of 10 (generated randomly, like uuids)
 
 I feel this is a suitable balance between:
 1) Compactness: 10-chars is about the same length as the 11-chars youtube video ids
-2) Room to avoid clashes: 50^10 [ids possible] / 10^13 [316 years, in ms] = 9765 (ie. if generating sequentially, at ~10k ids per millisecond [~10 million per second], you could keep going for 316 years)
+2) Room to avoid clashes: 50^10 [ids possible] / 1000 (imagined generations per second) = 9.76e+13 seconds = 3,096,266 years (ie. if generating sequentially, at 1k ids per second, you could keep going for ~3 million years)
 3) Avoiding of profanity: You avoid all exact-match profanity, as well as the standard digit->vowel equivalents
 */
 
