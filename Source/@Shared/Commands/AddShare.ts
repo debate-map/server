@@ -25,6 +25,8 @@ export function GenerateSafeID() {
 		let uuid_noVowelsOrVowelDigits = GenerateUUID().replace(/[AEIOUaeiou4310]/g, "");
 		result += uuid_noVowelsOrVowelDigits.substr(0, charsToFill);
 	}
+	// todo: have start-letters check from GenerateUUID func run *after* (or within) the loop above, not before (else checks might not be met)
+
 	return result;
 }
 
