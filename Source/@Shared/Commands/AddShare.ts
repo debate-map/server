@@ -17,19 +17,24 @@ I feel this is a suitable balance between:
 3) Avoiding of profanity: You avoid all exact-match profanity, as well as the standard digit->vowel equivalents
 */
 
+const avoidStrings = ["pp", "kkk", "xxx"];
+const avoidStrings_regexes_atStart = avoidStrings.map(str=>new RegExp("^" + str));
+const avoidStrings_regexes_anywhere = avoidStrings.map(str=>new RegExp(str, "g"));
+
 /** Generates a base-50, 10-char id. Designed as a balance between compactness, clash-avoidance, and profanity-avoidance. */
-export function GenerateSafeID(targetLength = 10, avoidHardCodedRemnants = true) {
+export function GenerateSafeID(targetLength = 10, hardCodedStringAvoidance = "anywhere" as "none" | "atStart" | "anywhere") {
 	let result = "";
 	let charsToFill: number;
 	while ((charsToFill = targetLength - result.length) > 0) {
 		let uuid = GenerateUUID(false); // we do profanity-avoidance ourselves
 		uuid = uuid.replace(/[AEIOUaeiou4310]/g, "");
-		if (avoidHardCodedRemnants) {
+		if (hardCodedStringAvoidance != "none") {
 			while (true) {
-				const uuid_new = uuid
-					.replace(/pp/g, "p")
-					.replace(/kkk/g, "kk")
-					.replace(/xxx/g, "xx");
+				let uuid_new = uuid;
+				const avoidRegexes = hardCodedStringAvoidance == "atStart" ? avoidStrings_regexes_atStart : avoidStrings_regexes_anywhere;
+				for (const avoidRegex of avoidRegexes) {
+					uuid_new = uuid_new.replace(avoidRegex, "");
+				}
 				// if no matches are left to correct, break loop
 				if (uuid_new == uuid) break;
 				uuid = uuid_new;
