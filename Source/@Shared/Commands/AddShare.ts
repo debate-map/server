@@ -18,10 +18,10 @@ I feel this is a suitable balance between:
 */
 
 /** Generates a base-50, 10-char id. Designed as a balance between compactness, clash-avoidance, and profanity-avoidance. */
-export function GenerateSafeID() {
+export function GenerateSafeID(targetLength = 10) {
 	let result = "";
 	let charsToFill: number;
-	while ((charsToFill = 10 - result.length) > 0) {
+	while ((charsToFill = targetLength - result.length) > 0) {
 		let uuid_noVowelsOrVowelDigits = GenerateUUID().replace(/[AEIOUaeiou4310]/g, "");
 		result += uuid_noVowelsOrVowelDigits.substr(0, charsToFill);
 	}
