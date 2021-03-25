@@ -22,13 +22,18 @@ export function GenerateSafeID(targetLength = 10, avoidHardCodedRemnants = true)
 	let result = "";
 	let charsToFill: number;
 	while ((charsToFill = targetLength - result.length) > 0) {
-		let uuid = GenerateUUID(false); // we do profanity-avoidance ourselves;
+		let uuid = GenerateUUID(false); // we do profanity-avoidance ourselves
 		uuid = uuid.replace(/[AEIOUaeiou4310]/g, "");
 		if (avoidHardCodedRemnants) {
-			uuid = uuid
-				.replace(/pp/g, "p")
-				.replace(/kkk/g, "kk")
-				.replace(/xxx/g, "xx");
+			while (true) {
+				const uuid_new = uuid
+					.replace(/pp/g, "p")
+					.replace(/kkk/g, "kk")
+					.replace(/xxx/g, "xx");
+				// if no matches are left to correct, break loop
+				if (uuid_new == uuid) break;
+				uuid = uuid_new;
+			}
 		}
 		result += uuid.substr(0, charsToFill);
 	}
